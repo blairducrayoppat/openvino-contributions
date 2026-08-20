@@ -1,0 +1,67 @@
+C:\Users\mrbla\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_quantize_shared_param_locations.mlir:37:16: error: CHECK-DAG: expected string not found in input
+ // CHECK-DAG: [[SCALE_SLICE_0:#.+]] = loc("scale_slice_0")
+               ^
+<stdin>:55:36: note: scanning from here
+ func.func @SharedScaleTwoConsumers(%arg0: tensor<2x1536x128x!qElemType> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":19:36), %arg1: tensor<2x1536x128x!qElemType> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":19:75), %arg2: tensor<2x1536x1xf16> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":20:36), %arg3: tensor<1x256xf16> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":20:66), %arg4: tensor<1x256xf16> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":20:92)) -> (tensor<1x1536xf16>, tensor<1x1536xf16>) {
+                                   ^
+<stdin>:84:2: note: possible intended match here
+#loc10 = loc("slice_0")
+ ^
+
+Input file: <stdin>
+Check file: C:\Users\mrbla\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_quantize_shared_param_locations.mlir
+
+-dump-input=help explains the following input dump.
+
+Input was:
+<<<<<<
+          .
+          .
+          .
+         50:  config.Resources 1 of @global { 
+         51:  config.MemoryResource 67108864000 bytes of @DDR {config.bandwidth = 64 : i64, config.derateFactor = 6.000000e-01 : f64} loc(#loc1) 
+         52:  config.ExecutorResource 1 of @M2I loc(#loc1) 
+         53:  config.ExecutorResource 2 of @DMA_NN loc(#loc1) 
+         54:  } loc(#loc23) 
+         55:  func.func @SharedScaleTwoConsumers(%arg0: tensor<2x1536x128x!qElemType> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":19:36), %arg1: tensor<2x1536x128x!qElemType> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":19:75), %arg2: tensor<2x1536x1xf16> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":20:36), %arg3: tensor<1x256xf16> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":20:66), %arg4: tensor<1x256xf16> loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":20:92)) -> (tensor<1x1536xf16>, tensor<1x1536xf16>) { 
+dag:37'0                                        X~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ error: no match found
+         56:  %0 = IE.Slice %arg0 [0, 0, 0] [1, 1536, 128] : tensor<2x1536x128x!qElemType> to tensor<1x1536x128x!qElemType> loc(#loc24) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         57:  %1 = IE.Slice %arg0 [1, 0, 0] [1, 1536, 128] : tensor<2x1536x128x!qElemType> to tensor<1x1536x128x!qElemType> loc(#loc25) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         58:  %2 = IE.Slice %arg2 [0, 0, 0] [1, 1536, 1] : tensor<2x1536x1xf16> to tensor<1x1536x1xf16> loc(#loc26) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         59:  %3 = IE.Slice %arg2 [1, 0, 0] [1, 1536, 1] : tensor<2x1536x1xf16> to tensor<1x1536x1xf16> loc(#loc27) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         60:  %4 = IE.DynamicDequantize(%0, %2) {dstElemType = f16} : tensor<1x1536x128x!qElemType>, tensor<1x1536x1xf16> -> tensor<1x1536x128xf16> loc(#loc28) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          .
+          .
+          .
+         79: #loc = loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":0:0) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         80: #loc1 = loc(unknown) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~
+         81: #loc2 = loc("tile_resources") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         82: #loc3 = loc("global_resources") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         83: #loc4 = loc("within split at C:\\Users\\mrbla\\oss\\npu_compiler\\tests\\lit\\NPU\\dialect\\IE\\passes\\unroll_group_quantize_shared_param_locations.mlir:1 offset ":19:1) 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         84: #loc10 = loc("slice_0") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~
+dag:37'1      ?                       possible intended match
+         85: #loc11 = loc("slice_1") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~
+         86: #loc12 = loc("dq_A") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~
+         87: #loc13 = loc("output_concat") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         88: #loc14 = loc("tr_A") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~
+         89: #loc15 = loc("rs_A") 
+dag:37'0     ~~~~~~~~~~~~~~~~~~~~~
+          .
+          .
+          .
+>>>>>>

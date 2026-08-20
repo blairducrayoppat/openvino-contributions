@@ -1,0 +1,77 @@
+RUN_START Thu 06/11/2026  5:03:48.01
+OpenVINO Runtime version ......... 2026.2.0
+Build ........... 2026.2.0-21369-e4e180d12fa
+Parsing command-line arguments
+Checking FLAGS_LOG_LEVEL 
+Reading model
+Configuring model pre & post processing
+Printing Input and Output Info from model
+Network inputs:
+    input_ids : i64 / [...] / [1,128]
+    attention_mask : i64 / [...] / [1,128]
+    position_ids : i64 / [...] / [1,128]
+    beam_idx : i32 / [...] / [1]
+Network outputs:
+    Result_3611287 : f32 / [...] / [1,128,151936]
+Parsing configuration file
+Compiling model
+[33m[WARNING] 05:03:48.508 [NPUZeroInitStructsHolder] Some features might not be available! Plugin L0 API minor version = 15, Driver L0 API minor version = 14[0m
+[36m[INFO] 05:03:48.509 [NPUZeroInitStructsHolder] Found Driver Version 1.14, Graph Extension Version 1.16 (ZE_extension_graph)[0m
+[36m[INFO] 05:03:48.512 [BackendsRegistry] Use 'LEVEL0' backend for inference[0m
+[36m[INFO] 05:03:48.518 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:03:48.518 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:03:48.526 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:03:48.526 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:03:48.526 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:03:48.526 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:03:48.526 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:03:48.526 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:03:48.527 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:03:48.527 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:03:48.527 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:03:48.527 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:03:48.527 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:03:48.527 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:03:48.529 [NPUPlugin] Setting batching mode to AUTO.[0m
+[36m[INFO] 05:03:48.529 [NPUPlugin] Setting batching mode to COMPILER.[0m
+[36m[INFO] 05:03:48.557 [VCLCompilerImpl] getSupportedOpsetVersion Max supported version of opset in CiD: 11[0m
+[36m[INFO] 05:03:48.558 [serializeIR] Model serializer version chosen by the NPU plugin: NO_WEIGHTS_COPY[0m
+[36m[INFO] 05:03:48.673 [serializeIR] Model serialization duration: 115.84 ms[0m
+[INFO] 05:03:48.673 [NPU_VCL] config: --inputs_precisions="0:I64 1:I64 2:I64 3:I32" --inputs_layouts="0:NC 1:NC 2:NC 3:C" --outputs_precisions="0:FP32" --outputs_layouts="0:CHW" --config NPU_PLATFORM="4000" LOG_LEVEL="LOG_INFO" NPU_BATCH_MODE="COMPILER" NPU_STEPPING="4" NPU_MAX_TILES="6" NPU_MODEL_SERIALIZER_VERSION="NO_WEIGHTS_COPY"
+[INFO] 05:03:48.674 [NPU_VCL] Current driver compiler ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7
+[INFO] 05:03:48.674 [NPU_VCL] Current build flags: --inputs_precisions="0:I64 1:I64 2:I64 3:I32" --inputs_layouts="0:NC 1:NC 2:NC 3:C" --outputs_precisions="0:FP32" --outputs_layouts="0:CHW" --config NPU_PLATFORM="4000" LOG_LEVEL="LOG_INFO" NPU_BATCH_MODE="COMPILER" NPU_STEPPING="4" NPU_MAX_TILES="6" NPU_MODEL_SERIALIZER_VERSION="NO_WEIGHTS_COPY"
+[INFO] 05:03:48.798 [NPU_VCL] Remove all "fake" WeightlessCache attributes that appeared after second deserialization of the model
+[INFO] 05:03:48.798 [NPU_VCL] And restore original WeightlessCache attributes
+[INFO] 05:03:48.802 [NPU_VCL] The time to convert data to model: 128.07 ms
+[INFO] 05:03:48.802 [NPU_VCL] IR version >= 11. Preprocessing will be skipped.
+===-------------------------------------------------------------------------===
+                         ... Execution time report ...
+===-------------------------------------------------------------------------===
+  Total Execution Time: 1.0869 seconds
+
+  ----Wall Time----  ----Name----
+    1.0096 ( 92.9%)  Import network
+    0.9720 ( 89.4%)    Common nGraph passes
+    0.0003 (  0.0%)    Add NetworkInfo Operation
+    0.0007 (  0.1%)    Import nGraph function
+    0.0773 (  7.1%)  Rest
+    1.0869 (100.0%)  Total
+[INFO] 05:03:50.029 [NPU_VCL] Compile net time: 1226.79 ms
+[36m[INFO] 05:03:50.44 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+Exception from src\inference\src\cpp\core.cpp:121:
+Exception from src\inference\src\dev\plugin.cpp:54:
+Exception from src\plugins\intel_npu\src\plugin\src\plugin.cpp:642:
+Exception from src\plugins\intel_npu\src\compiler_adapter\src\compiler_impl.cpp:445:
+Compilation failed. vclAllocatedExecutableCreate2 result: 0x78000004 - [NPU_VCL] Compiler returned msg:
+Exception from src\core\src\partial_shape.cpp:266:
+to_shape was called on a dynamic shape.
+
+
+
+
+
+EXITCODE=1
+RUN_END Thu 06/11/2026  5:03:50.06

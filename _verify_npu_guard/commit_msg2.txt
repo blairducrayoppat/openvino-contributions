@@ -1,0 +1,12 @@
+[NPU] Address review: cover output/multi-input/dynamic-rank; fix doc link
+
+- Add tests for the result/output branch (an unbounded output via Range,
+  asserting the message reports "Output" and the producing node's name),
+  multi-input parameter + dimension-index reporting, and the dynamic-rank
+  early-return.
+- Assert the offending dimension index in the existing reject test.
+- Fix the docs link: the previous path
+  (running-inference/changing-input-shape.html) returns HTTP 404; point to
+  model-preparation/setting-input-shapes.html (verified 200).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>

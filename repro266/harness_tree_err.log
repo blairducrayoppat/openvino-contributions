@@ -1,0 +1,2 @@
+loc(fused<{name = "module", type = "Module"}>["module"]): error: StopLocationVerifierPass Pass failed : Found 40 duplicated names after full verification
+loc(fused<{name = "module", type = "Module"}>["module"]): error: Failures have been detected while processing an MLIR pass pipeline

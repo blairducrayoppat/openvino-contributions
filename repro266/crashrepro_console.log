@@ -1,0 +1,14 @@
+RUN_START Thu 06/11/2026  5:01:57.04
+OpenVINO Runtime version ......... 2026.2.0
+Build ........... 2026.2.0-21369-e4e180d12fa
+Parsing command-line arguments
+Checking FLAGS_LOG_LEVEL 
+Reading model
+Configuring model pre & post processing
+Checking model for dynamism...
+WARNING: Batch layout not found. Inserting 'N' dimension = 1 to the layout.
+WARNING: Shape "[?,?]" has dynamic batch size which is not the only dynamic dimension. This scenario
+ is not yet supported by NPU. Setting batch to 1 forcibly
+Model's input shape "[1,?]" is dynamic which is not supported by NPU
+EXITCODE=1
+RUN_END Thu 06/11/2026  5:01:57.52

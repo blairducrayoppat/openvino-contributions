@@ -1,0 +1,947 @@
+READING C:\Users\mrbla\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
+COMPILING (NPUW_LLM) ...
+[33m[WARNING] 09:55:22.841 [NPUZeroInitStructsHolder] Some features might not be available! Plugin L0 API minor version = 15, Driver L0 API minor version = 14[0m
+[36m[INFO] 09:55:22.843 [NPUZeroInitStructsHolder] Found Driver Version 1.14, Graph Extension Version 1.16 (ZE_extension_graph)[0m
+[36m[INFO] 09:55:22.846 [BackendsRegistry] Use 'LEVEL0' backend for inference[0m
+[36m[INFO] 09:55:22.904 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 09:55:22.904 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 09:55:22.914 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 09:55:22.914 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 09:55:22.914 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 09:55:22.914 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 09:55:22.914 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 09:55:22.914 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 09:55:22.915 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 09:55:22.915 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 09:55:22.915 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 09:55:22.915 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 09:55:22.915 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 09:55:22.916 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 09:55:22.917 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 09:55:22.917 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 09:55:22.917 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 09:55:22.917 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 09:55:22.917 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 09:55:22.917 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 09:55:22.917 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 09:55:22.917 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 09:55:22.918 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 09:55:22.918 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 09:55:22.918 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 09:55:22.918 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 09:55:22.918 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 09:55:22.918 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 09:55:22.918 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 09:55:22.918 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 09:55:23.647 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 09:55:23.647 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 09:55:23.647 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 09:55:23.647 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 09:55:23.647 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 09:55:23.647 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 09:55:23.647 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 09:55:23.647 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 09:55:23.661 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 09:55:23.661 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 09:55:23.661 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 09:55:23.661 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 09:55:23.661 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 09:55:23.661 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 09:55:23.661 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 09:55:23.661 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 09:55:27.825 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 09:55:27.825 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 09:55:27.825 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 09:55:27.825 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 09:55:27.825 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 09:55:27.825 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 09:55:27.825 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 09:55:27.825 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 09:55:27.826 [NPUPlugin] Setting batching mode to AUTO.[0m
+[36m[INFO] 09:55:27.826 [NPUPlugin] Only networks with inputs batched by 0th dimension are supported. The batch hasn't been detected at all. Please check input id: 0 by the name: attention_mask, layout: [...], is_dynamic: 0[0m
+[36m[INFO] 09:55:27.826 [NPUPlugin] Batching will be handled by compiler.[0m
+[36m[INFO] 09:55:27.826 [NPUPlugin] Setting batching mode to COMPILER.[0m
+[36m[INFO] 09:55:27.827 [VCLCompilerImpl] getSupportedOpsetVersion Max supported version of opset in CiD: 11[0m
+[33m[WARNING] 09:55:27.827 [serializeIR] The IR version was not found within the runtime information attributes. The NPU plugin will continue execution assuming the version is 11. If wrong, compilation issues may occur.[0m
+[36m[INFO] 09:55:27.827 [serializeIR] Model serializer version chosen by the NPU plugin: NO_WEIGHTS_COPY[0m
+[36m[INFO] 09:55:27.835 [serializeIR] Model serialization duration: 8.35 ms[0m
+[INFO] 09:55:27.836 [NPU_VCL] config: --inputs_precisions="0:I64 1:I64 2:FP16 3:FP16 4:I64 5:FP16 6:FP16 7:FP32 8:U4 9:U4 10:FP16 11:U4 12:U4 13:FP16 14:FP32 15:U4 16:U4 17:FP16 18:FP32 19:U4 20:U4 21:FP16 22:FP16" --inputs_layouts="0:NC 1:NC 2:NCHW 3:NCHW 4:NC 5:CHW 6:CHW 7:CHW 8:CHW 9:CHW 10:CHW 11:CHW 12:CHW 13:CHW 14:NCHW 15:CHW 16:CHW 17:CHW 18:NCHW 19:CHW 20:CHW 21:CHW 22:NC" --outputs_precisions="0:FP16 1:FP16 2:FP16 3:FP16 4:FP16 5:FP16 6:FP16" --outputs_layouts="0:CHW 1:CHW 2:NCHW 3:NCHW 4:NCHW 5:NCHW 6:NCHW" --config LOG_LEVEL="LOG_INFO" NPU_COMPILER_DYNAMIC_QUANTIZATION="YES" NPU_PLATFORM="4000" NPU_COMPILATION_MODE_PARAMS="compute-layers-with-higher-precision=Sqrt,Power,ReduceMean,Add_RMSNorm" NPU_STEPPING="4" NPU_BATCH_MODE="COMPILER" NPU_MAX_TILES="6" NPU_MODEL_SERIALIZER_VERSION="NO_WEIGHTS_COPY"
+[INFO] 09:55:27.841 [NPU_VCL] Current driver compiler ID: 2026.2.0-67-30d2bb87b30-fix/unroll-group-quantize-duplicate-slice-locations-0611.091711-DCI-30d2bb87b30.7.7
+[INFO] 09:55:27.841 [NPU_VCL] Current build flags: --inputs_precisions="0:I64 1:I64 2:FP16 3:FP16 4:I64 5:FP16 6:FP16 7:FP32 8:U4 9:U4 10:FP16 11:U4 12:U4 13:FP16 14:FP32 15:U4 16:U4 17:FP16 18:FP32 19:U4 20:U4 21:FP16 22:FP16" --inputs_layouts="0:NC 1:NC 2:NCHW 3:NCHW 4:NC 5:CHW 6:CHW 7:CHW 8:CHW 9:CHW 10:CHW 11:CHW 12:CHW 13:CHW 14:NCHW 15:CHW 16:CHW 17:CHW 18:NCHW 19:CHW 20:CHW 21:CHW 22:NC" --outputs_precisions="0:FP16 1:FP16 2:FP16 3:FP16 4:FP16 5:FP16 6:FP16" --outputs_layouts="0:CHW 1:CHW 2:NCHW 3:NCHW 4:NCHW 5:NCHW 6:NCHW" --config LOG_LEVEL="LOG_INFO" NPU_COMPILER_DYNAMIC_QUANTIZATION="YES" NPU_PLATFORM="4000" NPU_COMPILATION_MODE_PARAMS="compute-layers-with-higher-precision=Sqrt,Power,ReduceMean,Add_RMSNorm" NPU_STEPPING="4" NPU_BATCH_MODE="COMPILER" NPU_MAX_TILES="6" NPU_MODEL_SERIALIZER_VERSION="NO_WEIGHTS_COPY"
+[INFO] 09:55:27.850 [NPU_VCL] Remove all "fake" WeightlessCache attributes that appeared after second deserialization of the model
+[INFO] 09:55:27.850 [NPU_VCL] And restore original WeightlessCache attributes
+[INFO] 09:55:27.850 [NPU_VCL] The time to convert data to model: 9.34 ms
+[INFO] 09:55:27.850 [NPU_VCL] IR version >= 11. Preprocessing will be skipped.
+[INFO] 09:55:28.033 [vpux-compiler] The memory usage collector is enabled
+[INFO] 09:55:28.033 [vpux-compiler] Verifiers are enabled
+[INFO] 09:55:28.033 [global] Overriding option profiling with false
+[INFO] 09:55:28.033 [vpux-compiler]   InitCompilerOptions:
+ arch = 
+ DPU groups = 4
+ DMA ports = 2
+ compilation mode = DefaultHW
+ adaptive stripping = 1
+ aggressive QDQ = 0
+ weights dynamic dequantization 1
+
+[INFO] 09:55:28.034 [vpux-compiler] Compilation proceeds with batch-compile-method options value 'unroll', settings: skip-unroll-batch=false
+[INFO] 09:55:28.052 [memory-usage-collector] Peak memory usage after 'InitResources' pass: 144488 kB, increase 10960 kB
+[INFO] 09:55:28.053 [memory-usage-collector] Peak memory usage after 'RegisterPassDisablingExecutionContext' pass: 144492 kB, increase 4 kB
+[INFO] 09:55:28.053 [memory-usage-collector] Peak memory usage after 'SetupPipelineOptions' pass: 144496 kB, increase 4 kB
+[INFO] 09:55:28.055 [memory-usage-collector] Peak memory usage after 'SetupMaxKernelSize' pass: 144512 kB, increase 16 kB
+[INFO] 09:55:28.055 [setup-npu-constraint]   Support for FIFO per each SHAVE engine enabled: false
+[INFO] 09:55:28.056 [memory-usage-collector] Peak memory usage after 'SetupNpuConstraint' pass: 144528 kB, increase 16 kB
+[INFO] 09:55:28.057 [memory-usage-collector] Peak memory usage after 'SetupTilingConstraint' pass: 144564 kB, increase 36 kB
+[INFO] 09:55:28.059 [memory-usage-collector] Peak memory usage after 'InputQuantizationRestoration' pass: 145104 kB, increase 540 kB
+[INFO] 09:55:28.060 [memory-usage-collector] Peak memory usage after 'PropagateAndCleanUpFQ' pass: 145124 kB, increase 20 kB
+[INFO] 09:55:28.062 [memory-usage-collector] Peak memory usage after 'ConvertVariadicSplitToStridedSlice' pass: 145560 kB, increase 436 kB
+[INFO] 09:55:28.064 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 145848 kB, increase 288 kB
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops] Start of IE pipeline statistics:
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops] IE - 102 (100.00%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]   Non-computational - 17 (16.67%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.AffineReshape - 17 (16.67%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]   Computational - 85 (83.33%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Convert - 23 (22.55%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]       f16 -> f32 - 9 (8.82%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]       f32 -> f16 - 4 (3.92%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]       si64 -> f32 - 1 (0.98%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]       si64 -> si32 - 1 (0.98%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]       ui4 -> f16 - 8 (7.84%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Add - 6 (5.88%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Broadcast - 2 (1.96%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Concat - 4 (3.92%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Divide - 3 (2.94%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Equal - 1 (0.98%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Gather - 3 (2.94%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.MatMul - 6 (5.88%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Multiply - 17 (16.67%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Power - 3 (2.94%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.ReduceMean - 3 (2.94%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.ScatterNDUpdate - 1 (0.98%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Select - 1 (0.98%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.SoftMax - 1 (0.98%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Sqrt - 3 (2.94%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.StridedSlice - 4 (3.92%)
+[INFO] 09:55:28.064 [dump-statistics-of-ie-ops]     IE.Subtract - 4 (3.92%)
+[INFO] 09:55:28.065 [memory-usage-collector] Peak memory usage after 'DumpStatisticsOfIeOps' pass: 145968 kB, increase 120 kB
+[INFO] 09:55:28.066 [memory-usage-collector] Peak memory usage after 'OptDynamicEltwiseWithShapeOf' pass: 145976 kB, increase 8 kB
+[INFO] 09:55:28.067 [memory-usage-collector] Peak memory usage after 'PopulateDynamicDimensionsHW' pass: 145996 kB, increase 20 kB
+[INFO] 09:55:28.069 [memory-usage-collector] Peak memory usage after 'StopLocationVerifierPass' pass: 146068 kB, increase 72 kB
+[INFO] 09:55:28.070 [memory-usage-collector] Peak memory usage after 'ResolveShapedTypeResultDimsPass' pass: 146084 kB, increase 16 kB
+[INFO] 09:55:28.073 [memory-usage-collector] Peak memory usage after 'LegalizeReifyResultShapesResiduals' pass: 146168 kB, increase 84 kB
+[INFO] 09:55:28.073 [memory-usage-collector] Peak memory usage after 'PadDynamicInputs' pass: 146172 kB, increase 4 kB
+[INFO] 09:55:28.074 [memory-usage-collector] Peak memory usage after 'DynamicConcatToScatterNDUpdate' pass: 146176 kB, increase 4 kB
+[INFO] 09:55:28.076 [memory-usage-collector] Peak memory usage after 'ReshapeMatMulInputs' pass: 146264 kB, increase 88 kB
+[INFO] 09:55:28.079 [memory-usage-collector] Peak memory usage after 'ConvertScalarToTensor' pass: 146448 kB, increase 184 kB
+[INFO] 09:55:28.081 [memory-usage-collector] Peak memory usage after 'ConsolidateNF4WeightsPattern' pass: 146452 kB, increase 4 kB
+[INFO] 09:55:28.083 [memory-usage-collector] Peak memory usage after 'InitialLowPrecisionTransformationsPipelineRewriterExecutor' pass: 146736 kB, increase 284 kB
+[INFO] 09:55:28.084 [memory-usage-collector] Peak memory usage after 'FuseInputScaleShift' pass: 146740 kB, increase 4 kB
+[INFO] 09:55:28.084 [memory-usage-collector] Peak memory usage after 'ConvertMinMaxToClamp' pass: 146744 kB, increase 4 kB
+[INFO] 09:55:28.085 [memory-usage-collector] Peak memory usage after 'FoldActivationBeforeFQ' pass: 146748 kB, increase 4 kB
+[INFO] 09:55:28.086 [memory-usage-collector] Peak memory usage after 'FuseDynamicQuantize' pass: 146756 kB, increase 8 kB
+[INFO] 09:55:28.087 [memory-usage-collector] Peak memory usage after 'FuseRMSNorm' pass: 146840 kB, increase 84 kB
+[INFO] 09:55:28.089 [memory-usage-collector] Peak memory usage after 'CSE' pass: 146956 kB, increase 116 kB
+[INFO] 09:55:28.091 [memory-usage-collector] Peak memory usage after 'ResolveStridedSlice' pass: 147080 kB, increase 124 kB
+[INFO] 09:55:28.092 [memory-usage-collector] Peak memory usage after 'OptimizeParallelLayers' pass: 147172 kB, increase 92 kB
+[INFO] 09:55:28.092 [memory-usage-collector] Peak memory usage after 'DecomposeISTFT' pass: 147180 kB, increase 8 kB
+[INFO] 09:55:28.094 [memory-usage-collector] Peak memory usage after 'AdjustFakeQdqParams' pass: 147184 kB, increase 4 kB
+[INFO] 09:55:28.094 [memory-usage-collector] Peak memory usage after 'FuseQuantizationMultiply' pass: 147200 kB, increase 16 kB
+[INFO] 09:55:28.095 [memory-usage-collector] Peak memory usage after 'HandleU16FakeQuantize' pass: 147232 kB, increase 32 kB
+[INFO] 09:55:28.095 [memory-usage-collector] Peak memory usage after 'DecomposeLSTMSequence' pass: 147244 kB, increase 12 kB
+[INFO] 09:55:28.096 [memory-usage-collector] Peak memory usage after 'DecomposeGRUSequence' pass: 147252 kB, increase 8 kB
+[INFO] 09:55:28.097 [memory-usage-collector] Peak memory usage after 'DecomposeLSTMCell' pass: 147256 kB, increase 4 kB
+[INFO] 09:55:28.097 [memory-usage-collector] Peak memory usage after 'DecomposeGRUCell' pass: 147264 kB, increase 8 kB
+[INFO] 09:55:28.099 [memory-usage-collector] Peak memory usage after 'FuseRoPE' pass: 147316 kB, increase 52 kB
+[INFO] 09:55:28.099 [memory-usage-collector] Peak memory usage after 'FuseSDPA' pass: 147324 kB, increase 8 kB
+[INFO] 09:55:28.101 [memory-usage-collector] Peak memory usage after 'FuseColorConversion' pass: 147332 kB, increase 8 kB
+[INFO] 09:55:28.102 [memory-usage-collector] Peak memory usage after 'UnrollTensorIterator' pass: 147344 kB, increase 12 kB
+[INFO] 09:55:28.103 [memory-usage-collector] Peak memory usage after 'NormalizeL2Fusion' pass: 147352 kB, increase 8 kB
+[INFO] 09:55:28.103 [memory-usage-collector] Peak memory usage after 'MVNFusion' pass: 147364 kB, increase 12 kB
+[INFO] 09:55:28.104 [memory-usage-collector] Peak memory usage after 'FuseOpsToMatMul' pass: 147368 kB, increase 4 kB
+[INFO] 09:55:28.105 [memory-usage-collector] Peak memory usage after 'DecomposeSTFT' pass: 147376 kB, increase 8 kB
+[INFO] 09:55:28.106 [memory-usage-collector] Peak memory usage after 'ConvertFFTToConv' pass: 147380 kB, increase 4 kB
+[INFO] 09:55:28.106 [memory-usage-collector] Peak memory usage after 'MoveMultiplyDividePostOp' pass: 147416 kB, increase 36 kB
+[INFO] 09:55:28.107 [memory-usage-collector] Peak memory usage after 'UnrollSDPAPattern' pass: 147440 kB, increase 24 kB
+[INFO] 09:55:28.108 [memory-usage-collector] Peak memory usage after 'EliminateSliceInSoftmaxMatMul' pass: 147444 kB, increase 4 kB
+[INFO] 09:55:28.108 [memory-usage-collector] Peak memory usage after 'ShrinkMatmulGroups' pass: 147468 kB, increase 24 kB
+[INFO] 09:55:28.110 [memory-usage-collector] Peak memory usage after 'BatchOpProcessingPipelineRewriterExecutor' pass: 147636 kB, increase 168 kB
+[INFO] 09:55:28.110 [memory-usage-collector] Peak memory usage after 'mlir::detail::OpToOpPassAdaptor' pass: 147640 kB, increase 4 kB
+[INFO] 09:55:28.111 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 147684 kB, increase 44 kB
+[INFO] 09:55:28.112 [memory-usage-collector] Peak memory usage after 'ConvertMVN6ToMVN1' pass: 147688 kB, increase 4 kB
+[INFO] 09:55:28.113 [memory-usage-collector] Peak memory usage after 'ConvertSubGRUSequenceToConv' pass: 147692 kB, increase 4 kB
+[INFO] 09:55:28.113 [memory-usage-collector] Peak memory usage after 'LegalizeConvBackpropData' pass: 147704 kB, increase 12 kB
+[INFO] 09:55:28.115 [memory-usage-collector] Peak memory usage after 'DilatedConvConvert' pass: 147712 kB, increase 8 kB
+[INFO] 09:55:28.118 [memory-usage-collector] Peak memory usage after 'ConvertPrecisionToFP16' pass: 147968 kB, increase 256 kB
+[INFO] 09:55:28.120 [memory-usage-collector] Peak memory usage after 'ConvertPrecisionToI32' pass: 147988 kB, increase 20 kB
+[INFO] 09:55:28.121 [memory-usage-collector] Peak memory usage after 'UseUserPrecision' pass: 148008 kB, increase 20 kB
+[INFO] 09:55:28.122 [memory-usage-collector] Peak memory usage after 'AdjustSoftwareOpsPrecision' pass: 148016 kB, increase 8 kB
+[INFO] 09:55:28.123 [memory-usage-collector] Peak memory usage after 'AdjustNCEOpsWithI32Inputs' pass: 148020 kB, increase 4 kB
+[INFO] 09:55:28.123 [memory-usage-collector] Peak memory usage after 'LegalizeEpsilonUsage' pass: 148024 kB, increase 4 kB
+[INFO] 09:55:28.125 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 148116 kB, increase 92 kB
+[INFO] 09:55:28.125 [memory-usage-collector] Peak memory usage after 'ConvertAssignReadValueToReturnsAndInputs' pass: 148124 kB, increase 8 kB
+[INFO] 09:55:28.127 [memory-usage-collector] Peak memory usage after 'MergeParallelFullyConnected' pass: 148164 kB, increase 40 kB
+[INFO] 09:55:28.286 [memory-usage-collector] Peak memory usage after 'UnrollGroupQuantize' pass: 156748 kB, increase 8584 kB
+[INFO] 09:55:28.358 [memory-usage-collector] Peak memory usage after 'UnrollFullyConnected' pass: 156776 kB, increase 28 kB
+[INFO] 09:55:28.431 [memory-usage-collector] Peak memory usage after 'ConvertDynamicDequantizeToDequantize' pass: 156828 kB, increase 52 kB
+[INFO] 09:55:28.570 [memory-usage-collector] Peak memory usage after 'SwapOperationWithGather' pass: 156840 kB, increase 12 kB
+[INFO] 09:55:28.641 [memory-usage-collector] Peak memory usage after 'MergeFullyConnected' pass: 156880 kB, increase 40 kB
+[INFO] 09:55:28.700 [memory-usage-collector] Peak memory usage after 'ConvertMatMulToConv' pass: 156888 kB, increase 8 kB
+[INFO] 09:55:28.771 [memory-usage-collector] Peak memory usage after 'ConvertFCToConv' pass: 156972 kB, increase 84 kB
+[INFO] 09:55:28.926 [memory-usage-collector] Peak memory usage after 'ConvertExtractImagePatches' pass: 157240 kB, increase 268 kB
+[INFO] 09:55:28.987 [memory-usage-collector] Peak memory usage after 'ConvertReduceSumToConv' pass: 157252 kB, increase 12 kB
+[INFO] 09:55:29.138 [memory-usage-collector] Peak memory usage after 'ConvertReduceToPooling' pass: 157448 kB, increase 196 kB
+[INFO] 09:55:29.289 [memory-usage-collector] Peak memory usage after 'ConvertGather' pass: 157456 kB, increase 8 kB
+[INFO] 09:55:29.398 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 157500 kB, increase 44 kB
+[INFO] 09:55:29.471 [memory-usage-collector] Peak memory usage after 'ConvertNceOpsTo4D' pass: 157528 kB, increase 28 kB
+[INFO] 09:55:29.548 [memory-usage-collector] Peak memory usage after 'ReshapeMaxPool' pass: 157532 kB, increase 4 kB
+[INFO] 09:55:29.615 [memory-usage-collector] Peak memory usage after 'AdjustMaxPoolInputShape' pass: 157540 kB, increase 8 kB
+[INFO] 09:55:29.692 [memory-usage-collector] Peak memory usage after 'AdaptShapesForScaleShiftPass' pass: 157580 kB, increase 40 kB
+[INFO] 09:55:29.813 [memory-usage-collector] Peak memory usage after 'UnrollConv3dToConv2d' pass: 157604 kB, increase 24 kB
+[INFO] 09:55:29.874 [memory-usage-collector] Peak memory usage after 'SplitInterpolateAxes' pass: 157608 kB, increase 4 kB
+[INFO] 09:55:29.939 [memory-usage-collector] Peak memory usage after 'HandleExcludePadForAvgPool' pass: 157620 kB, increase 12 kB
+[INFO] 09:55:30.035 [memory-usage-collector] Peak memory usage after 'HandleLargeKernels' pass: 157748 kB, increase 128 kB
+[INFO] 09:55:30.101 [memory-usage-collector] Peak memory usage after 'ConvertDivideToMultiply' pass: 157760 kB, increase 12 kB
+[INFO] 09:55:30.160 [memory-usage-collector] Peak memory usage after 'ReassociateMultiply' pass: 157768 kB, increase 8 kB
+[INFO] 09:55:30.583 [memory-usage-collector] Peak memory usage after 'ConvertShapeTo4D' pass: 172896 kB, increase 15128 kB
+[INFO] 09:55:31.378 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 173448 kB, increase 552 kB
+[INFO] 09:55:40.748 [memory-usage-collector] Peak memory usage after 'CSE' pass: 173468 kB, increase 20 kB
+[INFO] 09:55:41.371 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 173976 kB, increase 508 kB
+[INFO] 09:55:41.792 [memory-usage-collector] Peak memory usage after 'HandleLargeStrides' pass: 174004 kB, increase 28 kB
+[INFO] 09:55:42.351 [memory-usage-collector] Peak memory usage after 'ConvertStridedSlice2Conv' pass: 174024 kB, increase 20 kB
+[INFO] 09:55:42.727 [memory-usage-collector] Peak memory usage after 'SplitConvWithMultipleFQ' pass: 174052 kB, increase 28 kB
+[INFO] 09:55:42.971 [memory-usage-collector] Peak memory usage after 'StopLocationVerifierPass' pass: 176140 kB, increase 2088 kB
+[INFO] 09:55:59.415 [memory-usage-collector] Peak memory usage after 'OptimizeSliceExpand' pass: 176148 kB, increase 8 kB
+[INFO] 09:55:59.623 [memory-usage-collector] Peak memory usage after 'AdjustConvolutionInputShape' pass: 176192 kB, increase 44 kB
+[INFO] 09:55:59.741 [memory-usage-collector] Peak memory usage after 'AdjustInputShape' pass: 176276 kB, increase 84 kB
+[INFO] 09:56:00.138 [memory-usage-collector] Peak memory usage after 'UniquifySimilarOps' pass: 176384 kB, increase 108 kB
+[INFO] 09:56:00.237 [memory-usage-collector] Peak memory usage after 'HandleEltwiseWithSmallHeight' pass: 176388 kB, increase 4 kB
+[INFO] 09:56:00.930 [memory-usage-collector] Peak memory usage after 'PropagateAffineReshape' pass: 177420 kB, increase 1032 kB
+[INFO] 09:56:01.577 [memory-usage-collector] Peak memory usage after 'UniquifyBranches' pass: 177448 kB, increase 28 kB
+[INFO] 09:56:04.579 [memory-usage-collector] Peak memory usage after 'PropagateAffineReshape' pass: 177700 kB, increase 252 kB
+[INFO] 09:56:05.028 [memory-usage-collector] Peak memory usage after 'AdaptODUPermutePass' pass: 177704 kB, increase 4 kB
+[INFO] 09:56:05.419 [memory-usage-collector] Peak memory usage after 'PropagateShapeCast' pass: 177808 kB, increase 104 kB
+[INFO] 09:56:05.570 [memory-usage-collector] Peak memory usage after 'PropagatePermuteCast' pass: 177820 kB, increase 12 kB
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops] End of IE pipeline statistics:
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops] IE - 26074 (100.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]   Non-computational - 10498 (40.26%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.AffineReshape - 10314 (39.56%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.PermuteCast - 79 (0.30%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.QuantizeCast - 48 (0.18%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Reshape - 42 (0.16%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.ShapeCast - 15 (0.06%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]   Computational - 15576 (59.74%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Convert - 7 (0.03%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]       f32 -> f16 - 3 (0.01%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]       i8 -> f16 - 1 (0.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]       si64 -> f32 - 1 (0.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]       si64 -> si32 - 2 (0.01%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.AvgPool - 9 (0.03%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]       f16 -> f16 - 9 (0.03%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Add - 6 (0.02%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Concat - 17 (0.07%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Convolution - 46 (0.18%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.DynamicDequantize - 5120 (19.64%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Equal - 1 (0.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Gather - 3 (0.01%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.GroupConvolution - 5 (0.02%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.MatMul - 2 (0.01%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Multiply - 6 (0.02%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.PermuteQuantize - 2 (0.01%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.RMS - 3 (0.01%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.RoPE - 1 (0.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Select - 1 (0.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Slice - 10345 (39.68%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.SoftMax - 1 (0.00%)
+[INFO] 09:56:05.823 [dump-statistics-of-ie-ops]     IE.Tile - 1 (0.00%)
+[INFO] 09:56:06.526 [memory-usage-collector] Peak memory usage after 'ConvertLayers2VPU' pass: 186028 kB, increase 8208 kB
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Tiling cache hit : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Tiling cache miss : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   DPU cost cache hit : 109
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   DPU cost cache miss : 29
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   DPU cost cache hit rate: 78.99%
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   VPUNNLayer cost cache hit : 3
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   VPUNNLayer cost cache miss : 26
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   VPUNNLayer cost cache hit rate: 10.34%
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Shape with distributionInfo cache hit : 49240
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Shape with distributionInfo cache miss : 75
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Shape with distributionInfo cache hit rate: 99.85%
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Valid permutations cache hit : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Valid permutations cache miss : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Dim Order cache hit : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   Dim Order cache miss : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   DPU Workload cost cache hit : 0
+[INFO] 09:56:12.607 [multi-cluster-strategy-assignment]   DPU Workload cost cache miss : 0
+[INFO] 09:56:13.910 [memory-usage-collector] Peak memory usage after 'OptimizeConcat' pass: 186352 kB, increase 324 kB
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Tiling cache hit : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Tiling cache miss : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   DPU cost cache hit : 109
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   DPU cost cache miss : 29
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   DPU cost cache hit rate: 78.99%
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   VPUNNLayer cost cache hit : 3
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   VPUNNLayer cost cache miss : 26
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   VPUNNLayer cost cache hit rate: 10.34%
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Shape with distributionInfo cache hit : 64923
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Shape with distributionInfo cache miss : 92
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Shape with distributionInfo cache hit rate: 99.86%
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Valid permutations cache hit : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Valid permutations cache miss : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Dim Order cache hit : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   Dim Order cache miss : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   DPU Workload cost cache hit : 0
+[INFO] 09:56:14.743 [tiling-strategy-assignment]   DPU Workload cost cache miss : 0
+[INFO] 09:56:14.913 [memory-usage-collector] Peak memory usage after 'TilingStrategyAssignment' pass: 187592 kB, increase 1240 kB
+[INFO] 09:56:15.092 [memory-usage-collector] Peak memory usage after 'PrintNNCacheStatistics' pass: 187596 kB, increase 4 kB
+[INFO] 09:56:15.322 [memory-usage-collector] Peak memory usage after 'ConvolutionSplitOverInputChannel' pass: 188676 kB, increase 1080 kB
+[INFO] 09:56:15.745 [memory-usage-collector] Peak memory usage after 'WrapVerticalFusionRegion' pass: 188736 kB, increase 60 kB
+[INFO] 09:56:16.103 [memory-usage-collector] Peak memory usage after 'MoveViewOpsToVF' pass: 188868 kB, increase 132 kB
+[INFO] 09:56:16.272 [memory-usage-collector] Peak memory usage after 'MergeVfSubgraphs' pass: 188996 kB, increase 128 kB
+[INFO] 09:56:17.158 [memory-usage-collector] Peak memory usage after 'VerticalFusionOutlining' pass: 190628 kB, increase 1632 kB
+[INFO] 09:56:17.387 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 191680 kB, increase 1052 kB
+[INFO] 09:56:17.743 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 191696 kB, increase 16 kB
+[INFO] 09:56:18.584 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 191704 kB, increase 8 kB
+[INFO] 09:56:18.764 [memory-usage-collector] Peak memory usage after 'CorrectStorageElementTableSeSizeForSEPDWConv' pass: 191708 kB, increase 4 kB
+[INFO] 09:56:19.668 [memory-usage-collector] Peak memory usage after 'MakeOpsWithDistributedTensor' pass: 198160 kB, increase 6452 kB
+[INFO] 09:56:25.282 [memory-usage-collector] Peak memory usage after 'OneShotBufferizeVPU2VPUIP' pass: 209416 kB, increase 11256 kB
+[INFO] 09:56:27.138 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 217212 kB, increase 7796 kB
+[INFO] 09:56:35.280 [memory-usage-collector] Peak memory usage after 'TileActShaveKernelTask' pass: 224148 kB, increase 6936 kB
+[INFO] 09:56:37.589 [memory-usage-collector] Peak memory usage after 'MovePureViewOpBeforeCopy' pass: 225784 kB, increase 1636 kB
+[INFO] 09:56:43.769 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 226828 kB, increase 1044 kB
+[INFO] 09:56:45.359 [memory-usage-collector] Peak memory usage after 'ConvertEltwiseToInPlace' pass: 251400 kB, increase 24572 kB
+[INFO] 09:56:47.205 [memory-usage-collector] Peak memory usage after 'SetMemorySpace' pass: 251416 kB, increase 16 kB
+[INFO] 09:57:50.664 [memory-usage-collector] Peak memory usage after 'FeasibleAllocation' pass: 368496 kB, increase 117080 kB
+[ERROR] 09:58:12.796 [global] Got exception in src\vpux_utils\include\vpux/utils/core/mem_size.hpp:128 : Can't convert 4 Bit to Byte
+[ERROR] 09:58:16.127 [vpux-compiler] Got Diagnostic at loc(fused<{name = "main", type = "Func"}>["main"]) : ConvertViewOpsToDeclarations Pass failed : 
+src\vpux_utils\include\vpux/utils/core/mem_size.hpp:128 Can't convert 4 Bit to Byte
+[ERROR] 09:58:16.136 [vpux-compiler] Failed Pass ConvertViewOpsToDeclarations on Operation loc(fused<{name = "main", type = "Func"}>["main"])
+[ERROR] 09:58:16.138 [global] Got exception in src\vpux_compiler\src\compiler.cpp:242 : Compilation failed
+===-------------------------------------------------------------------------===
+                         ... Execution time report ...
+===-------------------------------------------------------------------------===
+  Total Execution Time: 168.2487 seconds
+
+  ----Wall Time----  ----Name----
+    0.0934 (  0.1%)  Import network
+    0.0830 (  0.0%)    Common nGraph passes
+    0.0005 (  0.0%)    Add NetworkInfo Operation
+    0.0031 (  0.0%)    Import nGraph function
+    0.0026 (  0.0%)    Validate MLIR module
+  168.1102 ( 99.9%)  Compile network
+  168.1102 ( 99.9%)    IE to VPUIP pipeline
+    0.0015 (  0.0%)      InitResources
+    0.0007 (  0.0%)      RegisterPassDisablingExecutionContext
+    0.0006 (  0.0%)      SetupPipelineOptions
+    0.0009 (  0.0%)      SetTargetIndependentPassOptions
+    0.0007 (  0.0%)      SetupMaxKernelSize
+    0.0008 (  0.0%)      SetupNpuConstraint
+    0.0007 (  0.0%)      SetupTilingConstraint
+    0.0007 (  0.0%)      StartLocationVerifierPass
+    0.0007 (  0.0%)      ForbidFourBitOutputs
+    0.0038 (  0.0%)      'func.func' Pipeline
+    0.0014 (  0.0%)        InputQuantizationRestoration
+    0.0010 (  0.0%)        PropagateAndCleanUpFQ
+    0.0013 (  0.0%)        ConvertVariadicSplitToStridedSlice
+    0.0021 (  0.0%)      Canonicalizer
+    0.0015 (  0.0%)      DumpStatisticsOfIeOps
+    0.0020 (  0.0%)      'func.func' Pipeline
+    0.0007 (  0.0%)        OptDynamicEltwiseWithShapeOf
+    0.0006 (  0.0%)        PopulateDynamicDimensionsHW
+    0.0006 (  0.0%)        PopulateDynamicDimensionsGeneric
+    0.0011 (  0.0%)      StopLocationVerifierPass
+    0.0012 (  0.0%)      ResolveShapedTypeResultDimsPass
+    0.0006 (  0.0%)      'func.func' Pipeline
+    0.0006 (  0.0%)        FixDynamicOpsLocations
+    0.0008 (  0.0%)      StartLocationVerifierPass
+    0.0072 (  0.0%)      'func.func' Pipeline
+    0.0009 (  0.0%)        LegalizeReifyResultShapesResiduals
+    0.0006 (  0.0%)        PadDynamicInputs
+    0.0008 (  0.0%)        DynamicConcatToScatterNDUpdate
+    0.0014 (  0.0%)        ReshapeMatMulInputs
+    0.0029 (  0.0%)        ConvertScalarToTensor
+    0.0011 (  0.0%)      QDQOptimizationAggressive
+    0.0000 (  0.0%)      'builtin.module' Pipeline
+    0.0072 (  0.0%)      'func.func' Pipeline
+    0.0008 (  0.0%)        ConsolidateNF4WeightsPattern
+    0.0019 (  0.0%)        InitialLowPrecisionTransformationsPipelineRewriterExecutor
+    0.0007 (  0.0%)        FuseInputScaleShift
+    0.0008 (  0.0%)        ConvertMinMaxToClamp
+    0.0008 (  0.0%)        FoldActivationBeforeFQ
+    0.0009 (  0.0%)        FuseDynamicQuantize
+    0.0010 (  0.0%)        FuseRMSNorm
+    0.0015 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.0209 (  0.0%)      'func.func' Pipeline
+    0.0018 (  0.0%)        ResolveStridedSlice
+    0.0011 (  0.0%)        OptimizeParallelLayers
+    0.0006 (  0.0%)        DecomposeISTFT
+    0.0005 (  0.0%)        ReshapeMatMulInputs
+    0.0006 (  0.0%)        AdjustFakeQdqParams
+    0.0005 (  0.0%)        FuseQuantizationMultiply
+    0.0005 (  0.0%)        HandleU16FakeQuantize
+    0.0007 (  0.0%)        DecomposeLSTMSequence
+    0.0005 (  0.0%)        DecomposeGRUSequence
+    0.0005 (  0.0%)        DecomposeLSTMCell
+    0.0005 (  0.0%)        DecomposeGRUCell
+    0.0005 (  0.0%)        DecomposeL2Ops
+    0.0004 (  0.0%)        DecomposeSoftPlus
+    0.0006 (  0.0%)        FuseRoPE
+    0.0005 (  0.0%)        FuseSDPA
+    0.0004 (  0.0%)        DecomposeAttention
+    0.0004 (  0.0%)        ReshapeMatMulInputs
+    0.0004 (  0.0%)        SwishFusion
+    0.0004 (  0.0%)        FuseSoftmax
+    0.0004 (  0.0%)        FuseColorConversion
+    0.0004 (  0.0%)        EltwiseFakeQuantizeFusion
+    0.0005 (  0.0%)        UnrollTensorIterator
+    0.0005 (  0.0%)        NormalizeL2Fusion
+    0.0004 (  0.0%)        MVNFusion
+    0.0004 (  0.0%)        FuseOpsToMatMul
+    0.0004 (  0.0%)        FuseReduceSquare
+    0.0006 (  0.0%)        DecomposeSTFT
+    0.0009 (  0.0%)        ConvertFFTToConv
+    0.0006 (  0.0%)        MoveMultiplyDividePostOp
+    0.0006 (  0.0%)        UnrollSDPAPattern
+    0.0005 (  0.0%)        EliminateSliceInSoftmaxMatMul
+    0.0006 (  0.0%)        ShrinkMatmulGroups
+    0.0016 (  0.0%)        BatchOpProcessingPipelineRewriterExecutor
+    0.0015 (  0.0%)      Canonicalizer
+    0.0015 (  0.0%)      'func.func' Pipeline
+    0.0006 (  0.0%)        ConvertMVN6ToMVN1
+    0.0004 (  0.0%)        ConvertSubGRUSequenceToConv
+    0.0004 (  0.0%)        LegalizeConvBackpropData
+    0.0009 (  0.0%)      Canonicalizer
+    0.0006 (  0.0%)      'func.func' Pipeline
+    0.0005 (  0.0%)        DilatedConvConvert
+    0.0039 (  0.0%)      ConvertPrecisionToFP16
+    0.0015 (  0.0%)      ConvertPrecisionToI32
+    0.0009 (  0.0%)      UseUserPrecision
+    0.0007 (  0.0%)      AdjustSoftwareOpsPrecision
+    0.0008 (  0.0%)      AdjustNCEOpsWithI32Inputs
+    0.0006 (  0.0%)      'func.func' Pipeline
+    0.0006 (  0.0%)        LegalizeEpsilonUsage
+    0.0013 (  0.0%)      Canonicalizer
+    0.0008 (  0.0%)      'func.func' Pipeline
+    0.0008 (  0.0%)        ConvertAssignReadValueToReturnsAndInputs
+    0.0002 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    1.1629 (  0.7%)      'func.func' Pipeline
+    0.0007 (  0.0%)        MergeParallelFullyConnected
+    0.1594 (  0.1%)        UnrollGroupQuantize
+    0.0719 (  0.0%)        UnrollFullyConnected
+    0.0723 (  0.0%)        ConvertDynamicDequantizeToDequantize
+    0.0650 (  0.0%)        MoveMultiplyDividePostOp
+    0.0746 (  0.0%)        SwapOperationWithGather
+    0.0701 (  0.0%)        MergeFullyConnected
+    0.0596 (  0.0%)        ConvertMatMulToConv
+    0.0707 (  0.0%)        ConvertFCToConv
+    0.0656 (  0.0%)        DecomposeConcatMatMul
+    0.0888 (  0.1%)        ConvertExtractImagePatches
+    0.0615 (  0.0%)        ConvertReduceSumToConv
+    0.0633 (  0.0%)        UnrollReduceMinAllAxes
+    0.0866 (  0.1%)        ConvertReduceToPooling
+    0.0580 (  0.0%)        ConvertPowerToMult
+    0.0930 (  0.1%)        ConvertGather
+    0.1084 (  0.1%)      Canonicalizer
+    1.1846 (  0.7%)      'func.func' Pipeline
+    0.0729 (  0.0%)        ConvertNceOpsTo4D
+    0.0770 (  0.0%)        ReshapeMaxPool
+    0.0664 (  0.0%)        AdjustMaxPoolInputShape
+    0.0769 (  0.0%)        AdaptShapesForScaleShiftPass
+    0.0582 (  0.0%)        ResolveStridedSlice
+    0.0629 (  0.0%)        UnrollConv3dToConv2d
+    0.0603 (  0.0%)        SplitInterpolateAxes
+    0.0655 (  0.0%)        HandleExcludePadForAvgPool
+    0.0955 (  0.1%)        HandleLargeKernels
+    0.0656 (  0.0%)        ConvertDivideToMultiply
+    0.0593 (  0.0%)        ReassociateMultiply
+    0.4226 (  0.3%)        ConvertShapeTo4D
+    0.7915 (  0.5%)      Canonicalizer
+    1.2294 (  0.7%)      'func.func' Pipeline
+    0.1841 (  0.1%)        ConvertGatherElementsToGather
+    0.1562 (  0.1%)        ConvertToSpatialOp
+    0.1564 (  0.1%)        ConvertSubtractToAdd
+    0.1614 (  0.1%)        SwapTransposeConcat
+    0.1811 (  0.1%)        ConvertSplitConcatToAffineReshape
+    0.1717 (  0.1%)        ConvertBranchesConcatToConv
+    0.2182 (  0.1%)        SwapOperations
+    0.2577 (  0.2%)      Canonicalizer
+    1.4116 (  0.8%)      'func.func' Pipeline
+    0.1728 (  0.1%)        SwapPadLayer
+    0.1716 (  0.1%)        FuseScale
+    0.2058 (  0.1%)        SwapOperations
+    0.1953 (  0.1%)        BroadcastInputForAdd
+    0.2307 (  0.1%)        ConvertGRNToNormalizeL2
+    0.4352 (  0.3%)        ConvertToScaleShift
+    0.2348 (  0.1%)      Canonicalizer
+    5.1724 (  3.1%)      'func.func' Pipeline
+    0.1680 (  0.1%)        ResolveScatterUpdateByTranspose
+    0.1703 (  0.1%)        ConvertGroupConvToConv
+    0.2047 (  0.1%)        SwapOperations
+    0.1654 (  0.1%)        ConvertDepth2SpaceToTransposedConv
+    0.1600 (  0.1%)        SwapD2SAndScaleShift
+    0.1785 (  0.1%)        ConvertReverseToDWConv
+    0.3232 (  0.2%)        ConvertDeformableConvToConv
+    0.3255 (  0.2%)        LegalizeDilatedConvolution
+    0.1984 (  0.1%)        ConvertPaddingsToFloorMode
+    0.2319 (  0.1%)        ConvertNearestToStridedConcat
+    0.1942 (  0.1%)        ConvertBilinearToStridedConcatAndConv
+    0.2233 (  0.1%)        ConvertBroadcastToTile
+    0.2518 (  0.1%)        ConvertScatter
+    0.2249 (  0.1%)        ConvertTransposedConv2DToConv2D
+    0.4197 (  0.2%)        ConvertGroupTransposedConvToGroupConv
+    0.2074 (  0.1%)        ConvertGroupTransposedConvToTransposedConv
+    0.1779 (  0.1%)        ConvertGroupConvToConv
+    0.1935 (  0.1%)        ConvertUpsamplingToStridedConcat
+    0.1804 (  0.1%)        ConvertNegativePadToSlice
+    0.1856 (  0.1%)        ConvertNonConstantPadToSliceAndConcat
+    0.2187 (  0.1%)        AdjustForVPUPipelineRewriterExecutor
+    0.2068 (  0.1%)        ConvertPadToConcat
+    0.1820 (  0.1%)        ConvertDepth2SpaceLayer
+    0.1795 (  0.1%)        ConvertSpace2DepthLayer
+    0.2885 (  0.2%)      Canonicalizer
+    0.2554 (  0.2%)      'func.func' Pipeline
+    0.2554 (  0.2%)        OptimizeOpSlice
+    0.2553 (  0.2%)      Canonicalizer
+    0.2538 (  0.2%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.4025 (  0.2%)      'func.func' Pipeline
+    0.2133 (  0.1%)        HandleExcludePadForAvgPool
+    0.1892 (  0.1%)        ResolveStridedSlice
+    0.2177 (  0.1%)      Canonicalizer
+    1.3557 (  0.8%)      'func.func' Pipeline
+    0.2286 (  0.1%)        HandleLargeKernels
+    0.1916 (  0.1%)        HandleLargeStrides
+    0.1747 (  0.1%)        HandleLargePads
+    0.1661 (  0.1%)        ConvertGroupConvToConv
+    0.2185 (  0.1%)        ConvertStridedSlice2Conv
+    0.1869 (  0.1%)        SwapTransposeWithFQ
+    0.1886 (  0.1%)        SplitConvWithMultipleFQ
+    0.2416 (  0.1%)      StopLocationVerifierPass
+    0.2397 (  0.1%)      Canonicalizer
+    0.5148 (  0.3%)      'func.func' Pipeline
+    0.1683 (  0.1%)        AdjustScaleShiftForDWConv
+    0.1909 (  0.1%)        ConvertBroadcastToTile
+    0.1555 (  0.1%)        ConvertScaleShiftToDW
+    0.2053 (  0.1%)      Canonicalizer
+    1.2772 (  0.8%)      'func.func' Pipeline
+    0.1562 (  0.1%)        OptimizeUnalignedQDQSeq
+    0.2019 (  0.1%)        SwapFakeQuantWithReshapeAndStridedSlice
+    0.2013 (  0.1%)        SwapConvertWithReshapeKindOps
+    0.2227 (  0.1%)        AlignScales
+    0.1655 (  0.1%)        AdjustNonZeroFakeQuant
+    0.1591 (  0.1%)        ProcessAsymmetricZeroPointsForMatmul
+    0.1702 (  0.1%)        SplitFakeQuant
+    0.1906 (  0.1%)      Canonicalizer
+    0.1681 (  0.1%)      'func.func' Pipeline
+    0.1680 (  0.1%)        ConvertToQuantizedOps
+    0.2208 (  0.1%)      Canonicalizer
+    3.6873 (  2.2%)      'func.func' Pipeline
+    0.2634 (  0.2%)        PropagateAndFuseQuantizeDequantize
+    0.2003 (  0.1%)        FuseConvertWithQDQ
+    0.1591 (  0.1%)        SwapTransposeWithFQ
+    0.1721 (  0.1%)        PropagateDequantThroughConcat
+    0.4036 (  0.2%)        ConvertWeightsToU8
+    0.1665 (  0.1%)        FuseQuantizedOps
+    0.2426 (  0.1%)        FuseActivationOps
+    0.2296 (  0.1%)        ConvertWeightsToI8
+    0.1851 (  0.1%)        ConvertToPalletizationLUT
+    0.2253 (  0.1%)        ConvertToMixedPrecision
+    0.1629 (  0.1%)        RemoveQuantDequantSeq
+    0.4071 (  0.2%)        ConvertWeightsToU8
+    0.1689 (  0.1%)        ConvertWeightsToI4
+    0.1644 (  0.1%)        FuseQuantizedOps
+    0.1589 (  0.1%)        FuseOutstandingDequant
+    0.2051 (  0.1%)        ConvertToMixedPrecision
+    0.1717 (  0.1%)        FuseOutstandingQuant
+    0.2822 (  0.2%)      Canonicalizer
+    0.1719 (  0.1%)      'func.func' Pipeline
+    0.1719 (  0.1%)        DequantizeConst
+    0.1962 (  0.1%)      OptimizePrecisionAcrossFunctionCalls
+    0.3318 (  0.2%)      'func.func' Pipeline
+    0.1656 (  0.1%)        ConvertQuantizeOpsToNceOps
+    0.1661 (  0.1%)        MergeFakeQuant
+    0.2175 (  0.1%)      Canonicalizer
+    1.0263 (  0.6%)      'func.func' Pipeline
+    0.2096 (  0.1%)        ConvertShapeTo4D
+    0.1995 (  0.1%)        SwapViewOpAndClamp
+    0.2151 (  0.1%)        SwapConvertWithSWOp
+    0.1849 (  0.1%)        RunF16ToF32ConvertOnDPU
+    0.2171 (  0.1%)        OptimizeActivationsPipelineRewriterExecutor
+    0.2125 (  0.1%)      Canonicalizer
+    1.3276 (  0.8%)      'func.func' Pipeline
+    0.1829 (  0.1%)        OptimizeTileOp
+    0.1877 (  0.1%)        MapBilinearInterpolateOnDPU
+    0.1916 (  0.1%)        ConvertBatchedLayerTo1N
+    0.1983 (  0.1%)        ConvertBroadcastToTile
+    0.1845 (  0.1%)        UnrollBatch
+    0.2184 (  0.1%)        UpstreamSlice
+    0.1641 (  0.1%)        ConvertBranchesConcatToConv
+    0.2087 (  0.1%)      Canonicalizer
+    1.4747 (  0.9%)      'func.func' Pipeline
+    0.1738 (  0.1%)        SwapMVNWithTranspose
+    0.1773 (  0.1%)        InsertReorderBetweenLayerAndConcat
+    0.2183 (  0.1%)        PropagateAffineReshape
+    0.1763 (  0.1%)        PropagateTranspose
+    0.7289 (  0.4%)        UniquifyBranches
+    0.1495 (  0.1%)      Canonicalizer
+    0.3481 (  0.2%)      'func.func' Pipeline
+    0.0949 (  0.1%)        SwapTransposeConcat
+    0.1098 (  0.1%)        TransposeToPermuteCast
+    0.1433 (  0.1%)        AdjustLayouts
+    0.1572 (  0.1%)      Canonicalizer
+    0.2767 (  0.2%)      'func.func' Pipeline
+    0.0982 (  0.1%)        FuseReshapeMvn
+    0.1784 (  0.1%)        OptimizeReorders
+    0.1118 (  0.1%)      OptimizeReordersAcrossFunctionCalls
+    0.1439 (  0.1%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.8431 (  0.5%)      'func.func' Pipeline
+    0.6282 (  0.4%)        UniquifyBranches
+    0.1121 (  0.1%)        PropagateReorderToNCE
+    0.1027 (  0.1%)        FuseReordersPass
+    0.1264 (  0.1%)      Canonicalizer
+    0.3125 (  0.2%)      'func.func' Pipeline
+    0.1025 (  0.1%)        FusePermuteQuantize
+    0.0978 (  0.1%)        ConvertReorderToPermuteQuantize
+    0.1120 (  0.1%)        ConvertToMemPermute
+    0.1584 (  0.1%)      Canonicalizer
+    0.3095 (  0.2%)      'func.func' Pipeline
+    0.0962 (  0.1%)        PropagateMemPermuteThroughSoftMax
+    0.0908 (  0.1%)        OptimizeReduceOpsWithMemPermute
+    0.1225 (  0.1%)        MovePermutePostEltwise
+    0.1390 (  0.1%)      Canonicalizer
+    0.2624 (  0.2%)      'func.func' Pipeline
+    0.1106 (  0.1%)        LegalizeNDMemPermute
+    0.1517 (  0.1%)        PropagateMemPermuteBeforeOp
+    0.1161 (  0.1%)      Canonicalizer
+    0.1129 (  0.1%)      'func.func' Pipeline
+    0.1129 (  0.1%)        PropagateMemPermuteThroughEltwise
+    0.0334 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.6066 (  0.4%)      'func.func' Pipeline
+    0.1066 (  0.1%)        UniquifySimilarOps
+    0.1142 (  0.1%)        AdjustMemPermuteAroundOp
+    0.0899 (  0.1%)        OptimizeAvgPoolWithUnalignedChannels
+    0.1078 (  0.1%)        AdjustConvolutionShape
+    0.0913 (  0.1%)        AdjustGroupConvShape
+    0.0965 (  0.1%)        ExpandActivationChannels
+    0.1390 (  0.1%)      Canonicalizer
+    0.4335 (  0.3%)      'func.func' Pipeline
+    0.1068 (  0.1%)        OptimizeSliceExpand
+    0.1126 (  0.1%)        AdjustConvolutionWeights
+    0.0953 (  0.1%)        AdjustConvolutionInputShape
+    0.1184 (  0.1%)        AdjustInputShape
+    0.1222 (  0.1%)      Canonicalizer
+    0.1131 (  0.1%)      'func.func' Pipeline
+    0.1131 (  0.1%)        OptimizeSliceExpand
+    0.0401 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    1.8857 (  1.1%)      'func.func' Pipeline
+    0.1175 (  0.1%)        UniquifySimilarOps
+    0.0995 (  0.1%)        HandleEltwiseWithSmallHeight
+    0.6921 (  0.4%)        PropagateAffineReshape
+    0.6471 (  0.4%)        UniquifyBranches
+    0.1107 (  0.1%)        PropagateExpand
+    0.0911 (  0.1%)        FusePermuteQuantizeExpand
+    0.1272 (  0.1%)        SwapOperations
+    0.1226 (  0.1%)      Canonicalizer
+    0.1145 (  0.1%)      'func.func' Pipeline
+    0.1144 (  0.1%)        ConvertSplitConcatToTranspose
+    0.1222 (  0.1%)      Canonicalizer
+    0.2458 (  0.1%)      'func.func' Pipeline
+    0.1181 (  0.1%)        MemPermuteProcessingPipelineRewriterExecutor
+    0.1276 (  0.1%)        ConvertMemPermuteToOpPass
+    0.1144 (  0.1%)      Canonicalizer
+    0.0347 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.2072 (  0.1%)      'func.func' Pipeline
+    0.1091 (  0.1%)        UniquifySimilarOps
+    0.0980 (  0.1%)        RemoveViewLikeOpsChainPass
+    0.0342 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.8375 (  0.5%)      'func.func' Pipeline
+    0.1141 (  0.1%)        UniquifySimilarOps
+    0.0920 (  0.1%)        FuseConvWithSlice
+    0.0956 (  0.1%)        OptimizeOpSlice
+    0.0946 (  0.1%)        ConvertParallelSlicesToGather
+    0.1090 (  0.1%)        OptimizeSliceWithStride
+    0.1164 (  0.1%)        AdjustConvolutionShape
+    0.0982 (  0.1%)        AlignDimensionsForDPU
+    0.1175 (  0.1%)        AdjustInputShape
+    0.1349 (  0.1%)      Canonicalizer
+    0.8547 (  0.5%)      'func.func' Pipeline
+    0.6974 (  0.4%)        PropagateAffineReshape
+    0.1572 (  0.1%)        OptimizeSliceExpand
+    0.1474 (  0.1%)      Canonicalizer
+    0.9263 (  0.6%)      'func.func' Pipeline
+    0.1418 (  0.1%)        AdaptODUPermutePass
+    0.1208 (  0.1%)        ConvertExpandToConvPass
+    0.1209 (  0.1%)        OptimizeIdentityPool
+    0.1494 (  0.1%)        PropagateShapeCast
+    0.1510 (  0.1%)        PropagatePermuteCast
+    0.1246 (  0.1%)        MoveDynamicDequantizeToUser
+    0.1173 (  0.1%)        LoadExternalKernelResources
+    0.1285 (  0.1%)      DumpStatisticsOfIeOps
+    0.5834 (  0.3%)      'func.func' Pipeline
+    0.1191 (  0.1%)        ConvertDynamicQuantToVPUNCE
+    0.1345 (  0.1%)        ConvertIEToVPUNCE
+    0.3297 (  0.2%)        ConvertLayers2VPU
+    0.2169 (  0.1%)      Canonicalizer
+    0.1603 (  0.1%)      DMATaskProfilingReserveMem
+    0.1632 (  0.1%)      SWKernelInstructionPrefetchReserveMemForDummyKernels
+    0.2078 (  0.1%)      ConcatRepeatingBlocksOutlining
+    0.1757 (  0.1%)      Canonicalizer
+    0.9430 (  0.6%)      'func.func' Pipeline
+    0.1626 (  0.1%)        ConvertOpToDMAForPerformantExecution
+    0.1513 (  0.1%)        MoveConvertAroundViewLikeOps
+    0.1536 (  0.1%)        AdjustForOptimizedLayers
+    0.1589 (  0.1%)        DetectionOutputDecomposition
+    0.1588 (  0.1%)        SplitRealDFTOps
+    0.1577 (  0.1%)        AdjustLSTMCellInputs
+    0.2032 (  0.1%)      Canonicalizer
+    1.9431 (  1.2%)      'func.func' Pipeline
+    0.1569 (  0.1%)        SplitSEOps
+    0.1596 (  0.1%)        LowerOpsToSENCE
+    0.1477 (  0.1%)        FuseConvertPass
+    0.1589 (  0.1%)        EnsureNCEOpsSizeRequirements
+    0.1767 (  0.1%)        OptimizeConcat
+    0.1576 (  0.1%)        SparsifyWeights
+    0.1523 (  0.1%)        RecomputeSparsityPtrs
+    0.1599 (  0.1%)        WrapOpsInSparsifyDesparsifyPairs
+    0.1704 (  0.1%)        OptimizeSparsifyDesparsifyPairs
+    0.1669 (  0.1%)        FuseSparsityOps
+    0.1696 (  0.1%)        OptimizeSparsityOps
+    0.1662 (  0.1%)        AddSparsityMapToSparseActivations
+    0.1808 (  0.1%)      Canonicalizer
+    0.4654 (  0.3%)      'func.func' Pipeline
+    0.1551 (  0.1%)        LowerSparsityOps
+    0.1569 (  0.1%)        AddExplicitPaddingBeforeNCEPermute
+    0.1533 (  0.1%)        DetectInPlaceEltwise
+    0.1737 (  0.1%)      CostModelAnalysisConstruct
+    0.0042 (  0.0%)        (A) vpux::VPU::CostModelAnalysis
+    0.0038 (  0.0%)        (A) vpux::VPU::LayerCostModelAnalysis
+    3.5451 (  2.1%)      'func.func' Pipeline
+    0.1716 (  0.1%)        DecomposeMVN
+    1.2292 (  0.7%)        MultiClusterStrategyAssignment
+    0.0000 (  0.0%)          (A) vpux::VPU::SiblingOpsAnalysis
+    0.1548 (  0.1%)        ConvertNCEInterpolateToDW
+    0.1531 (  0.1%)        ManualStrategyUtils
+    0.1651 (  0.1%)        SplitGRUSequence
+    0.1571 (  0.1%)        ApplyTilingMVN1Sum
+    0.1594 (  0.1%)        TileLSTMSequence
+    0.1683 (  0.1%)        EnsureNCEOpsSizeRequirements
+    0.1838 (  0.1%)        OptimizeConcat
+    0.1642 (  0.1%)        FlashSDPATiling
+    0.8380 (  0.5%)        TilingStrategyAssignment
+    0.0975 (  0.1%)          (A) vpux::VPU::EagerSiblingOpsAnalysis
+    0.1766 (  0.1%)      PrintNNCacheStatistics
+    1.1805 (  0.7%)      'func.func' Pipeline
+    0.2299 (  0.1%)        ConvolutionSplitOverInputChannel
+    0.1874 (  0.1%)        EfficientIROrder
+    0.2357 (  0.1%)        WrapVerticalFusionRegion
+    0.1376 (  0.1%)        ManualStrategyUtils
+    0.2197 (  0.1%)        MoveViewOpsToVF
+    0.1695 (  0.1%)        MergeVfSubgraphs
+    0.1406 (  0.1%)      PrintNNCacheStatistics
+    0.4693 (  0.3%)      'func.func' Pipeline
+    0.1496 (  0.1%)        EfficientIROrder
+    0.1638 (  0.1%)        UnrollUnusedVerticalFusionRegion
+    0.1558 (  0.1%)        ManualStrategyUtils
+    0.2698 (  0.2%)      VerticalFusionOutlining
+    0.2290 (  0.1%)      Canonicalizer
+    0.1695 (  0.1%)      'func.func' Pipeline
+    0.1695 (  0.1%)        VfTiling
+    0.1845 (  0.1%)      Canonicalizer
+    0.1544 (  0.1%)      'func.func' Pipeline
+    0.1543 (  0.1%)        OutputPipelineTiling
+    0.0000 (  0.0%)          (A) vpux::VPU::SiblingOpsAnalysis
+    0.1666 (  0.1%)      PrintNNCacheStatistics
+    0.3242 (  0.2%)      'func.func' Pipeline
+    0.1617 (  0.1%)        ManualStrategyUtils
+    0.1624 (  0.1%)        ApplyTiling
+    0.1913 (  0.1%)      Canonicalizer
+    0.3297 (  0.2%)      'func.func' Pipeline
+    0.1794 (  0.1%)        CorrectStorageElementTableSeSizeForSEPDWConv
+    0.1502 (  0.1%)        UnrollFlashSDPA
+    0.1767 (  0.1%)      BoundedTensorsToDynamicDimsMask
+    1.9939 (  1.2%)      'func.func' Pipeline
+    0.5740 (  0.3%)        MakeOpsWithDistributedTensor
+    0.0000 (  0.0%)          (A) vpux::VPU::SiblingOpsAnalysis
+    0.1806 (  0.1%)        ComputeInterpolateCoordinates
+    0.2907 (  0.2%)        MakeDistributedCopies
+    0.2252 (  0.1%)        AdjustDistributedTensorAroundOps
+    0.2286 (  0.1%)        AdjustMemorySpace
+    0.2471 (  0.1%)        OptimizeSharedInputCopyForConcat
+    0.2474 (  0.1%)        OptimizeConcat
+    0.2948 (  0.2%)      Canonicalizer
+    0.2259 (  0.1%)      'func.func' Pipeline
+    0.2258 (  0.1%)        CMXConcat
+    0.2945 (  0.2%)      Canonicalizer
+    1.3334 (  0.8%)      'func.func' Pipeline
+    0.2230 (  0.1%)        MoveReflectPadToCMX
+    0.2174 (  0.1%)        MoveTensorOpsToCMX
+    0.2347 (  0.1%)        SplitNCEOpsOntoWorkloads
+    0.2196 (  0.1%)        CorrectNCEWorkloads
+    0.2186 (  0.1%)        ComputeNCEInputWorkloads
+    0.2200 (  0.1%)        ShiftOutputWorkloadsForHalo
+    0.2629 (  0.2%)      Canonicalizer
+    0.2344 (  0.1%)      AdjustDynamicOpsBeforeBufferization
+    0.4350 (  0.3%)      'func.func' Pipeline
+    0.2168 (  0.1%)        LegalizeDynamicShapeConcatForSWLayers
+    0.2181 (  0.1%)        AdjustMemorySpaceForSHVOps
+    0.2198 (  0.1%)      OutlineEntireMainContent
+    0.8823 (  0.5%)      OneShotBufferizeVPU2VPUIP
+    0.3901 (  0.2%)      UngroupBoundedBuffersAsFuncArgs
+    0.4202 (  0.2%)      UngroupHostBuffersAsFuncArgs
+    0.4056 (  0.2%)      AddBuffersForNetResults
+    0.6394 (  0.4%)      Canonicalizer
+    0.4027 (  0.2%)      CostModelAnalysisConstruct
+   14.4502 (  8.6%)      'func.func' Pipeline
+    7.7399 (  4.6%)        TileActShaveKernelTask
+    2.3081 (  1.4%)        MovePureViewOpBeforeCopy
+    1.4723 (  0.9%)        WrapWithPermuteAsNNDMA
+    1.5814 (  0.9%)        OptimizeExpandSubview
+    1.3481 (  0.8%)        ConvertExpand
+    1.7591 (  1.0%)      Canonicalizer
+    1.5904 (  0.9%)      'func.func' Pipeline
+    1.5902 (  0.9%)        ConvertEltwiseToInPlace
+    0.0741 (  0.0%)          (A) vpux::AliasesInfo
+    1.8201 (  1.1%)      SetMemorySpace
+    0.0817 (  0.0%)        (A) vpux::AliasesInfo
+   28.0859 ( 16.7%)      'func.func' Pipeline
+    1.4788 (  0.9%)        ComputeSEBasePtrs
+    1.4917 (  0.9%)        ConvertSETablesToConstants
+    1.5385 (  0.9%)        PropagateSparsityCompression
+    2.0776 (  1.2%)        UngroupBufferSectionRewriterExecutor
+    1.8373 (  1.1%)        UngroupBoundedBuffers
+    2.5903 (  1.5%)        OptimizeCopies
+    1.2509 (  0.7%)        UniquifyWeightsTableCopies
+    1.6908 (  1.0%)        OptimizeConcatViewCopies
+    1.5703 (  0.9%)        FuseDDRCopiesIntoConcats
+    1.8125 (  1.1%)        OptimizeParallelCopies
+    1.2994 (  0.8%)        OptimizeSubviewCopies
+    1.4496 (  0.9%)        FuseLastCopy
+    0.0607 (  0.0%)          (A) vpux::AliasesInfo
+    1.7655 (  1.0%)        OptimizeTileOpAsNNDMA
+    1.4781 (  0.9%)        ConvertDynamicReshapeToInPlace
+    1.5340 (  0.9%)        InsertCopyForEltwiseInPlaceInput
+    0.0606 (  0.0%)          (A) vpux::AliasesInfo
+    1.7414 (  1.0%)        OptimizeConvertDMAOp
+    1.4785 (  0.9%)        ConvertToDMA
+    1.5558 (  0.9%)      AddCopyBetweenSWKernelsAndNetworkIO
+    1.4835 (  0.9%)      ConvertVPUIPCopyToSWCopy
+    1.6980 (  1.0%)      'func.func' Pipeline
+    1.6980 (  1.0%)        CopyOpTiling
+    1.6024 (  1.0%)      Canonicalizer
+    6.9263 (  4.1%)      'func.func' Pipeline
+    1.4655 (  0.9%)        ConvWeightsCompression
+    1.3992 (  0.8%)        ComputeSESizes
+    1.3691 (  0.8%)        FuseConstants
+    1.3612 (  0.8%)        Swizzling
+    0.0595 (  0.0%)          (A) vpux::AliasesInfo
+    1.3310 (  0.8%)        LegalizeRepeatingFuncCalls
+    1.6322 (  1.0%)      Canonicalizer
+    1.5646 (  0.9%)      'func.func' Pipeline
+    1.5646 (  0.9%)        ConvertTransferOpsToDMAs
+    1.4112 (  0.8%)      LegalizeStridedDmas
+   17.4294 ( 10.4%)      'func.func' Pipeline
+    1.3976 (  0.8%)        MoveDeclarationsToTop
+    1.9991 (  1.2%)        WrapIntoAsyncRegions
+    2.7898 (  1.7%)        MoveViewOpsIntoAsyncRegions
+    1.7776 (  1.1%)        MoveWaitResultToAsyncBlockArgs
+    0.0314 (  0.0%)          (A) vpux::AsyncDepsInfo
+    1.9395 (  1.2%)        CalculateAsyncRegionCycleCost
+    7.5255 (  4.5%)        FeasibleAllocation
+    0.1332 (  0.1%)          (A) vpux::AliasesInfoMemType<2>
+    0.0982 (  0.1%)          (A) vpux::MemLiveRangeInfoMemType<2>
+    0.0142 (  0.0%)          (A) vpux::AsyncDepsInfo
+    1.5808 (  0.9%)      PrintNNCacheStatistics
+    0.3379 (  0.2%)      QueryArgsAllocationAnalysis
+    0.3379 (  0.2%)        (A) vpux::ReservedMemInfo
+    0.1436 (  0.1%)          (A) vpux::MemLiveRangeInfoMemType<0>
+    0.0911 (  0.1%)            (A) vpux::AliasesInfoMemType<0>
+    0.1382 (  0.1%)          (A) vpux::AllocationInfo
+    0.0543 (  0.0%)            (A) vpux::AsyncDepsInfo
+   18.4191 ( 10.9%)      'func.func' Pipeline
+    1.9933 (  1.2%)        UngroupBoundedBuffers
+    4.1849 (  2.5%)        StaticAllocation
+    0.0251 (  0.0%)          (A) vpux::AsyncDepsInfo
+    0.2206 (  0.1%)          (A) vpux::AllocationInfo
+    0.1012 (  0.1%)            (A) vpux::AliasesInfoMemType<0>
+    0.0355 (  0.0%)            (A) vpux::MemLiveRangeInfoMemType<0>
+    1.8426 (  1.1%)        OptimizeAsyncDeps
+    0.0188 (  0.0%)          (A) vpux::AsyncDepsInfo
+    1.7958 (  1.1%)        PatchWeightsTable
+    1.5936 (  0.9%)        AddSwKernelCacheHandlingOps
+    1.7634 (  1.0%)        BreakDataFlow
+    1.6543 (  1.0%)        ConvertAllocationsToDeclarations
+    1.7174 (  1.0%)        LinearizeCallOps
+    0.0182 (  0.0%)          (A) vpux::AsyncDepsInfo
+    1.8734 (  1.1%)        ConvertAsyncOpsToTasks
+    1.6593 (  1.0%)      ConvertFuncArgsToDeclarations
+    3.4133 (  2.0%)      'func.func' Pipeline
+    3.4131 (  2.0%)        ConvertViewOpsToDeclarations
+    0.0441 (  0.0%)          (A) vpux::AliasesInfo
+    0.0451 (  0.0%)  Rest
+  168.2487 (100.0%)  Total
+[INFO] 09:58:16.193 [NPU_VCL] Compile net time: 168342.43 ms
+[36m[INFO] 09:58:16.196 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+COMPILE_THREW: Exception from src\inference\src\cpp\core.cpp:121:
+Exception from src\inference\src\dev\plugin.cpp:54:
+Exception from src\plugins\intel_npu\src\plugin\npuw\compiled_model.cpp:551:
+Failed to compile Model1106_kv1152_FCEW000__0 for all devices in [NPU]
+
+
+

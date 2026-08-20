@@ -1,0 +1,32 @@
+READING C:\Users\mrbla\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
+model->is_dynamic() = 1
+PARAM 'input_ids' shape=[?,?] is_dynamic=1
+    dim[0] dynamic=1 unbounded(INT64_MAX)=1
+    dim[1] dynamic=1 unbounded(INT64_MAX)=1
+PARAM 'attention_mask' shape=[?,?] is_dynamic=1
+    dim[0] dynamic=1 unbounded(INT64_MAX)=1
+    dim[1] dynamic=1 unbounded(INT64_MAX)=1
+PARAM 'position_ids' shape=[?,?] is_dynamic=1
+    dim[0] dynamic=1 unbounded(INT64_MAX)=1
+    dim[1] dynamic=1 unbounded(INT64_MAX)=1
+PARAM 'beam_idx' shape=[?] is_dynamic=1
+    dim[0] dynamic=1 unbounded(INT64_MAX)=1
+RESULT 'Result_3611287' shape=[?,?,151936] is_dynamic=1
+    dim[0] dynamic=1 unbounded(INT64_MAX)=1
+    dim[1] dynamic=1 unbounded(INT64_MAX)=1
+    dim[2] dynamic=0 unbounded(INT64_MAX)=0
+COMPILING plain core.compile_model(model, NPU) [no reshape, no NPUW] ...
+COMPILE_THREW:
+Exception from src\inference\src\cpp\core.cpp:121:
+Exception from src\inference\src\dev\plugin.cpp:54:
+Exception from src\plugins\intel_npu\src\plugin\src\plugin.cpp:642:
+Exception from src\plugins\intel_npu\src\compiler_adapter\src\compiler_impl.cpp:445:
+Compilation failed. vclAllocatedExecutableCreate2 result: 0x78000004 - [NPU_VCL] Compiler returned msg:
+Exception from src\core\src\partial_shape.cpp:266:
+to_shape was called on a dynamic shape.
+
+
+
+
+
+EXITCODE=1

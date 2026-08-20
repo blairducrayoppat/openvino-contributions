@@ -1,0 +1,2 @@
+loc(fused<{name = "main", type = "Func"}>["main"]): error: ConvertViewOpsToDeclarations Pass failed : 
+src\vpux_utils\include\vpux/utils/core/mem_size.hpp:128 Can't convert 4 Bit to Byte

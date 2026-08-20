@@ -1,0 +1,327 @@
+BUILD_START Fri 06/19/2026 10:31:24.30 
+--- reconfigure (pick up new model_validation.cpp via globs) --- 
+-- OpenVINO version is 2026.2.0 (Build 21369)
+-- Use 10.0.26100.0 Windows SDK version
+-- Trying to find apivalidator in: 
+    * C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64
+    * C:/Program Files (x86)/Windows Kits/10/bin/x64
+-- OpenVINO Runtime enabled features: 
+-- 
+--     CI_BUILD_NUMBER: 2026.2.0-21369-e4e180d12fa
+--     ENABLE_LTO = OFF
+--     OS_FOLDER = OFF
+--     USE_BUILD_TYPE_SUBFOLDER = ON
+--     CMAKE_COMPILE_WARNING_AS_ERROR = OFF
+--     ENABLE_QSPECTRE = OFF
+--     ENABLE_INTEGRITYCHECK = OFF
+--     ENABLE_SANITIZER = OFF
+--     ENABLE_UB_SANITIZER = OFF
+--     ENABLE_THREAD_SANITIZER = OFF
+--     ENABLE_COVERAGE = OFF
+--     ENABLE_API_VALIDATOR = ON
+--     ENABLE_PDB_IN_RELEASE = OFF
+--     ENABLE_SSE42 = ON
+--     ENABLE_AVX2 = ON
+--     ENABLE_AVX512F = ON
+--     ENABLE_NEON_FP16 = OFF
+--     ENABLE_SVE = OFF
+--     BUILD_SHARED_LIBS = ON
+--     ENABLE_LIBRARY_VERSIONING = OFF
+--     ENABLE_FASTER_BUILD = OFF
+--     ENABLE_CLANG_FORMAT = OFF
+--     ENABLE_CLANG_TIDY = OFF
+--     ENABLE_CLANG_TIDY_FIX = OFF
+--     ENABLE_NCC_STYLE = OFF
+--     ENABLE_UNSAFE_LOCATIONS = OFF
+--     ENABLE_FUZZING = OFF
+--     ENABLE_PROXY = ON
+--     ENABLE_INTEL_CPU = ON
+--     ENABLE_ARM_COMPUTE_CMAKE = OFF
+--     ENABLE_TESTS = ON
+--     ENABLE_INTEL_GPU = ON
+--     GPU_RT_TYPE = OCL
+--     ENABLE_ONEDNN_FOR_GPU = ON
+--     ENABLE_INTEL_NPU = ON
+--     ENABLE_INTEL_NPU_INTERNAL = ON
+--     ENABLE_DEBUG_CAPS = ON
+--     ENABLE_NPU_DEBUG_CAPS = ON
+--     ENABLE_GPU_DEBUG_CAPS = ON
+--     ENABLE_CPU_DEBUG_CAPS = ON
+--     ENABLE_SNIPPETS_DEBUG_CAPS = ON
+--     ENABLE_SNIPPETS_LIBXSMM_TPP = OFF
+--     ENABLE_PROFILING_ITT = BASE
+--     ENABLE_PROFILING_FILTER = ALL
+--     ENABLE_PROFILING_FIRST_INFERENCE = ON
+--     SELECTIVE_BUILD = OFF
+--     ENABLE_DOCS = OFF
+--     ENABLE_PKGCONFIG_GEN = OFF
+--     THREADING = TBB_ADAPTIVE
+--     ENABLE_INTEL_OPENMP = OFF
+--     ENABLE_TBBBIND_2_5 = ON
+--     ENABLE_MULTI = ON
+--     ENABLE_AUTO = ON
+--     ENABLE_AUTO_BATCH = ON
+--     ENABLE_HETERO = ON
+--     ENABLE_TEMPLATE = ON
+--     ENABLE_PLUGINS_XML = ON
+--     ENABLE_FUNCTIONAL_TESTS = ON
+--     ENABLE_SAMPLES = ON
+--     ENABLE_GIL_PYTHON_API = ON
+--     ENABLE_OV_ONNX_FRONTEND = ON
+--     ENABLE_OV_PADDLE_FRONTEND = ON
+--     ENABLE_OV_IR_FRONTEND = ON
+--     ENABLE_OV_PYTORCH_FRONTEND = ON
+--     ENABLE_OV_JAX_FRONTEND = ON
+--     ENABLE_OV_TF_FRONTEND = ON
+--     ENABLE_OV_TF_LITE_FRONTEND = ON
+--     ENABLE_SNAPPY_COMPRESSION = ON
+--     ENABLE_STRICT_DEPENDENCIES = ON
+--     ENABLE_SYSTEM_TBB = OFF
+--     ENABLE_SYSTEM_PUGIXML = OFF
+--     ENABLE_SYSTEM_FLATBUFFERS = ON
+--     ENABLE_SYSTEM_OPENCL = OFF
+--     ENABLE_SYSTEM_PROTOBUF = OFF
+--     ENABLE_SYSTEM_SNAPPY = OFF
+--     ENABLE_SYSTEM_LEVEL_ZERO = OFF
+--     ENABLE_JS = ON
+--     ENABLE_OPENVINO_DEBUG = OFF
+-- 
+-- CMAKE_VERSION ......................... 4.2.3
+-- CMAKE_CROSSCOMPILING .................. FALSE
+-- OpenVINO_SOURCE_DIR ................... C:/Users/mrbla/oss/openvino
+-- OpenVINO_BINARY_DIR ................... C:/Users/mrbla/oss/openvino/build-x86_64/RelWithDebInfo
+-- CMAKE_GENERATOR ....................... Ninja
+-- CPACK_GENERATOR ....................... ZIP
+-- CMAKE_C_COMPILER_ID ................... MSVC
+-- CMAKE_CXX_COMPILER_ID ................. MSVC
+-- CMAKE_CXX_STANDARD .................... 17
+-- CMAKE_BUILD_TYPE ...................... RelWithDebInfo
+CMake Warning at cmake/developer_package/python_requirements.cmake:118 (message):
+  Python requirement file
+  C:/Users/mrbla/oss/openvino/src/frontends/onnx/tests/requirements.txt is
+  not installed, ONNX testing models weren't generated, some tests will fail
+  due .onnx models not found
+Call Stack (most recent call first):
+  cmake/test_model_zoo.cmake:7 (ov_check_pip_packages)
+  CMakeLists.txt:186 (include)
+
+
+-- Building loader as dynamic library
+-- Saved Product GUID: 1.27.0
+-- project version: 1.27.0
+-- Using Product GUID: ed00a7db-f557-48c2-9f90-c1f97b56ad91 for version 1.27.0
+-- Defining OpenCL::Headers through OPENCL_ICD_LOADER_HEADERS_DIR
+-- Protocol Buffers Configuring...
+-- 
+-- 3.21.12.0
+-- Configuration script parsing status [
+--   Description : Protocol Buffers
+--   Version     : 3.21.12.0 (3.21.12)
+--   Contact     : protobuf@googlegroups.com
+-- ]
+-- Protocol Buffers Configuring done
+-- Proceeding with version: 24.3.25.0
+-- CMAKE_CXX_FLAGS: /DWIN32 /D_WINDOWS /GR /EHsc  /sdl /guard:cf /D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS /EHsc /Gy /W3 /bigobj /MP /utf-8 /D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR /wd4251 /wd4275
+-- ONNX_PROTOC_EXECUTABLE: $<TARGET_FILE:protobuf::protoc>
+-- Protobuf_VERSION: 
+Generated: C:/Users/mrbla/oss/openvino/build-x86_64/RelWithDebInfo/thirdparty/onnx/onnx/onnx/onnx_openvino_onnx-ml.proto
+Generated: C:/Users/mrbla/oss/openvino/build-x86_64/RelWithDebInfo/thirdparty/onnx/onnx/onnx/onnx-operators_openvino_onnx-ml.proto
+Generated: C:/Users/mrbla/oss/openvino/build-x86_64/RelWithDebInfo/thirdparty/onnx/onnx/onnx/onnx-data_openvino_onnx.proto
+-- 
+-- ******** Summary ********
+--   CMake version                     : 4.2.3
+--   CMake command                     : C:/Program Files/CMake/bin/cmake.exe
+--   System                            : Windows
+--   C++ compiler                      : C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   C++ compiler version              : 19.44.35222.0
+--   CXX flags                         : /DWIN32 /D_WINDOWS /GR /EHsc  /sdl /guard:cf /D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS /EHsc /Gy /W3 /bigobj /MP /utf-8 /D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR /wd4251 /wd4275 /wd4244 /EHsc /wd26812
+--   Build type                        : RelWithDebInfo
+--   Compile definitions               : OV_BUILD_POSTFIX="";OV_NATIVE_PARENT_PROJECT_ROOT_DIR="openvino";SNIPPETS_DEBUG_CAPS
+--   CMAKE_PREFIX_PATH                 : 
+--   CMAKE_INSTALL_PREFIX              : C:/Program Files (x86)/OpenVINO
+--   CMAKE_MODULE_PATH                 : 
+-- 
+--   ONNX version                      : 1.18.0
+--   ONNX NAMESPACE                    : openvino_onnx
+--   ONNX_USE_LITE_PROTO               : ON
+--   USE_PROTOBUF_SHARED_LIBS          : OFF
+--   ONNX_DISABLE_EXCEPTIONS           : OFF
+--   ONNX_DISABLE_STATIC_REGISTRATION  : OFF
+--   ONNX_WERROR                       : OFF
+--   ONNX_BUILD_TESTS                  : OFF
+--   BUILD_SHARED_LIBS                 : OFF
+-- 
+--   Protobuf compiler                 : $<TARGET_FILE:protobuf::protoc>
+--   Protobuf includes                 : 
+--   Protobuf libraries                : 
+--   ONNX_BUILD_PYTHON                 : OFF
+-- Using the multi-header code from C:/Users/mrbla/oss/openvino/thirdparty/json/nlohmann_json/include/
+-- TBB (2021.13.1) is found at C:/Users/mrbla/oss/openvino/temp/Windows_AMD64/tbb/lib/cmake/TBB
+-- Static tbbbind_2_5 package usage is disabled, since oneTBB (ver. 2021.13.1) provides dynamic TBBBind 2.5+
+-- ONNX frontend test enabled
+-- Adding unit test for backend IE_CPU
+-- Adding unit test for backend IE_GPU
+-- Adding unit test for backend INTERPRETER
+CMake Warning at cmake/developer_package/python_requirements.cmake:118 (message):
+  Python requirement file
+  C:/Users/mrbla/oss/openvino/src/frontends/tensorflow/tests/requirements.txt
+  is not installed, TensorFlow testing models weren't generated, some tests
+  will fail due models not found
+Call Stack (most recent call first):
+  src/frontends/tensorflow/tests/CMakeLists.txt:13 (ov_check_pip_packages)
+
+
+CMake Warning at cmake/developer_package/python_requirements.cmake:118 (message):
+  Python requirement file
+  C:/Users/mrbla/oss/openvino/src/frontends/tensorflow_lite/tests/requirements.txt
+  is not installed, TensorFlow Lite testing models weren't generated, some
+  tests will fail due models not found
+Call Stack (most recent call first):
+  src/frontends/tensorflow_lite/tests/CMakeLists.txt:7 (ov_check_pip_packages)
+
+
+CMake Warning at src/frontends/paddle/tests/common.cmake:18 (message):
+  Python requirement file
+  C:/Users/mrbla/oss/openvino/src/frontends/paddle/tests/pdmodel_test/..//requirements.txt
+  is not installed, PaddlePaddle testing models weren't generated, some tests
+  will fail due models not found
+Call Stack (most recent call first):
+  src/frontends/paddle/tests/pdmodel_test/CMakeLists.txt:8 (include)
+
+
+-- DNNL_TARGET_ARCH: X64
+-- DNNL_LIBRARY_NAME: openvino_onednn_cpu
+-- Threadpool testing: standalone
+-- Enabled testing coverage: CI
+-- Enabled workload: INFERENCE
+-- Enabled primitives: CONVOLUTION;DECONVOLUTION;CONCAT;LRN;INNER_PRODUCT;MATMUL;POOLING;REDUCTION;REORDER;RNN;SOFTMAX
+-- Enabled primitive CPU ISA: ALL
+-- Enabled primitive GPU ISA: ALL
+-- Enabled GeMM kernels ISA: SSE41
+-- Primitive cache is enabled
+-- The download of Intel NPU Compiler library is skipped!
+-- NPU single-image-test tool is disabled due to missing dependencies: opencv_core;opencv_imgproc;opencv_imgcodecs
+-- NPU protopipe tool is disabled due to missing dependencies: gapi from OpenCV >= 4.9.
+Microsoft (R) Library Manager Version 14.44.35222.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library C:/Users/mrbla/oss/openvino/src/bindings/js/node/thirdparty/node.lib and object C:/Users/mrbla/oss/openvino/src/bindings/js/node/thirdparty/node.exp
+-- Python3 executable: C:/Users/mrbla/AppData/Local/Python/pythoncore-3.14-64/python.exe
+-- Python3 version: 3.14.4
+-- Python3 interpreter ID: Python
+-- Python3 SOABI: cp314-win_amd64
+-- Python3 include dirs: C:/Users/mrbla/AppData/Local/Python/pythoncore-3.14-64/Include
+-- Python3 libraries: C:/Users/mrbla/AppData/Local/Python/pythoncore-3.14-64/libs/python314.lib
+CMake Warning at cmake/developer_package/python_requirements.cmake:118 (message):
+  Python requirement file
+  C:/Users/mrbla/oss/openvino/src/bindings/python/wheel/requirements-dev.txt
+  is not installed,
+Call Stack (most recent call first):
+  src/bindings/python/CMakeLists.txt:148 (ov_check_pip_packages)
+
+
+CMake Warning at samples/cpp/common/format_reader/CMakeLists.txt:22 (message):
+  OpenCV ver.  3.0+ is not found, format_reader will be built without OpenCV
+  support
+
+
+CMake Warning at samples/cpp/benchmark_app/CMakeLists.txt:104 (message):
+  OpenCL CPP header is not found, benchmark_app will be built without OpenCL
+  support and you will not be able to use the '-use_device_mem' option.
+  Please, install 'apt-get install ocl-icd-opencl-dev' or 'yum install
+  ocl-icd-devel' to enable the option
+
+
+CMake Warning at samples/cpp/benchmark_app/CMakeLists.txt:112 (message):
+  OpenCV ver.  3.0+ is not found, benchmark_app will be built without OpenCV
+  support.  Set OpenCV_DIR
+
+
+CMake Warning at samples/c/common/opencv_c_wrapper/CMakeLists.txt:20 (message):
+  OpenCV ver.  3.0+ is not found, opencv_c_wrapper is built without OPENCV
+  support
+
+
+-- Register template to be built in build-modules/template
+CMake Warning at src/plugins/template/tests/functional/CMakeLists.txt:37 (message):
+  Reference preprocessing: OpenCV tests are disabled, because OpenCV ver.
+  3.4+ is not found
+
+
+-- Register template_extension to be built in build-modules/template_extension
+CMake Warning at cmake/developer_package/shellcheck/shellcheck.cmake:22 (message):
+  shellcheck tool is not found
+Call Stack (most recent call first):
+  scripts/CMakeLists.txt:19 (ov_shellcheck_process)
+
+
+-- Configuring done (20.6s)
+-- Generating done (9.8s)
+-- Build files have been written to: C:/Users/mrbla/oss/openvino/build-x86_64/RelWithDebInfo
+--- build (capped -j 4) --- 
+[0/2] Re-checking globbed directories...
+[1/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_backend.cpp.obj
+[2/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_dynamic_infer_request.cpp.obj
+[3/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_device.cpp.obj
+[4/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_dynamic_pipeline.cpp.obj
+[5/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_pipeline.cpp.obj
+[6/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_infer_request.cpp.obj
+[7/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_variable_state.cpp.obj
+[8/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\backend\src\zero_profiling.cpp.obj
+[9/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\online\graph.cpp.obj
+[10/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\online\compiler.cpp.obj
+[11/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\online\repeated.cpp.obj
+[12/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\online\utils\utils.cpp.obj
+[13/64] Building CXX object src\plugins\intel_npu\src\plugin\CMakeFiles\openvino_intel_npu_plugin_version.dir\src\plugin.cpp.obj
+[14/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\online\group.cpp.obj
+[15/64] Building CXX object src\plugins\intel_npu\src\plugin\CMakeFiles\openvino_intel_npu_plugin.dir\src\model_validation.cpp.obj
+[16/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\avoid.cpp.obj
+[17/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\online\snapshot.cpp.obj
+[18/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\compute.cpp.obj
+[19/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\dcoff.cpp.obj
+[20/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\moe.cpp.obj
+[21/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\partitioning.cpp.obj
+[22/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\pre_compute.cpp.obj
+[23/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\opt.cpp.obj
+[24/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\patterns\sdpa.cpp.obj
+[25/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\partitioning\traits.cpp.obj
+[26/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\main.cpp.obj
+[27/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npu\config.cpp.obj
+[28/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npu\metadata_version.cpp.obj
+[29/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npu\unbounded_dynamic_shape.cpp.obj
+[30/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npu\offline_compilation.cpp.obj
+[31/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\kokoro_test.cpp.obj
+[32/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\gather_to_2d_gather_test.cpp.obj
+[33/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\device_routed_moe_transform_test.cpp.obj
+[34/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\moe_transformation_test.cpp.obj
+[35/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\prefix_caching.cpp.obj
+[36/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\test_utils.cpp.obj
+[37/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\permute.cpp.obj
+[38/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\online_partitioning.cpp.obj
+[39/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\transpose.cpp.obj
+[40/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\serialization.cpp.obj
+[41/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\src\model_validation.cpp.obj
+[42/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\src\metadata.cpp.obj
+[43/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\transpose_vt.cpp.obj
+[44/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\npuw\unpack.cpp.obj
+[45/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\logging.cpp.obj
+[46/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\infer_request_utils.cpp.obj
+[47/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\llm_compiled_model_utils.cpp.obj
+[48/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\llm_prefix_caching.cpp.obj
+[49/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\serialization.cpp.obj
+[50/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\util_xarch.cpp.obj
+[51/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\util.cpp.obj
+[52/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\lazy_tensor.cpp.obj
+[53/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\attention.cpp.obj
+[54/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\pyramid_attention.cpp.obj
+[55/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\host_flash_attention.cpp.obj
+[56/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\moe_transformations\moe_unroll_patterns.cpp.obj
+[57/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\moe_transformations\moe_transformation.cpp.obj
+[58/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\pipelines\kokoro\kokoro_utils.cpp.obj
+[59/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\moe_transformations\device_routed_moe_transform.cpp.obj
+[60/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\moe_transformations\gather_to_2d_gather.cpp.obj
+[61/64] Linking CXX shared module C:\Users\mrbla\oss\openvino\bin\intel64\RelWithDebInfo\openvino_intel_npu_plugin.dll
+[62/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\functional\behavior\npuw\test_engine\models\model_builder.cpp.obj
+[63/64] Linking CXX executable C:\Users\mrbla\oss\openvino\bin\intel64\RelWithDebInfo\ov_npu_unit_tests.exe
+BUILD_EXIT=0 
+BUILD_DONE Fri 06/19/2026 10:32:53.22 

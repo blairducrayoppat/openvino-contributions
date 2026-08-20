@@ -1,0 +1,32 @@
+# Upstream source checkouts — own git history, live/dirty state, not tracked here
+/openvino/
+/openvino.genai/
+/openvino.genai-pr-worktree/
+/npu_compiler/
+
+# Throwaway build venvs
+/ovpy-venv/
+/.venv*/
+
+# Build artifact trees inside evidence folders (large, regenerable, not evidence)
+/repro266/tree/
+/repro266/harness/
+/_verify_npu_guard/.fmt/
+
+# Compiled objects / interpreter noise
+*.obj
+*.exe
+*.pyc
+__pycache__/
+
+# Raw compiler/build logs are noise, not evidence — curated logs are force-included below
+*.log
+!repro266/*.log
+
+# Session scratch work — superseded by the curated write-up in docs/CONTRIBUTIONS_LOG.md;
+# includes a throwaway venv and exported model binaries that should never enter git history
+/scratch_ovms4428/venv/
+/scratch_ovms4428/models/
+/scratch_ovms4428/*.json
+/scratch_ovms4428/live_*.txt
+/scratch_ovms4428/post_*.md

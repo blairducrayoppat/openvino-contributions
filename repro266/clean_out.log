@@ -1,0 +1,511 @@
+READING C:\Users\mrbla\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
+COMPILING (NPUW_LLM) ...
+[33m[WARNING] 05:12:42.576 [NPUZeroInitStructsHolder] Some features might not be available! Plugin L0 API minor version = 15, Driver L0 API minor version = 14[0m
+[36m[INFO] 05:12:42.576 [NPUZeroInitStructsHolder] Found Driver Version 1.14, Graph Extension Version 1.16 (ZE_extension_graph)[0m
+[36m[INFO] 05:12:42.577 [BackendsRegistry] Use 'LEVEL0' backend for inference[0m
+[36m[INFO] 05:12:42.603 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:12:42.604 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:12:42.605 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:12:42.605 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:12:42.606 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:12:42.606 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:12:42.606 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:12:42.606 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:12:42.606 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:12:42.606 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:12:42.606 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:12:42.606 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:12:42.606 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:12:42.606 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:12:42.607 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 05:12:42.607 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:12:42.607 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:12:42.607 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:12:42.607 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:12:42.607 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:12:42.607 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:12:42.608 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:12:42.608 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:12:42.608 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:12:42.608 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:12:42.608 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:12:42.608 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:12:42.608 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:12:42.609 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:12:42.609 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 05:12:42.609 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:12:42.609 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:12:42.609 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:12:42.609 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:12:42.609 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:12:42.609 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:12:42.610 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:12:42.610 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:12:42.610 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:12:42.610 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:12:42.610 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:12:42.610 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:12:42.610 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:12:42.610 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:12:42.610 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 05:12:43.150 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:12:43.151 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:12:43.151 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:12:43.151 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:12:43.151 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:12:43.151 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:12:43.151 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:12:43.151 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:12:43.152 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:12:43.152 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:12:43.152 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:12:43.152 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:12:43.152 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:12:43.152 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:12:43.152 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 05:12:43.158 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:12:43.158 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:12:43.158 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:12:43.158 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:12:43.158 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:12:43.158 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:12:43.158 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:12:43.158 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:12:43.159 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:12:43.159 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:12:43.159 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:12:43.159 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:12:43.159 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:12:43.159 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:12:43.159 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+[36m[INFO] 05:12:46.813 [PluginCompilerAdapter] initialize PluginCompilerAdapter start[0m
+[36m[INFO] 05:12:46.828 [PluginCompilerAdapter] Loading PLUGIN compiler[0m
+[36m[INFO] 05:12:46.828 [VCLCompilerImpl] Plugin VCL API Version: 7.6[0m
+[36m[INFO] 05:12:46.828 [VCLCompilerImpl] Plugin VCL Profiling API Version: 2.0[0m
+[36m[INFO] 05:12:46.828 [VCLCompilerImpl] Lib VCL Compiler Version: 7.7[0m
+[36m[INFO] 05:12:46.828 [VCLCompilerImpl] Lib VCL Profiling Version: 2.0[0m
+[33m[WARNING] 05:12:46.828 [VCLCompilerImpl] inside supported VCL version is lower than loaded VCL api:
+ plugin was built with VCL 7.6, 
+      but loaded VCL is 7.7.
+Will downgrade to use the plugin vcl compiler[0m
+[36m[INFO] 05:12:46.828 [VCLCompilerImpl] Device description is not provided, using default values[0m
+[36m[INFO] 05:12:46.829 [VCLCompilerImpl] VCL Compiler created successfully[0m
+[36m[INFO] 05:12:46.829 [VCLCompilerImpl] VCL Compiler Properties: ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7, Version: 8.1, Supported Opsets: 11[0m
+[36m[INFO] 05:12:46.829 [PluginCompilerAdapter] PLUGIN VCL compiler is loading[0m
+[36m[INFO] 05:12:46.829 [PluginCompilerAdapter] PluginCompilerAdapter creating adapter using graphExtVersion[0m
+[36m[INFO] 05:12:46.829 [ZeGraphExtWrappers] Graph ext version used by zero wrapper: 1.16[0m
+[36m[INFO] 05:12:46.829 [PluginCompilerAdapter] initialize PluginCompilerAdapter complete, using graphExtVersion: 1.16[0m
+[36m[INFO] 05:12:46.829 [NPUPlugin] Setting batching mode to AUTO.[0m
+[36m[INFO] 05:12:46.829 [NPUPlugin] Only networks with inputs batched by 0th dimension are supported. The batch hasn't been detected at all. Please check input id: 0 by the name: attention_mask, layout: [...], is_dynamic: 0[0m
+[36m[INFO] 05:12:46.829 [NPUPlugin] Batching will be handled by compiler.[0m
+[36m[INFO] 05:12:46.830 [NPUPlugin] Setting batching mode to COMPILER.[0m
+[36m[INFO] 05:12:46.831 [VCLCompilerImpl] getSupportedOpsetVersion Max supported version of opset in CiD: 11[0m
+[33m[WARNING] 05:12:46.831 [serializeIR] The IR version was not found within the runtime information attributes. The NPU plugin will continue execution assuming the version is 11. If wrong, compilation issues may occur.[0m
+[36m[INFO] 05:12:46.831 [serializeIR] Model serializer version chosen by the NPU plugin: NO_WEIGHTS_COPY[0m
+[36m[INFO] 05:12:46.835 [serializeIR] Model serialization duration: 3.92 ms[0m
+[INFO] 05:12:46.835 [NPU_VCL] config: --inputs_precisions="0:I64 1:I64 2:FP16 3:FP16 4:I64 5:FP16 6:FP16 7:FP32 8:U4 9:U4 10:FP16 11:U4 12:U4 13:FP16 14:FP32 15:U4 16:U4 17:FP16 18:FP32 19:U4 20:U4 21:FP16 22:FP16" --inputs_layouts="0:NC 1:NC 2:NCHW 3:NCHW 4:NC 5:CHW 6:CHW 7:CHW 8:CHW 9:CHW 10:CHW 11:CHW 12:CHW 13:CHW 14:NCHW 15:CHW 16:CHW 17:CHW 18:NCHW 19:CHW 20:CHW 21:CHW 22:NC" --outputs_precisions="0:FP16 1:FP16 2:FP16 3:FP16 4:FP16 5:FP16 6:FP16" --outputs_layouts="0:CHW 1:CHW 2:NCHW 3:NCHW 4:NCHW 5:NCHW 6:NCHW" --config LOG_LEVEL="LOG_INFO" NPU_COMPILER_DYNAMIC_QUANTIZATION="YES" NPU_PLATFORM="4000" NPU_COMPILATION_MODE_PARAMS="compute-layers-with-higher-precision=Sqrt,Power,ReduceMean,Add_RMSNorm" NPU_STEPPING="4" NPU_BATCH_MODE="COMPILER" NPU_MAX_TILES="6" NPU_MODEL_SERIALIZER_VERSION="NO_WEIGHTS_COPY"
+[INFO] 05:12:46.836 [NPU_VCL] Current driver compiler ID: 2026.2.0-67-30d2bb87b30-develop-0610.205518-DCI-30d2bb87b30.7.7
+[INFO] 05:12:46.836 [NPU_VCL] Current build flags: --inputs_precisions="0:I64 1:I64 2:FP16 3:FP16 4:I64 5:FP16 6:FP16 7:FP32 8:U4 9:U4 10:FP16 11:U4 12:U4 13:FP16 14:FP32 15:U4 16:U4 17:FP16 18:FP32 19:U4 20:U4 21:FP16 22:FP16" --inputs_layouts="0:NC 1:NC 2:NCHW 3:NCHW 4:NC 5:CHW 6:CHW 7:CHW 8:CHW 9:CHW 10:CHW 11:CHW 12:CHW 13:CHW 14:NCHW 15:CHW 16:CHW 17:CHW 18:NCHW 19:CHW 20:CHW 21:CHW 22:NC" --outputs_precisions="0:FP16 1:FP16 2:FP16 3:FP16 4:FP16 5:FP16 6:FP16" --outputs_layouts="0:CHW 1:CHW 2:NCHW 3:NCHW 4:NCHW 5:NCHW 6:NCHW" --config LOG_LEVEL="LOG_INFO" NPU_COMPILER_DYNAMIC_QUANTIZATION="YES" NPU_PLATFORM="4000" NPU_COMPILATION_MODE_PARAMS="compute-layers-with-higher-precision=Sqrt,Power,ReduceMean,Add_RMSNorm" NPU_STEPPING="4" NPU_BATCH_MODE="COMPILER" NPU_MAX_TILES="6" NPU_MODEL_SERIALIZER_VERSION="NO_WEIGHTS_COPY"
+[INFO] 05:12:46.842 [NPU_VCL] Remove all "fake" WeightlessCache attributes that appeared after second deserialization of the model
+[INFO] 05:12:46.842 [NPU_VCL] And restore original WeightlessCache attributes
+[INFO] 05:12:46.842 [NPU_VCL] The time to convert data to model: 6.32 ms
+[INFO] 05:12:46.842 [NPU_VCL] IR version >= 11. Preprocessing will be skipped.
+[INFO] 05:12:46.903 [vpux-compiler] The memory usage collector is enabled
+[INFO] 05:12:46.904 [vpux-compiler] Verifiers are enabled
+[INFO] 05:12:46.904 [global] Overriding option profiling with false
+[INFO] 05:12:46.904 [vpux-compiler]   InitCompilerOptions:
+ arch = 
+ DPU groups = 4
+ DMA ports = 2
+ compilation mode = DefaultHW
+ adaptive stripping = 1
+ aggressive QDQ = 0
+ weights dynamic dequantization 1
+
+[INFO] 05:12:46.905 [vpux-compiler] Compilation proceeds with batch-compile-method options value 'unroll', settings: skip-unroll-batch=false
+[INFO] 05:12:46.920 [memory-usage-collector] Peak memory usage after 'InitResources' pass: 145664 kB, increase 11392 kB
+[INFO] 05:12:46.922 [memory-usage-collector] Peak memory usage after 'RegisterPassDisablingExecutionContext' pass: 145688 kB, increase 24 kB
+[INFO] 05:12:46.923 [memory-usage-collector] Peak memory usage after 'SetupPipelineOptions' pass: 145692 kB, increase 4 kB
+[INFO] 05:12:46.924 [memory-usage-collector] Peak memory usage after 'SetupMaxKernelSize' pass: 145704 kB, increase 12 kB
+[INFO] 05:12:46.924 [setup-npu-constraint]   Support for FIFO per each SHAVE engine enabled: false
+[INFO] 05:12:46.925 [memory-usage-collector] Peak memory usage after 'SetupNpuConstraint' pass: 145728 kB, increase 24 kB
+[INFO] 05:12:46.926 [memory-usage-collector] Peak memory usage after 'SetupTilingConstraint' pass: 145752 kB, increase 24 kB
+[INFO] 05:12:46.929 [memory-usage-collector] Peak memory usage after 'InputQuantizationRestoration' pass: 146272 kB, increase 520 kB
+[INFO] 05:12:46.931 [memory-usage-collector] Peak memory usage after 'PropagateAndCleanUpFQ' pass: 146292 kB, increase 20 kB
+[INFO] 05:12:46.932 [memory-usage-collector] Peak memory usage after 'ConvertVariadicSplitToStridedSlice' pass: 146708 kB, increase 416 kB
+[INFO] 05:12:46.935 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 147012 kB, increase 304 kB
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops] Start of IE pipeline statistics:
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops] IE - 102 (100.00%)
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops]   Non-computational - 17 (16.67%)
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops]     IE.AffineReshape - 17 (16.67%)
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops]   Computational - 85 (83.33%)
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops]     IE.Convert - 23 (22.55%)
+[INFO] 05:12:46.936 [dump-statistics-of-ie-ops]       f16 -> f32 - 9 (8.82%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]       f32 -> f16 - 4 (3.92%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]       si64 -> f32 - 1 (0.98%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]       si64 -> si32 - 1 (0.98%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]       ui4 -> f16 - 8 (7.84%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.Add - 6 (5.88%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.Broadcast - 2 (1.96%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.Concat - 4 (3.92%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.Divide - 3 (2.94%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.Equal - 1 (0.98%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.Gather - 3 (2.94%)
+[INFO] 05:12:46.937 [dump-statistics-of-ie-ops]     IE.MatMul - 6 (5.88%)
+[INFO] 05:12:46.938 [dump-statistics-of-ie-ops]     IE.Multiply - 17 (16.67%)
+[INFO] 05:12:46.938 [dump-statistics-of-ie-ops]     IE.Power - 3 (2.94%)
+[INFO] 05:12:46.938 [dump-statistics-of-ie-ops]     IE.ReduceMean - 3 (2.94%)
+[INFO] 05:12:46.938 [dump-statistics-of-ie-ops]     IE.ScatterNDUpdate - 1 (0.98%)
+[INFO] 05:12:46.939 [dump-statistics-of-ie-ops]     IE.Select - 1 (0.98%)
+[INFO] 05:12:46.939 [dump-statistics-of-ie-ops]     IE.SoftMax - 1 (0.98%)
+[INFO] 05:12:46.939 [dump-statistics-of-ie-ops]     IE.Sqrt - 3 (2.94%)
+[INFO] 05:12:46.939 [dump-statistics-of-ie-ops]     IE.StridedSlice - 4 (3.92%)
+[INFO] 05:12:46.939 [dump-statistics-of-ie-ops]     IE.Subtract - 4 (3.92%)
+[INFO] 05:12:46.940 [memory-usage-collector] Peak memory usage after 'DumpStatisticsOfIeOps' pass: 147124 kB, increase 112 kB
+[INFO] 05:12:46.942 [memory-usage-collector] Peak memory usage after 'OptDynamicEltwiseWithShapeOf' pass: 147132 kB, increase 8 kB
+[INFO] 05:12:46.943 [memory-usage-collector] Peak memory usage after 'PopulateDynamicDimensionsHW' pass: 147152 kB, increase 20 kB
+[INFO] 05:12:46.946 [memory-usage-collector] Peak memory usage after 'StopLocationVerifierPass' pass: 147224 kB, increase 72 kB
+[INFO] 05:12:46.948 [memory-usage-collector] Peak memory usage after 'ResolveShapedTypeResultDimsPass' pass: 147236 kB, increase 12 kB
+[INFO] 05:12:46.951 [memory-usage-collector] Peak memory usage after 'LegalizeReifyResultShapesResiduals' pass: 147280 kB, increase 44 kB
+[INFO] 05:12:46.952 [memory-usage-collector] Peak memory usage after 'PadDynamicInputs' pass: 147284 kB, increase 4 kB
+[INFO] 05:12:46.954 [memory-usage-collector] Peak memory usage after 'ReshapeMatMulInputs' pass: 147376 kB, increase 92 kB
+[INFO] 05:12:46.955 [memory-usage-collector] Peak memory usage after 'ConvertScalarToTensor' pass: 147548 kB, increase 172 kB
+[INFO] 05:12:46.957 [memory-usage-collector] Peak memory usage after 'ConsolidateNF4WeightsPattern' pass: 147552 kB, increase 4 kB
+[INFO] 05:12:46.959 [memory-usage-collector] Peak memory usage after 'InitialLowPrecisionTransformationsPipelineRewriterExecutor' pass: 147840 kB, increase 288 kB
+[INFO] 05:12:46.961 [memory-usage-collector] Peak memory usage after 'FuseInputScaleShift' pass: 147848 kB, increase 8 kB
+[INFO] 05:12:46.962 [memory-usage-collector] Peak memory usage after 'ConvertMinMaxToClamp' pass: 147852 kB, increase 4 kB
+[INFO] 05:12:46.963 [memory-usage-collector] Peak memory usage after 'FoldActivationBeforeFQ' pass: 147856 kB, increase 4 kB
+[INFO] 05:12:46.964 [memory-usage-collector] Peak memory usage after 'FuseDynamicQuantize' pass: 147860 kB, increase 4 kB
+[INFO] 05:12:46.965 [memory-usage-collector] Peak memory usage after 'FuseRMSNorm' pass: 147948 kB, increase 88 kB
+[INFO] 05:12:46.967 [memory-usage-collector] Peak memory usage after 'CSE' pass: 148060 kB, increase 112 kB
+[INFO] 05:12:46.968 [memory-usage-collector] Peak memory usage after 'ResolveStridedSlice' pass: 148100 kB, increase 40 kB
+[INFO] 05:12:46.969 [memory-usage-collector] Peak memory usage after 'OptimizeParallelLayers' pass: 148196 kB, increase 96 kB
+[INFO] 05:12:46.970 [memory-usage-collector] Peak memory usage after 'DecomposeISTFT' pass: 148208 kB, increase 12 kB
+[INFO] 05:12:46.972 [memory-usage-collector] Peak memory usage after 'AdjustFakeQdqParams' pass: 148212 kB, increase 4 kB
+[INFO] 05:12:46.973 [memory-usage-collector] Peak memory usage after 'FuseQuantizationMultiply' pass: 148228 kB, increase 16 kB
+[INFO] 05:12:46.973 [memory-usage-collector] Peak memory usage after 'HandleU16FakeQuantize' pass: 148256 kB, increase 28 kB
+[INFO] 05:12:46.974 [memory-usage-collector] Peak memory usage after 'DecomposeLSTMSequence' pass: 148268 kB, increase 12 kB
+[INFO] 05:12:46.975 [memory-usage-collector] Peak memory usage after 'DecomposeGRUSequence' pass: 148276 kB, increase 8 kB
+[INFO] 05:12:46.976 [memory-usage-collector] Peak memory usage after 'DecomposeLSTMCell' pass: 148280 kB, increase 4 kB
+[INFO] 05:12:46.977 [memory-usage-collector] Peak memory usage after 'DecomposeGRUCell' pass: 148288 kB, increase 8 kB
+[INFO] 05:12:46.978 [memory-usage-collector] Peak memory usage after 'FuseRoPE' pass: 148340 kB, increase 52 kB
+[INFO] 05:12:46.979 [memory-usage-collector] Peak memory usage after 'FuseSDPA' pass: 148352 kB, increase 12 kB
+[INFO] 05:12:46.980 [memory-usage-collector] Peak memory usage after 'DecomposeAttention' pass: 148356 kB, increase 4 kB
+[INFO] 05:12:46.981 [memory-usage-collector] Peak memory usage after 'SwishFusion' pass: 148364 kB, increase 8 kB
+[INFO] 05:12:46.982 [memory-usage-collector] Peak memory usage after 'FuseSoftmax' pass: 148368 kB, increase 4 kB
+[INFO] 05:12:46.983 [memory-usage-collector] Peak memory usage after 'FuseColorConversion' pass: 148372 kB, increase 4 kB
+[INFO] 05:12:46.983 [memory-usage-collector] Peak memory usage after 'EltwiseFakeQuantizeFusion' pass: 148376 kB, increase 4 kB
+[INFO] 05:12:46.984 [memory-usage-collector] Peak memory usage after 'UnrollTensorIterator' pass: 148388 kB, increase 12 kB
+[INFO] 05:12:46.985 [memory-usage-collector] Peak memory usage after 'NormalizeL2Fusion' pass: 148396 kB, increase 8 kB
+[INFO] 05:12:46.986 [memory-usage-collector] Peak memory usage after 'MVNFusion' pass: 148404 kB, increase 8 kB
+[INFO] 05:12:46.986 [memory-usage-collector] Peak memory usage after 'FuseOpsToMatMul' pass: 148416 kB, increase 12 kB
+[INFO] 05:12:46.987 [memory-usage-collector] Peak memory usage after 'FuseReduceSquare' pass: 148420 kB, increase 4 kB
+[INFO] 05:12:46.988 [memory-usage-collector] Peak memory usage after 'DecomposeSTFT' pass: 148428 kB, increase 8 kB
+[INFO] 05:12:46.989 [memory-usage-collector] Peak memory usage after 'ConvertFFTToConv' pass: 148448 kB, increase 20 kB
+[INFO] 05:12:46.989 [memory-usage-collector] Peak memory usage after 'MoveMultiplyDividePostOp' pass: 148484 kB, increase 36 kB
+[INFO] 05:12:46.990 [memory-usage-collector] Peak memory usage after 'UnrollSDPAPattern' pass: 148512 kB, increase 28 kB
+[INFO] 05:12:46.992 [memory-usage-collector] Peak memory usage after 'ShrinkMatmulGroups' pass: 148532 kB, increase 20 kB
+[INFO] 05:12:46.994 [memory-usage-collector] Peak memory usage after 'BatchOpProcessingPipelineRewriterExecutor' pass: 148704 kB, increase 172 kB
+[INFO] 05:12:46.994 [memory-usage-collector] Peak memory usage after 'mlir::detail::OpToOpPassAdaptor' pass: 148708 kB, increase 4 kB
+[INFO] 05:12:46.996 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 148716 kB, increase 8 kB
+[INFO] 05:12:46.998 [memory-usage-collector] Peak memory usage after 'ConvertSubGRUSequenceToConv' pass: 148724 kB, increase 8 kB
+[INFO] 05:12:46.999 [memory-usage-collector] Peak memory usage after 'LegalizeConvBackpropData' pass: 148740 kB, increase 16 kB
+[INFO] 05:12:46.001 [memory-usage-collector] Peak memory usage after 'DilatedConvConvert' pass: 148744 kB, increase 4 kB
+[INFO] 05:12:47.005 [memory-usage-collector] Peak memory usage after 'ConvertPrecisionToFP16' pass: 148916 kB, increase 172 kB
+[INFO] 05:12:47.006 [memory-usage-collector] Peak memory usage after 'ConvertPrecisionToI32' pass: 148932 kB, increase 16 kB
+[INFO] 05:12:47.007 [memory-usage-collector] Peak memory usage after 'UseUserPrecision' pass: 148952 kB, increase 20 kB
+[INFO] 05:12:47.008 [memory-usage-collector] Peak memory usage after 'AdjustSoftwareOpsPrecision' pass: 148960 kB, increase 8 kB
+[INFO] 05:12:47.009 [memory-usage-collector] Peak memory usage after 'AdjustNCEOpsWithI32Inputs' pass: 148964 kB, increase 4 kB
+[INFO] 05:12:47.010 [memory-usage-collector] Peak memory usage after 'LegalizeEpsilonUsage' pass: 148968 kB, increase 4 kB
+[INFO] 05:12:47.012 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 148972 kB, increase 4 kB
+[INFO] 05:12:47.013 [memory-usage-collector] Peak memory usage after 'ConvertAssignReadValueToReturnsAndInputs' pass: 148980 kB, increase 8 kB
+[INFO] 05:12:47.014 [memory-usage-collector] Peak memory usage after 'MergeParallelFullyConnected' pass: 149008 kB, increase 28 kB
+[INFO] 05:12:47.157 [memory-usage-collector] Peak memory usage after 'UnrollGroupQuantize' pass: 156044 kB, increase 7036 kB
+[INFO] 05:12:47.219 [memory-usage-collector] Peak memory usage after 'UnrollFullyConnected' pass: 160772 kB, increase 4728 kB
+[INFO] 05:12:47.348 [memory-usage-collector] Peak memory usage after 'MoveMultiplyDividePostOp' pass: 161108 kB, increase 336 kB
+[INFO] 05:12:47.497 [memory-usage-collector] Peak memory usage after 'MergeFullyConnected' pass: 161188 kB, increase 80 kB
+[INFO] 05:12:47.801 [memory-usage-collector] Peak memory usage after 'ConvertExtractImagePatches' pass: 161356 kB, increase 168 kB
+[INFO] 05:12:47.938 [memory-usage-collector] Peak memory usage after 'UnrollReduceMinAllAxes' pass: 161456 kB, increase 100 kB
+[INFO] 05:12:48.028 [memory-usage-collector] Peak memory usage after 'ConvertReduceToPooling' pass: 161512 kB, increase 56 kB
+[INFO] 05:12:48.168 [memory-usage-collector] Peak memory usage after 'ConvertGather' pass: 161716 kB, increase 204 kB
+[INFO] 05:12:48.348 [memory-usage-collector] Peak memory usage after 'ConvertNceOpsTo4D' pass: 161740 kB, increase 24 kB
+[INFO] 05:12:48.428 [memory-usage-collector] Peak memory usage after 'ReshapeMaxPool' pass: 161772 kB, increase 32 kB
+[INFO] 05:12:48.499 [memory-usage-collector] Peak memory usage after 'AdjustMaxPoolInputShape' pass: 162040 kB, increase 268 kB
+[INFO] 05:12:48.645 [memory-usage-collector] Peak memory usage after 'ResolveStridedSlice' pass: 162092 kB, increase 52 kB
+[INFO] 05:12:48.840 [memory-usage-collector] Peak memory usage after 'HandleExcludePadForAvgPool' pass: 162140 kB, increase 48 kB
+[INFO] 05:12:49.004 [memory-usage-collector] Peak memory usage after 'ConvertDivideToMultiply' pass: 162288 kB, increase 148 kB
+[INFO] 05:12:49.447 [memory-usage-collector] Peak memory usage after 'ConvertShapeTo4D' pass: 176512 kB, increase 14224 kB
+[INFO] 05:12:49.994 [memory-usage-collector] Peak memory usage after 'Canonicalizer' pass: 179188 kB, increase 2676 kB
+[ERROR] 05:13:00.038 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_0'.Duplicated ops of '%32 = IE.Slice %arg10 [0, 0, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2097 = IE.Slice %arg10 [0, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:00.338 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_1'.Duplicated ops of '%33 = IE.Slice %arg10 [0, 1, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2099 = IE.Slice %arg10 [1, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:00.648 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_2'.Duplicated ops of '%34 = IE.Slice %arg10 [0, 2, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2101 = IE.Slice %arg10 [2, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:00.960 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_3'.Duplicated ops of '%35 = IE.Slice %arg10 [0, 3, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2103 = IE.Slice %arg10 [3, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:01.262 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_4'.Duplicated ops of '%36 = IE.Slice %arg10 [0, 4, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2105 = IE.Slice %arg10 [4, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:01.554 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_5'.Duplicated ops of '%37 = IE.Slice %arg10 [0, 5, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2107 = IE.Slice %arg10 [5, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:01.879 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_6'.Duplicated ops of '%38 = IE.Slice %arg10 [0, 6, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2109 = IE.Slice %arg10 [6, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:02.181 [name-verifier] Found duplicated location 'Parameter_60752?t_Parameter/slice_7'.Duplicated ops of '%39 = IE.Slice %arg10 [0, 7, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%2111 = IE.Slice %arg10 [7, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:02.483 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_0'.Duplicated ops of '%6280 = IE.Slice %arg13 [0, 0, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8345 = IE.Slice %arg13 [0, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:02.805 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_1'.Duplicated ops of '%6281 = IE.Slice %arg13 [0, 1, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8347 = IE.Slice %arg13 [1, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:03.176 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_2'.Duplicated ops of '%6282 = IE.Slice %arg13 [0, 2, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8349 = IE.Slice %arg13 [2, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:03.608 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_3'.Duplicated ops of '%6283 = IE.Slice %arg13 [0, 3, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8351 = IE.Slice %arg13 [3, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:04.059 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_4'.Duplicated ops of '%6284 = IE.Slice %arg13 [0, 4, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8353 = IE.Slice %arg13 [4, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:04.508 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_5'.Duplicated ops of '%6285 = IE.Slice %arg13 [0, 5, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8355 = IE.Slice %arg13 [5, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:04.959 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_6'.Duplicated ops of '%6286 = IE.Slice %arg13 [0, 6, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8357 = IE.Slice %arg13 [6, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:05.389 [name-verifier] Found duplicated location 'Parameter_60755?t_Parameter/slice_7'.Duplicated ops of '%6287 = IE.Slice %arg13 [0, 7, 0] [1024, 1, 1] : tensor<1024x8x1xf16> to tensor<1024x1x1xf16>' are: '%8359 = IE.Slice %arg13 [7, 0, 0] [1, 8, 1] : tensor<1024x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:05.846 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_0'.Duplicated ops of '%12513 = IE.Slice %arg17 [0, 0, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16626 = IE.Slice %arg17 [0, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:06.311 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_1'.Duplicated ops of '%12514 = IE.Slice %arg17 [0, 1, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16628 = IE.Slice %arg17 [1, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:06.777 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_2'.Duplicated ops of '%12515 = IE.Slice %arg17 [0, 2, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16630 = IE.Slice %arg17 [2, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:07.221 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_3'.Duplicated ops of '%12516 = IE.Slice %arg17 [0, 3, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16632 = IE.Slice %arg17 [3, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:07.596 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_4'.Duplicated ops of '%12517 = IE.Slice %arg17 [0, 4, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16634 = IE.Slice %arg17 [4, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:07.913 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_5'.Duplicated ops of '%12518 = IE.Slice %arg17 [0, 5, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16636 = IE.Slice %arg17 [5, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:08.229 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_6'.Duplicated ops of '%12519 = IE.Slice %arg17 [0, 6, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16638 = IE.Slice %arg17 [6, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:08.560 [name-verifier] Found duplicated location 'Parameter_60759?t_Parameter/slice_7'.Duplicated ops of '%12520 = IE.Slice %arg17 [0, 7, 0] [2048, 1, 1] : tensor<2048x8x1xf16> to tensor<2048x1x1xf16>' are: '%16640 = IE.Slice %arg17 [7, 0, 0] [1, 8, 1] : tensor<2048x8x1xf16> to tensor<1x8x1xf16>', 
+[ERROR] 05:13:08.856 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_0'.Duplicated ops of '%24912 = IE.Slice %arg21 [0, 0, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25969 = IE.Slice %arg21 [0, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:09.169 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_1'.Duplicated ops of '%24913 = IE.Slice %arg21 [0, 1, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25970 = IE.Slice %arg21 [1, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:09.504 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_2'.Duplicated ops of '%24914 = IE.Slice %arg21 [0, 2, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25971 = IE.Slice %arg21 [2, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:09.798 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_3'.Duplicated ops of '%24915 = IE.Slice %arg21 [0, 3, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25972 = IE.Slice %arg21 [3, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:10.091 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_4'.Duplicated ops of '%24916 = IE.Slice %arg21 [0, 4, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25973 = IE.Slice %arg21 [4, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:10.387 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_5'.Duplicated ops of '%24917 = IE.Slice %arg21 [0, 5, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25974 = IE.Slice %arg21 [5, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:10.678 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_6'.Duplicated ops of '%24918 = IE.Slice %arg21 [0, 6, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25975 = IE.Slice %arg21 [6, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:10.991 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_7'.Duplicated ops of '%24919 = IE.Slice %arg21 [0, 7, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25976 = IE.Slice %arg21 [7, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:11.278 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_8'.Duplicated ops of '%24920 = IE.Slice %arg21 [0, 8, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25977 = IE.Slice %arg21 [8, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:11.595 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_9'.Duplicated ops of '%24921 = IE.Slice %arg21 [0, 9, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25978 = IE.Slice %arg21 [9, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:11.909 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_10'.Duplicated ops of '%24922 = IE.Slice %arg21 [0, 10, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25979 = IE.Slice %arg21 [10, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:12.224 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_11'.Duplicated ops of '%24923 = IE.Slice %arg21 [0, 11, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25980 = IE.Slice %arg21 [11, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:12.521 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_12'.Duplicated ops of '%24924 = IE.Slice %arg21 [0, 12, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25981 = IE.Slice %arg21 [12, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:12.833 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_13'.Duplicated ops of '%24925 = IE.Slice %arg21 [0, 13, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25982 = IE.Slice %arg21 [13, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:13.150 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_14'.Duplicated ops of '%24926 = IE.Slice %arg21 [0, 14, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25983 = IE.Slice %arg21 [14, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:13.446 [name-verifier] Found duplicated location 'Parameter_60763?t_Parameter/slice_15'.Duplicated ops of '%24927 = IE.Slice %arg21 [0, 15, 0] [1024, 1, 1] : tensor<1024x16x1xf16> to tensor<1024x1x1xf16>' are: '%25984 = IE.Slice %arg21 [15, 0, 0] [1, 16, 1] : tensor<1024x16x1xf16> to tensor<1x16x1xf16>', 
+[ERROR] 05:13:13.586 [vpux-compiler] Got Diagnostic at loc(fused<{name = "module", type = "Module"}>["module"]) : StopLocationVerifierPass Pass failed : Found 40 duplicated names after full verification
+[ERROR] 05:13:13.855 [vpux-compiler] Got Diagnostic at loc(fused<{name = "module", type = "Module"}>["module"]) : Failures have been detected while processing an MLIR pass pipeline
+[ERROR] 05:13:13.883 [vpux-compiler] Failed Pass StopLocationVerifierPass on Operation loc(fused<{name = "module", type = "Module"}>["module"])
+[ERROR] 05:13:13.883 [global] Got exception in src\vpux_compiler\src\compiler.cpp:242 : Compilation failed
+===-------------------------------------------------------------------------===
+                         ... Execution time report ...
+===-------------------------------------------------------------------------===
+  Total Execution Time: 27.0331 seconds
+
+  ----Wall Time----  ----Name----
+    0.0439 (  0.2%)  Import network
+    0.0371 (  0.1%)    Common nGraph passes
+    0.0004 (  0.0%)    Add NetworkInfo Operation
+    0.0023 (  0.0%)    Import nGraph function
+    0.0016 (  0.0%)    Validate MLIR module
+   26.9814 ( 99.8%)  Compile network
+   26.9814 ( 99.8%)    IE to VPUIP pipeline
+    0.0011 (  0.0%)      InitResources
+    0.0006 (  0.0%)      RegisterPassDisablingExecutionContext
+    0.0006 (  0.0%)      SetupPipelineOptions
+    0.0006 (  0.0%)      SetTargetIndependentPassOptions
+    0.0006 (  0.0%)      SetupMaxKernelSize
+    0.0008 (  0.0%)      SetupNpuConstraint
+    0.0007 (  0.0%)      SetupTilingConstraint
+    0.0006 (  0.0%)      StartLocationVerifierPass
+    0.0006 (  0.0%)      ForbidFourBitOutputs
+    0.0049 (  0.0%)      'func.func' Pipeline
+    0.0013 (  0.0%)        InputQuantizationRestoration
+    0.0010 (  0.0%)        PropagateAndCleanUpFQ
+    0.0012 (  0.0%)        ConvertVariadicSplitToStridedSlice
+    0.0023 (  0.0%)      Canonicalizer
+    0.0049 (  0.0%)      DumpStatisticsOfIeOps
+    0.0038 (  0.0%)      'func.func' Pipeline
+    0.0008 (  0.0%)        OptDynamicEltwiseWithShapeOf
+    0.0009 (  0.0%)        PopulateDynamicDimensionsHW
+    0.0012 (  0.0%)        PopulateDynamicDimensionsGeneric
+    0.0014 (  0.0%)      StopLocationVerifierPass
+    0.0012 (  0.0%)      ResolveShapedTypeResultDimsPass
+    0.0010 (  0.0%)      'func.func' Pipeline
+    0.0008 (  0.0%)        FixDynamicOpsLocations
+    0.0008 (  0.0%)      StartLocationVerifierPass
+    0.0055 (  0.0%)      'func.func' Pipeline
+    0.0009 (  0.0%)        LegalizeReifyResultShapesResiduals
+    0.0007 (  0.0%)        PadDynamicInputs
+    0.0009 (  0.0%)        DynamicConcatToScatterNDUpdate
+    0.0008 (  0.0%)        ReshapeMatMulInputs
+    0.0010 (  0.0%)        ConvertScalarToTensor
+    0.0008 (  0.0%)      QDQOptimizationAggressive
+    0.0000 (  0.0%)      'builtin.module' Pipeline
+    0.0090 (  0.0%)      'func.func' Pipeline
+    0.0006 (  0.0%)        ConsolidateNF4WeightsPattern
+    0.0018 (  0.0%)        InitialLowPrecisionTransformationsPipelineRewriterExecutor
+    0.0009 (  0.0%)        FuseInputScaleShift
+    0.0009 (  0.0%)        ConvertMinMaxToClamp
+    0.0008 (  0.0%)        FoldActivationBeforeFQ
+    0.0007 (  0.0%)        FuseDynamicQuantize
+    0.0008 (  0.0%)        FuseRMSNorm
+    0.0012 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.0272 (  0.1%)      'func.func' Pipeline
+    0.0007 (  0.0%)        ResolveStridedSlice
+    0.0012 (  0.0%)        OptimizeParallelLayers
+    0.0007 (  0.0%)        DecomposeISTFT
+    0.0005 (  0.0%)        ReshapeMatMulInputs
+    0.0006 (  0.0%)        AdjustFakeQdqParams
+    0.0005 (  0.0%)        FuseQuantizationMultiply
+    0.0005 (  0.0%)        HandleU16FakeQuantize
+    0.0006 (  0.0%)        DecomposeLSTMSequence
+    0.0005 (  0.0%)        DecomposeGRUSequence
+    0.0006 (  0.0%)        DecomposeLSTMCell
+    0.0005 (  0.0%)        DecomposeGRUCell
+    0.0005 (  0.0%)        DecomposeL2Ops
+    0.0004 (  0.0%)        DecomposeSoftPlus
+    0.0005 (  0.0%)        FuseRoPE
+    0.0005 (  0.0%)        FuseSDPA
+    0.0005 (  0.0%)        DecomposeAttention
+    0.0005 (  0.0%)        ReshapeMatMulInputs
+    0.0004 (  0.0%)        SwishFusion
+    0.0005 (  0.0%)        FuseSoftmax
+    0.0005 (  0.0%)        FuseColorConversion
+    0.0005 (  0.0%)        EltwiseFakeQuantizeFusion
+    0.0005 (  0.0%)        UnrollTensorIterator
+    0.0005 (  0.0%)        NormalizeL2Fusion
+    0.0005 (  0.0%)        MVNFusion
+    0.0005 (  0.0%)        FuseOpsToMatMul
+    0.0005 (  0.0%)        FuseReduceSquare
+    0.0006 (  0.0%)        DecomposeSTFT
+    0.0005 (  0.0%)        ConvertFFTToConv
+    0.0005 (  0.0%)        MoveMultiplyDividePostOp
+    0.0005 (  0.0%)        UnrollSDPAPattern
+    0.0005 (  0.0%)        EliminateSliceInSoftmaxMatMul
+    0.0007 (  0.0%)        ShrinkMatmulGroups
+    0.0018 (  0.0%)        BatchOpProcessingPipelineRewriterExecutor
+    0.0015 (  0.0%)      Canonicalizer
+    0.0027 (  0.0%)      'func.func' Pipeline
+    0.0006 (  0.0%)        ConvertMVN6ToMVN1
+    0.0005 (  0.0%)        ConvertSubGRUSequenceToConv
+    0.0006 (  0.0%)        LegalizeConvBackpropData
+    0.0010 (  0.0%)      Canonicalizer
+    0.0008 (  0.0%)      'func.func' Pipeline
+    0.0005 (  0.0%)        DilatedConvConvert
+    0.0035 (  0.0%)      ConvertPrecisionToFP16
+    0.0012 (  0.0%)      ConvertPrecisionToI32
+    0.0009 (  0.0%)      UseUserPrecision
+    0.0007 (  0.0%)      AdjustSoftwareOpsPrecision
+    0.0006 (  0.0%)      AdjustNCEOpsWithI32Inputs
+    0.0008 (  0.0%)      'func.func' Pipeline
+    0.0005 (  0.0%)        LegalizeEpsilonUsage
+    0.0013 (  0.0%)      Canonicalizer
+    0.0008 (  0.0%)      'func.func' Pipeline
+    0.0006 (  0.0%)        ConvertAssignReadValueToReturnsAndInputs
+    0.0002 (  0.0%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    1.1573 (  4.3%)      'func.func' Pipeline
+    0.0006 (  0.0%)        MergeParallelFullyConnected
+    0.1433 (  0.5%)        UnrollGroupQuantize
+    0.0552 (  0.2%)        UnrollFullyConnected
+    0.0581 (  0.2%)        ConvertDynamicDequantizeToDequantize
+    0.0568 (  0.2%)        MoveMultiplyDividePostOp
+    0.0662 (  0.2%)        SwapOperationWithGather
+    0.0679 (  0.3%)        MergeFullyConnected
+    0.0557 (  0.2%)        ConvertMatMulToConv
+    0.0705 (  0.3%)        ConvertFCToConv
+    0.0596 (  0.2%)        DecomposeConcatMatMul
+    0.0881 (  0.3%)        ConvertExtractImagePatches
+    0.0603 (  0.2%)        ConvertReduceSumToConv
+    0.0583 (  0.2%)        UnrollReduceMinAllAxes
+    0.0807 (  0.3%)        ConvertReduceToPooling
+    0.0559 (  0.2%)        ConvertPowerToMult
+    0.0683 (  0.3%)        ConvertGather
+    0.0955 (  0.4%)      Canonicalizer
+    1.1761 (  4.4%)      'func.func' Pipeline
+    0.0662 (  0.2%)        ConvertNceOpsTo4D
+    0.0711 (  0.3%)        ReshapeMaxPool
+    0.0627 (  0.2%)        AdjustMaxPoolInputShape
+    0.0739 (  0.3%)        AdaptShapesForScaleShiftPass
+    0.0568 (  0.2%)        ResolveStridedSlice
+    0.0564 (  0.2%)        UnrollConv3dToConv2d
+    0.0546 (  0.2%)        SplitInterpolateAxes
+    0.0592 (  0.2%)        HandleExcludePadForAvgPool
+    0.0892 (  0.3%)        HandleLargeKernels
+    0.0590 (  0.2%)        ConvertDivideToMultiply
+    0.0549 (  0.2%)        ReassociateMultiply
+    0.3748 (  1.4%)        ConvertShapeTo4D
+    0.5238 (  1.9%)      Canonicalizer
+    1.2327 (  4.6%)      'func.func' Pipeline
+    0.1509 (  0.6%)        ConvertGatherElementsToGather
+    0.1477 (  0.5%)        ConvertToSpatialOp
+    0.1499 (  0.6%)        ConvertSubtractToAdd
+    0.1456 (  0.5%)        SwapTransposeConcat
+    0.1751 (  0.6%)        ConvertSplitConcatToAffineReshape
+    0.1551 (  0.6%)        ConvertBranchesConcatToConv
+    0.1787 (  0.7%)        SwapOperations
+    0.2215 (  0.8%)      Canonicalizer
+    1.1061 (  4.1%)      'func.func' Pipeline
+    0.1460 (  0.5%)        SwapPadLayer
+    0.1491 (  0.6%)        FuseScale
+    0.1924 (  0.7%)        SwapOperations
+    0.1484 (  0.5%)        BroadcastInputForAdd
+    0.1605 (  0.6%)        ConvertGRNToNormalizeL2
+    0.1965 (  0.7%)        ConvertToScaleShift
+    0.1866 (  0.7%)      Canonicalizer
+    4.1585 ( 15.4%)      'func.func' Pipeline
+    0.1519 (  0.6%)        ResolveScatterUpdateByTranspose
+    0.1501 (  0.6%)        ConvertGroupConvToConv
+    0.1809 (  0.7%)        SwapOperations
+    0.1454 (  0.5%)        ConvertDepth2SpaceToTransposedConv
+    0.1465 (  0.5%)        SwapD2SAndScaleShift
+    0.1471 (  0.5%)        ConvertReverseToDWConv
+    0.1519 (  0.6%)        ConvertDeformableConvToConv
+    0.1692 (  0.6%)        LegalizeDilatedConvolution
+    0.1496 (  0.6%)        ConvertPaddingsToFloorMode
+    0.1513 (  0.6%)        ConvertNearestToStridedConcat
+    0.1442 (  0.5%)        ConvertBilinearToStridedConcatAndConv
+    0.1598 (  0.6%)        ConvertBroadcastToTile
+    0.1959 (  0.7%)        ConvertScatter
+    0.1479 (  0.5%)        ConvertTransposedConv2DToConv2D
+    0.1444 (  0.5%)        ConvertGroupTransposedConvToGroupConv
+    0.1452 (  0.5%)        ConvertGroupTransposedConvToTransposedConv
+    0.1496 (  0.6%)        ConvertGroupConvToConv
+    0.1491 (  0.6%)        ConvertUpsamplingToStridedConcat
+    0.1448 (  0.5%)        ConvertNegativePadToSlice
+    0.1494 (  0.6%)        ConvertNonConstantPadToSliceAndConcat
+    0.1770 (  0.7%)        AdjustForVPUPipelineRewriterExecutor
+    0.1718 (  0.6%)        ConvertPadToConcat
+    0.1486 (  0.5%)        ConvertDepth2SpaceLayer
+    0.1439 (  0.5%)        ConvertSpace2DepthLayer
+    0.2468 (  0.9%)      Canonicalizer
+    0.1710 (  0.6%)      'func.func' Pipeline
+    0.1530 (  0.6%)        OptimizeOpSlice
+    0.1861 (  0.7%)      Canonicalizer
+    0.2049 (  0.8%)      CSE
+    0.0000 (  0.0%)        (A) DominanceInfo
+    0.3415 (  1.3%)      'func.func' Pipeline
+    0.1577 (  0.6%)        HandleExcludePadForAvgPool
+    0.1474 (  0.5%)        ResolveStridedSlice
+    0.1834 (  0.7%)      Canonicalizer
+    1.3139 (  4.9%)      'func.func' Pipeline
+    0.1976 (  0.7%)        HandleLargeKernels
+    0.1884 (  0.7%)        HandleLargeStrides
+    0.1607 (  0.6%)        HandleLargePads
+    0.1530 (  0.6%)        ConvertGroupConvToConv
+    0.1714 (  0.6%)        ConvertStridedSlice2Conv
+    0.1460 (  0.5%)        SwapTransposeWithFQ
+    0.1707 (  0.6%)        SplitConvWithMultipleFQ
+   13.9212 ( 51.5%)      StopLocationVerifierPass
+    0.0079 (  0.0%)  Rest
+   27.0331 (100.0%)  Total
+[INFO] 05:13:13.890 [NPU_VCL] Compile net time: 27047.66 ms
+[36m[INFO] 05:13:13.891 [VCLCompilerImpl] VCL Compiler destroyed successfully[0m
+COMPILE_THREW: Exception from src\inference\src\cpp\core.cpp:121:
+Exception from src\inference\src\dev\plugin.cpp:54:
+Exception from src\plugins\intel_npu\src\plugin\npuw\compiled_model.cpp:551:
+Failed to compile Model1106_kv1152_FCEW000__0 for all devices in [NPU]
+
+
+
+EXITCODE=1

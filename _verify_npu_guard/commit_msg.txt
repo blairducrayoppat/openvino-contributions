@@ -1,0 +1,19 @@
+[NPU] Make unbounded-dynamic-shape guard testable; harden and polish
+
+Extract the unbounded-dynamic-dimension check from Plugin::compile_model()
+into intel_npu::validate_no_unbounded_dynamic_dimensions()
+(model_validation.{hpp,cpp}) so it can be unit-tested directly, without an
+NPU device. Previously the unit test compiled a model for "NPU" and
+GTEST_SKIP()'d on CPU-only CI runners, so its assertions never ran in
+precommit.
+
+- Rewrite the unit test to call the helper directly with in-memory models;
+  it now runs on every runner and is registered via the test target's
+  OBJECT_FILES.
+- De-duplicate the parameter/result error message into one definition.
+- Guard against dynamic rank before indexing dimensions.
+- Report the producing node's name for unbounded outputs (Result friendly
+  names are usually empty).
+- Fix the stale /2025/ docs URL -> /2026/.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
