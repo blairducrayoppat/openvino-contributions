@@ -124,8 +124,8 @@ so the correction is visible rather than silently absorbed.
 **Access note:** the Vikunja MCP tools listed in this session's allowed-tools
 (`mcp__vikunja__get_task`, `search_tasks`, `project_summary`, `list_task_comments`,
 `list_projects`) were not connected/discoverable this session (`ToolSearch` found nothing for
-any of them). Fell back to the Vikunja REST API directly via `VIKUNJA_URL`/`VIKUNJA_TOKEN`/
-`VIKUNJA_USER`/`VIKUNJA_PASS`, already present in the environment for this purpose — same
+any of them). Fell back to the project-management tool's REST API directly via its documented URL/token
+environment variables, already present in the environment for this purpose — same
 underlying system, no new credential was created or entered anywhere. Worth noting for whoever
 next expects the MCP tools to "just work" in this workspace.
 
@@ -545,3 +545,45 @@ pretrained weights is wanted.
 
 **Next:** awaiting mzegla/apaniukov/lusoris response on the live comment. No further action queued
 unless/until the thread moves.
+
+---
+
+### 2026-08-20 — this workspace now has a public counterpart
+
+*Plain summary: Blair asked whether to publish this folder as a portfolio repo. Surveyed what was
+actually in it before proposing anything — found the meta-repo itself was small and mostly clean,
+but `CLAUDE.md`, the `upstream-contributor` agent file, and 23 scattered lines across 18 build/log
+files all referenced or exposed details of a separate, private project by name. Built the
+public repo as a completely fresh export rather than reusing this repo's existing git history, so
+none of that could leak in even as a past commit.*
+
+Blair's explicit instruction: exclude `CLAUDE.md` entirely ("that is definitely kind of
+personal"). Found `.claude/agents/upstream-contributor.md` carries the identical framing
+verbatim and excluded it too by default, flagged rather than silently decided. Also found 23
+occurrences across 18 files (`repro266/*.cmd`, `_verify_npu_guard/*.bat`, watchdog scripts,
+`docs/CONTRIBUTIONS_LOG.md` itself) that named the private project or revealed local paths into
+it (a specific quantized model path, a separate OpenVINO checkout location). Presented this to
+Blair rather than deciding unilaterally, given "whether something goes public" is explicitly his
+call; he chose to redact rather than exclude those files, preserving the real reproduction
+evidence.
+
+**Redaction approach:** literal string replacement (PowerShell `.Replace()`, not regex, to avoid
+any escaping mishap on Windows paths) — `private project's openvino\... paths repointed to this repo's own
+`oss\openvino\...` convention (both anonymizing and staying internally consistent/correct for a
+reader trying to reproduce), `private project's model paths genericized, stray Claude-session
+scratchpad temp paths stripped, one prose line in the log itself genericized. Verified zero
+residual private-project-name matches (case-insensitive) across the full export afterward, plus a separate
+scan for email addresses and secret-shaped strings before anything was pushed — clean (the only
+emails present were Blair's own, already-public commit-authorship address, a third-party mailing
+list address in a build log, and the standard Claude Code co-author address).
+
+**Published:** https://github.com/blairducrayoppat/openvino-contributions (public, 88 files).
+Built as a fresh `git init` in a separate directory (`oss-public/`, not tracked by this repo),
+populated only from this repo's tracked file list minus `CLAUDE.md`/`.claude/`, so the public
+repo's history has exactly one commit and never contained the excluded files, not even
+transiently. Verified against the live GitHub tree API after push, not just local `git status`,
+that neither `CLAUDE.md` nor `.claude/` appear anywhere in the pushed tree.
+
+**Not yet done:** no decision made on whether future contributions from this workspace should be
+mirrored to the public repo going forward, or whether this was a one-time snapshot. That's a
+process question for Blair, not resolved here.
