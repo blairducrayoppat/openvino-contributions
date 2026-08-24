@@ -1,0 +1,41 @@
+{'label': 'hybrid', 'device': 'GPU', 'trial': 0, 'seed': 1000, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5526, 'crashed': False, 'err': None, 'elapsed': 107.4398865699768}
+[ERROR] BlockManager leaked sequence block tables: 8, first leaked sequence id: 106
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 8
+[ERROR] BlockManager leaked sequence block tables: 8, first leaked sequence id: 106
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130347
+{'label': 'hybrid', 'device': 'GPU', 'trial': 1, 'seed': 1001, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5973, 'crashed': False, 'err': None, 'elapsed': 142.60122728347778}
+[ERROR] BlockManager leaked sequence block tables: 16, first leaked sequence id: 219
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 0
+[ERROR] BlockManager leaked sequence block tables: 16, first leaked sequence id: 219
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130196
+{'label': 'hybrid', 'device': 'GPU', 'trial': 2, 'seed': 1002, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5422, 'crashed': False, 'err': None, 'elapsed': 131.62784361839294}
+[ERROR] BlockManager leaked sequence block tables: 10, first leaked sequence id: 346
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 6
+[ERROR] BlockManager leaked sequence block tables: 10, first leaked sequence id: 346
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130262
+{'label': 'hybrid', 'device': 'GPU', 'trial': 3, 'seed': 1003, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5980, 'crashed': False, 'err': None, 'elapsed': 112.45824694633484}
+[ERROR] BlockManager leaked sequence block tables: 16, first leaked sequence id: 455
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 0
+[ERROR] BlockManager leaked sequence block tables: 16, first leaked sequence id: 455
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130186
+{'label': 'hybrid', 'device': 'GPU', 'trial': 4, 'seed': 1004, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5706, 'crashed': False, 'err': None, 'elapsed': 92.7894217967987}
+[ERROR] BlockManager leaked sequence block tables: 10, first leaked sequence id: 576
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 6
+[ERROR] BlockManager leaked sequence block tables: 10, first leaked sequence id: 576
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130263
+{'label': 'hybrid', 'device': 'GPU', 'trial': 5, 'seed': 1005, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5963, 'crashed': False, 'err': None, 'elapsed': 87.08948731422424}
+[ERROR] BlockManager leaked sequence block tables: 16, first leaked sequence id: 692
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 0
+[ERROR] BlockManager leaked sequence block tables: 16, first leaked sequence id: 692
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130156
+{'label': 'hybrid', 'device': 'GPU', 'trial': 6, 'seed': 1006, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5665, 'crashed': False, 'err': None, 'elapsed': 92.405357837677}
+[ERROR] BlockManager leaked sequence block tables: 12, first leaked sequence id: 822
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 4
+[ERROR] BlockManager leaked sequence block tables: 12, first leaked sequence id: 822
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130176
+{'label': 'hybrid', 'device': 'GPU', 'trial': 7, 'seed': 1007, 'cache_size_gb': 1, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': 64, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5799, 'crashed': False, 'err': None, 'elapsed': 91.86732721328735}
+[ERROR] BlockManager leaked sequence block tables: 11, first leaked sequence id: 944
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16, actual: 5
+[ERROR] BlockManager leaked sequence block tables: 11, first leaked sequence id: 944
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 130832, actual: 130340
+SUMMARY hybrid GPU: 0/8 crashed
