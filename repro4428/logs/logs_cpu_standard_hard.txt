@@ -1,0 +1,25 @@
+{'label': 'standard', 'device': 'CPU', 'trial': 0, 'seed': 1000, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5930, 'crashed': False, 'err': None, 'elapsed': 104.03396701812744}
+[ERROR] BlockManager leaked sequence block tables: 3, first leaked sequence id: 18
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 1, 'seed': 1001, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5947, 'crashed': False, 'err': None, 'elapsed': 77.04379653930664}
+[ERROR] BlockManager leaked sequence block tables: 3, first leaked sequence id: 133
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 2, 'seed': 1002, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5939, 'crashed': False, 'err': None, 'elapsed': 74.89462375640869}
+[ERROR] BlockManager leaked sequence block tables: 5, first leaked sequence id: 257
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 3, 'seed': 1003, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5942, 'crashed': False, 'err': None, 'elapsed': 81.71257996559143}
+[ERROR] BlockManager leaked sequence block tables: 3, first leaked sequence id: 374
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 4, 'seed': 1004, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5920, 'crashed': False, 'err': None, 'elapsed': 82.34888625144958}
+[ERROR] BlockManager leaked sequence block tables: 3, first leaked sequence id: 498
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 5, 'seed': 1005, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5947, 'crashed': False, 'err': None, 'elapsed': 74.28536820411682}
+[ERROR] BlockManager leaked sequence block tables: 2, first leaked sequence id: 615
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 6, 'seed': 1006, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5929, 'crashed': False, 'err': None, 'elapsed': 66.99831628799438}
+[ERROR] BlockManager leaked sequence block tables: 7, first leaked sequence id: 736
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+{'label': 'standard', 'device': 'CPU', 'trial': 7, 'seed': 1007, 'cache_size_gb': 1, 'num_kv_blocks': 64, 'max_num_seqs': 16, 'enable_prefix_caching': False, 'cache_interval_multiplier': None, 'waves': 10, 'per_wave': 12, 'total_requests': 120, 'steps': 6000, 'max_cache_usage': 100.0, 'hit_100_steps': 5904, 'crashed': False, 'err': None, 'elapsed': 60.79704165458679}
+[ERROR] BlockManager leaked sequence block tables: 5, first leaked sequence id: 865
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 64, actual: 0
+SUMMARY standard CPU: 0/8 crashed
