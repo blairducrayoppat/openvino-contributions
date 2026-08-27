@@ -1,0 +1,9 @@
+=== CASE A: healthy config, destroy mid-flight ===
+CASE A: stepped 100, max_cache_usage=0.85%, non_finished=True
+[ERROR] BlockManager leaked sequence block tables: 20, first leaked sequence id: 0
+[ERROR] BlockAllocator leaked blocks. Expected num free blocks: 16384, actual: 16244
+CASE A: pipeline destroyed (any [ERROR] lines directly above this line came from the destructor)
+=== CASE B: same config, drain fully, then destroy ===
+CASE B: drained in 808 steps, non_finished=False
+CASE B: pipeline destroyed (clean teardown expected)
+DONE
