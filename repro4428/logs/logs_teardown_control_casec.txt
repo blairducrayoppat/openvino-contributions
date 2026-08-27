@@ -1,0 +1,5 @@
+=== CASE C: cancel mid-generation (drop handles), step, then destroy ===
+CASE C: stepped 100 with 20 live requests, non_finished=True
+CASE C: after handle drop: 1 extra steps, non_finished=False, cache_usage=0.85%
+CASE C: pipeline destroyed (clean teardown would mean the cancellation path releases blocks correctly)
+DONE

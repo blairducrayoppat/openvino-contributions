@@ -1,14 +1,27 @@
 # GenAI-level reproducer for openvinotoolkit/model_server#4428
 
-Synthetic reproducer for the block-manager failure class discussed in
+Synthetic stress harness for the failure class discussed in
 [model_server#4428](https://github.com/openvinotoolkit/model_server/issues/4428):
-KV-cache exhaustion under a small static cache forcing sustained preemption in
-`ContinuousBatchingPipeline`. Full results and methodology are in
+KV-cache exhaustion under a small static cache in `ContinuousBatchingPipeline`. Full results
+and methodology are in
 [this comment](https://github.com/openvinotoolkit/model_server/issues/4428#issuecomment-5357627024)
-on the issue. This package reproduces the deterministic block-accounting leak reported there
-(`~BlockManager()`/`~BlockAllocator()` destructor sanity checks firing on teardown), not the
-original hard `OPENVINO_ASSERT` at `block_manager.hpp:633` — 0/48 trials hit that exact assert
-on this hardware at this scale.
+on the issue. What the package reproduces is the hybrid-vs-SDPA saturation split: the hybrid
+Gated DeltaNet model deterministically pins the cache at 100% and never finishes its request
+load within the step budget at settings where the SDPA control drains comfortably. It does NOT
+reproduce the original hard `OPENVINO_ASSERT` at `block_manager.hpp:633` — 0/48 trials hit that
+exact assert on this hardware at this scale.
+
+> **Correction note (2026-08-26).** The results comment above described the
+> `~BlockManager()`/`~BlockAllocator()` destructor `[ERROR] ... leaked ...` lines as a
+> "closely-related, deterministic block-accounting leak". A control experiment
+> (`teardown_control.py`, logs in `logs/`) showed those lines are a
+> teardown-with-inflight-requests artifact, not independent evidence of a block accounting
+> defect: a healthy pipeline at 0.85% peak cache usage, destroyed with 20 requests still in
+> flight, prints the identical errors (N=2, byte-identical), while a fully drained pipeline
+> and a pipeline whose requests were explicitly cancelled both tear down clean. In the
+> 48-trial matrix, the "leaked" trials are exactly the trials that still had unfinished
+> requests when the 6000-step budget ran out. Do not read those destructor lines as a crash
+> signature; the load-bearing result is the saturation/drain split described above.
 
 ## Environment the reported numbers came from
 
@@ -31,10 +44,16 @@ on this hardware at this scale.
   6000-step budget. Trial seeds are fixed (`seed = 1000 + trial_index`).
 - `calibrate.py` — early single-request cache-pressure calibration helper (not used for the
   reported numbers, included for completeness).
+- `teardown_control.py` — the 2026-08-26 control experiment behind the correction note above:
+  Case A destroys a healthy pipeline mid-generation (destructor errors print anyway), Case B
+  drains fully first (clean), Case C cancels all requests mid-generation by dropping their
+  `GenerationHandle`s (clean).
 - `logs/` — raw per-trial output for all 48 reported trials
-  (`logs_{cpu,gpu}_{hybrid,standard,standard_hard}.txt`). Each trial prints one Python dict
-  with its full effective config and outcome; leak lines are the library's own
-  `[ERROR] BlockManager leaked sequence block tables ... / BlockAllocator leaked blocks ...`.
+  (`logs_{cpu,gpu}_{hybrid,standard,standard_hard}.txt`), plus the control-experiment logs
+  (`logs_teardown_control*.txt`). Each stress trial prints one Python dict with its full
+  effective config and outcome; the `[ERROR] BlockManager leaked sequence block tables ... /
+  BlockAllocator leaked blocks ...` lines are the library's own destructor messages — see the
+  correction note above for how to read them.
 - `models/` — the exact OpenVINO IR exports the reported numbers were collected with:
   `ov-tiny-qwen3next-hybrid-dense` (A) and `ov-tiny-qwen3-standard` (B).
 
@@ -49,6 +68,7 @@ python stress.py CPU standard 8        # standard model, nominal settings
 python stress.py GPU standard 8
 python stress.py CPU standard 8 hard   # standard model, num_kv_blocks=64 (pressure-matched)
 python stress.py GPU standard 8 hard
+python teardown_control.py all         # the 2026-08-26 teardown-artifact control (CPU)
 ```
 
 `stress.py` expects the two IR directories at `./models/ov-tiny-qwen3next-hybrid-dense` and
@@ -66,11 +86,12 @@ directory with optimum-intel 2.1.0. The included IRs make that unnecessary for r
   script is shared exactly as run rather than tidied after the fact.
 - **Model weights are randomly initialized and unseeded** (`build_models.py` sets no torch
   seed), so a rebuilt model will not be bit-identical to the included IRs. In the reported
-  runs the leak signature was insensitive to weights: leaked-sequence counts and
-  first-leaked-sequence ids were identical across CPU vs. GPU at a matched request seed, and
-  across two different weight sets (the MoE and dense hybrid variants). With `ignore_eos=True`
-  and seeded per-request `max_new_tokens`, the scheduling pattern is fixed by the request seed
-  regardless of sampled token values. The exact IRs are included so nothing depends on this.
+  runs the outcome was insensitive to weights: the counts printed by the destructor at
+  teardown (see the correction note) and the first-printed sequence ids were identical across
+  CPU vs. GPU at a matched request seed, and across two different weight sets (the MoE and
+  dense hybrid variants). With `ignore_eos=True` and seeded per-request `max_new_tokens`, the
+  scheduling pattern is fixed by the request seed regardless of sampled token values. The
+  exact IRs are included so nothing depends on this.
 - **Single-threaded driver**: requests are added and stepped from one Python thread. Any
   concurrency/thread-timing component of the original crash is not exercised.
 - **Scale**: ~21-22M param synthetic models, not the 27B/35B-A3B production models from the
