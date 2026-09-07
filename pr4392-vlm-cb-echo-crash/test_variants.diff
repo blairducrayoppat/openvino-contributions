@@ -1,0 +1,30 @@
+--- a/tests/python_tests/test_vlm_pipeline.py (as PR #4392 ships it)
++++ b/tests/python_tests/test_vlm_pipeline.py (V1: fixture reads the environment)
+@@ -681,8 +681,8 @@
+ 
+ @pytest.fixture(scope="module")
+ def ov_continuous_batching_pipe() -> ContinuousBatchingPipeline:
+-    models_path = _get_ov_model(MODEL_IDS[0])
+-    return ContinuousBatchingPipeline(models_path, SchedulerConfig(), "CPU")
++    models_path = _get_ov_model(os.environ.get("GENAI_CB_MODEL_ID", MODEL_IDS[0]))
++    return ContinuousBatchingPipeline(models_path, SchedulerConfig(), os.environ.get("GENAI_CB_DEVICE", "CPU"))
+ 
+ 
+ @pytest.fixture(scope="module")
+
+--- a/tests/python_tests/test_vlm_pipeline.py (V1)
++++ b/tests/python_tests/test_vlm_pipeline.py (V2: V1 plus the two .texts corrections)
+@@ -984,11 +984,11 @@
+     generation_config.echo = True
+ 
+     string_result = ov_continuous_batching_pipe.generate([prompt], generation_config=[generation_config])[0]
+-    assert prompt in string_result.texts[0]
++    assert prompt in string_result.m_generation_ids[0]
+ 
+     history = ChatHistory([{"role": "user", "content": prompt}])
+     history_result = ov_continuous_batching_pipe.generate([history], generation_config=[generation_config])[0]
+-    assert prompt in history_result.texts[0]
++    assert prompt in history_result.m_generation_ids[0]
+ 
+     handle = ov_continuous_batching_pipe.add_request(4368, prompt, generation_config=generation_config)
+     while handle.get_status() != GenerationStatus.FINISHED:
