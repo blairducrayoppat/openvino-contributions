@@ -1021,7 +1021,7 @@ Battery ended 02:50 (team-lead signal); coexistence constraints lifted. All run 
   the finding. Logs: `run_canary_export*.txt`, `run_canary_vlm_tests_branch.txt`.
 - **Phase 3b: Qwen3.8-27B conversion — four attempts, terminal at the Windows commit limit.**
   Full sequence with verbatim errors (logs `run_27b_conversion*.txt` in `scratch_pr4139/`):
-  1. ~03:04-03:29: despite `HF_HUB_CACHE=B:/hf-cache`, huggingface_hub initiated a fresh
+  1. ~03:04-03:29: despite `HF_HUB_CACHE=<model download cache>`, huggingface_hub initiated a fresh
      xet-based fetch whose CHUNK cache follows `HF_HOME` (user profile on C:, which sits at
      4.7GB free of 951GB) → `RuntimeError: ... IO Error: There is not enough space on the
      disk. (os error 112)`. Not memory, not the architecture — cache routing onto a full
@@ -1832,7 +1832,7 @@ exists, with a regression test that provably fails without it. But its original 
 
 **State:** `rebase/pr302-2026-08-26` = `1c00f41b9`, tree clean, LIT passing, original PR head
 preserved at `backup/pr302-orig-2026-08-26` = `498345140`. Patched binaries restored to the B:
-bin dir after the control; BEFORE/AFTER artifacts kept in `B:\oss-build\artifacts\`.
+bin dir after the control; BEFORE/AFTER artifacts kept in `<build dir>\artifacts\`.
 **Nothing pushed. PR #302 on GitHub is unchanged.**
 
 **Next:** Blair's call on posture — (a) force-push the rebase and post an honestly reframed
@@ -2096,7 +2096,7 @@ that did not produce the work, pointed at the raw logs, both `compile_commands.j
 **F2 — the serious one.** The draft's Environment line read
 "`develop` @ `6761af885` (also reproduced at `1c00f41b9` …)". That is backwards. The only build that
 ever produced `C2855` was the 2026-08-26 attempt at `1c00f41b9` (develop + our 2-file PR-302 change);
-at pristine `develop` only a *configure* had been run — confirmed, `B:\oss-build\pch-repro\` has no
+at pristine `develop` only a *configure* had been run — confirmed, `<build dir>\pch-repro\` has no
 `.ninja_log`. Worse, that failing build's log had been **overwritten**: `build_npu_pr302.cmd` wrote to
 a fixed path and the `ENABLE_FASTER_BUILD=OFF` retry clobbered it (`npu_pr302_build.log` today reads
 `BUILD_OK`, 0 × `C2855`). So the quoted error block was a reconstruction presented as build output,
@@ -2107,7 +2107,7 @@ detach to pristine `origin/develop` (`6761af885b8ff54ddf0da5bf8ad44e30746b2f62`,
 revert the candidate fix, reconfigure, `--target npu_compiler_pipelines`. **56 seconds** (12:57:14 →
 12:58:10), exit 2, **20 × `C2855` and 4 × `C1903` across 4 TUs** (`compilation_options.cpp`,
 `developer_config.cpp`, `options_mapper.cpp`, `function_statistics_instrumentation.cpp`). Log written
-to a **uniquely named** file this time — `B:\oss-build\negctl_C2855_develop_6761af885.log` — the
+to a **uniquely named** file this time — `<build dir>\negctl_C2855_develop_6761af885.log` — the
 direct lesson from losing the first one. The draft now quotes that log verbatim and names `develop`
 as a plain fact.
 
@@ -2301,9 +2301,9 @@ body otherwise byte-identical.
 
 **Provenance re-check performed before touching anything** (verification_discipline 5, newly added):
 every quoted MLIR block in #302's body was re-verified against artifacts that still exist —
-`B:\oss-build\lit_before.mlir` (unpatched: `%2` and `%12` both `loc(#loc28)` at lines 57/67;
+`<build dir>\lit_before.mlir` (unpatched: `%2` and `%12` both `loc(#loc28)` at lines 57/67;
 `#loc28 = loc(fused[#loc7, #loc10])` at 101; `#loc10 = loc("slice_d0_0")` at 83) and
-`B:\oss-build\lit_out.mlir` (patched: `#loc30` rooted at `weight_dq`, `#loc37` at `matmul_dq`, lines
+`<build dir>\lit_out.mlir` (patched: `#loc30` rooted at `weight_dq`, `#loc37` at `matmul_dq`, lines
 103/110). All quotes reproduce. No other change was needed.
 
 **Deliberately not added:** a cross-link from #302 to #344. Different subsystem, different problem,
@@ -2880,7 +2880,7 @@ citations re-read from the local clone at tag `2026.3.1.0` (`56d96853`): `sample
 (15.1714 / 174), `results_qwen3-17b-eagle3_densecontrol_2026-08-29.jsonl` (accepted 27, generated
 64, **input 1062** — the prompt-length claim), `export_eagle3_tengyunw_trc_2026-08-29.log:46`
 (the einops ImportError, character-for-character). Environment re-checked in
-`B:\venvs\eagle3-export`: Python 3.14.4 / optimum-intel 2.1.0 / optimum 2.3.0 / transformers
+`<venvs>\eagle3-export`: Python 3.14.4 / optimum-intel 2.1.0 / optimum 2.3.0 / transformers
 5.5.4 / torch 2.13.0 / openvino 2026.3.1 — all six as published. No duplicate issues;
 optimum-intel has no `ISSUE_TEMPLATE` and no `CONTRIBUTING.md`, so nothing was skipped.
 
@@ -2903,7 +2903,7 @@ Artifacts: `scratch_moe_offload/drafts/body_live_pre_edit_2026-08-29.md` (pre-ed
 `drafts/issue1964_CORRECTION_comment.md` remains **unposted** by design.
 
 **Noted, not acted on:** (a) the `Environment:` line unions two venvs — openvino-genai 2026.3.1.0
-lives in the sibling run venv `B:\venvs\moe-offload-2026.3`, not the export venv; the body
+lives in the sibling run venv `<venvs>\moe-offload-2026.3`, not the export venv; the body
 separates export from run later, so nothing false is published. (b) `(pipeline.cpp:92)` is the
 `Eagle3DecodingImpl` construction site; the three-layer assert is reached from `:58` of the same
 constructor. (c) genai's console `Generated tokens by draft model: 174` disagrees with the Python
@@ -2948,7 +2948,7 @@ have discarded a finished, never-reviewed contribution.
 **Rebase done, read-only** (Blair: "rebase the branch and check it still applies cleanly").
 Fork and branch both intact: `blairducrayoppat/openvino` @ `fix/npu-unbounded-dynamic-shape-guard`
 = `275d5726` (2026-06-19). 716 commits of upstream drift since the merge-base `7ddc45ef`.
-Isolated worktree at `B:/scratch/npu-guard-rebase` on local branch `rebase/npu-guard-20260829`
+Isolated worktree at `<scratch>/npu-guard-rebase` on local branch `rebase/npu-guard-20260829`
 -- the main `oss/openvino` checkout was left untouched at its detached HEAD `e4e180d12f`
 (clean, 0 modified files, recorded as the safe point before any fetch).
 
@@ -4885,3 +4885,81 @@ publish location and the redaction-then-screen pipeline before any upload.
 record of what was reviewed, the review itself, the harness, `plan.csv`, the preflight spec, the
 three row CSVs, `COLUMNS.md`, the summaries and the quoted logs. Builds and full per-unit artifacts
 under `the local build tree`.
+
+#### 2026-09-07 (later, same day) — the `#4392` row-level dataset is public, and the mirror became an allowlist to make that safe
+
+**Dataset:** https://github.com/blairducrayoppat/openvino-contributions/tree/main/pr4392-vlm-cb-echo-crash
+(public commit `865a452`). Nine files: `all_runs.csv` (204 rows, 47 columns, joined from the three
+sweeps), `COLUMNS.md`, three redacted per-sweep source CSVs, `test_variants.diff`,
+`reproducer_one_path.py` and `build_public_table.py`. This closes the loose end the posted comment
+left: it offered a row-level table and named nowhere it lived.
+
+**Verified against a fresh clone rather than the working copy.** All nine stored blobs are
+byte-identical to the private copies, LF-only. The checkout differs — this machine's `autocrlf`
+adds CRLF on checkout — so the comparison that means anything is `git show HEAD:<path>`, not the
+files on disk. No `scratch_`, `tools/`, `scripts/` or `docs/handoffs/` anywhere in the tree. The
+content screen passes over all 107 text files, the first time the whole mirror has ever been clean.
+
+**No second comment on `#4392`.** The offer was "if that is useful" and MaxxxDong has not replied;
+a second unsolicited comment hours after the first is thread-spam. The link is ready to hand over
+in one line if he takes it up.
+
+**The mirror is now an allowlist, and that was the substantive change.** `sync_public_repo.ps1`
+published "everything tracked minus exclusions", which was right at ~130 tracked files and was not
+at 5,236. Excluding `scratch_` — necessary, and Blair's decision — still left 378 curated and 249
+to add, including 205 files of the Microsoft debugging-tools redistributable (118 DLLs and three
+kernel-mode drivers with signed `.inf`/`.cat` packages) and internal tooling the content screen
+blocked with 215 findings. Among those: `redact_publish_package.py` itself, whose `LITERAL` table
+names every private task and agent role it exists to hide — publishing the redactor would have
+published the list of what is redacted. Inverting to an allowlist took curated to 112 and the added
+set to exactly the nine package files. The old exclusions stay underneath as a second net,
+deliberately still applied to allowlisted paths.
+
+**Removal became an explicit act.** The script deleted anything outside the curated set, which was
+correct while `removed` could only mean "deleted from the private repo". Under an allowlist it
+means "~100 already-published files just fell out of scope", so deletion now needs `-PruneRemoved`
+and is off by default. This run reported **24 such files and left every one in place**; removing
+published files is a decision Blair has not made.
+
+**Three rule defects of mine, all found by screening the real mirror rather than a package.**
+1. **The one that matters: my own path-shape rule was reversing a standing ruling by another
+   route.** `mrbla` is an `ALLOWED` substring — Blair ruled on 2026-09-05 that ordinary build and
+   include paths are not a secret — but the new "local absolute path" rule caught the same
+   build-script strings through the path shape and failed 65 files, most already published.
+   `ALLOWED` now suppresses on the **matched span**, for every rule, so
+   `C:\Users\<allowed>\oss\openvino` is covered while `<build dir>\results\...` is not, because the
+   allowed substring is not in that match. Findings went 534 → 230 with no real case lost. Written
+   beside `ALLOWED`: a rule that re-catches an allowed string by another route is reversing a
+   decision, not tightening a screen.
+2. The email rule's `noreply` exemption covered only domains starting `noreply.`, never the far
+   commoner `noreply@` local part, so every Claude Code co-author trailer was a finding. The fix
+   needs a **lookbehind** — without one the regex engine restarts a character in and matches
+   `oreply@anthropic.com`, so the exemption never fires. The first attempt had exactly that bug and
+   the self-test caught it.
+3. The UNC rule read escaped backslashes in JSON as a UNC path — a `tokenizer.json` pretokenizer
+   regex parsed as host `"r"` — and blocked two already-published model files.
+Both 2 and 3 are pinned in `SELFTEST_CLEAN`. The screen also walked `.git`, reporting findings
+against reflogs and remote URLs that can never ship and inflating its own denominator 551 → 151.
+
+**The log needed nineteen redactions, and they were all decisions already made.** After the
+allowlist, the only file still failing was `docs/CONTRIBUTIONS_LOG.md`: 19 findings surviving the
+sync's own `$RedactionMap`. Every one had a ruled equivalent already sitting in
+`redact_publish_package.py` — the two scripts redact the same private material and had drifted
+apart — so mirroring them across was mechanics, not a new call: the credential *variable* names,
+`models\`, the battery task names, the `local tooling` paths, and this session's own
+`the local build tree` working paths. One entry mirrors no prior decision and is flagged as such in the
+script: `<redacted personal address>`, Blair's personal address, quoted in a note about verifying commit
+authorship. It is redacted going forward; it has been in the published log since 2026-08-27 and
+this does not change that.
+
+**What was refused.** Editing the log's substance to make the screen pass. The map rewrites the
+published copy while the private log keeps full fidelity, which is the split the pipeline is built
+on; two of the three absolute-path findings were in entries written earlier the same day, which is
+precisely why cleaning them by hand would have been the wrong instinct.
+
+**Follow-up, logged and not acted on.** `tools/dbg/` holds the Microsoft Debugging Tools —
+`dbgeng.dll`, `dbghelp.dll`. During the crash work `PATH` was checked for `cdb`/`procdump`, neither
+was found, and the fault was reported as not localised to a line. That was accurate about what was
+run and the posted comment states it as a gap, so nothing published is wrong. But a faulting stack
+is reachable, and if MaxxxDong or a maintainer asks where it crashes it would upgrade the strongest
+finding in the comment from an exit code to a stack.
