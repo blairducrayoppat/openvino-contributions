@@ -6,10 +6,11 @@ KV-cache exhaustion under a small static cache in `ContinuousBatchingPipeline`. 
 and methodology are in
 [this comment](https://github.com/openvinotoolkit/model_server/issues/4428#issuecomment-5357627024)
 on the issue. What the package reproduces is the hybrid-vs-SDPA saturation split: the hybrid
-Gated DeltaNet model deterministically pins the cache at 100% and never finishes its request
-load within the step budget at settings where the SDPA control drains comfortably. It does NOT
-reproduce the original hard `OPENVINO_ASSERT` at `block_manager.hpp:633` — 0/48 trials hit that
-exact assert on this hardware at this scale.
+Gated DeltaNet model deterministically pins the **reported cache-usage figure** at 100% and
+never finishes its request load within the step budget at settings where the SDPA control drains
+comfortably. That 100% is linear-attention slot occupancy, not KV-cache saturation — see the
+2026-09-15 correction note below. It does NOT reproduce the original hard `OPENVINO_ASSERT` at
+`block_manager.hpp:633` — 0/48 trials hit that exact assert on this hardware at this scale.
 
 > **Correction note (2026-08-26).** The results comment above described the
 > `~BlockManager()`/`~BlockAllocator()` destructor `[ERROR] ... leaked ...` lines as a
@@ -22,6 +23,22 @@ exact assert on this hardware at this scale.
 > 48-trial matrix, the "leaked" trials are exactly the trials that still had unfinished
 > requests when the 6000-step budget ran out. Do not read those destructor lines as a crash
 > signature; the load-bearing result is the saturation/drain split described above.
+
+> **Correction note (2026-09-15).** The "100%" above is not KV-cache occupancy. The figure is
+> `PipelineMetrics.max_cache_usage`, the running peak of `cache_usage`, whose per-step value is
+> the maximum across the block managers — on a hybrid model, whichever of the KV and
+> linear-attention pools is fuller. With prefix caching disabled the linear-attention manager is
+> allocated one block per `max_num_seqs` slot, and it is the one that reads full. At
+> `max_num_seqs=16` that pool is sixteen blocks, so a reading of 100% is sixteen slots held.
+> Measured by holding the workload fixed and varying only `max_num_seqs`: peak usage came back as
+> 100 / 75 / 37.5 / 18.75 / 9.375 % at 4 / 8 / 16 / 32 / 64, and flat at 37.5% across
+> `cache_size` 1, 2 and 4 GiB. Those trials ran on GPU only, on driver `32.0.101.8831` against a
+> local build — a different driver and build from the 48 published here, which is a boundary any
+> comparison crosses. **The saturation/drain split is unaffected and stands**: the hybrid model
+> did not finish its 120 requests within the 6000-step budget in any of the 16 trials, while the
+> 16 SDPA-nominal trials drained in 1607 to 1775 steps. That remains the load-bearing result, as
+> the 2026-08-26 note above says. Full correction, with the methodology error behind it:
+> [this comment](https://github.com/openvinotoolkit/model_server/issues/4428#issuecomment-5688970229).
 
 ## Environment the reported numbers came from
 

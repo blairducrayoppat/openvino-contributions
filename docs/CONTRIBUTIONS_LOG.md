@@ -4009,6 +4009,24 @@ least available.
    (update the branch so CI can run), not social. If CI still does not trigger afterwards
    (outside-contributor workflow approval), that becomes a specific ask.
 
+   *[Retracted 2026-09-14: both halves of this are wrong, and the proxy is the reason. `check-runs`
+   was standing in for "did CI run"; it does not carry runs held at the fork-workflow approval gate.
+   Direct check today at head `1c00f41b9307f6c4be8a5ead6484a3b19a23398a`:
+   `commits/{sha}/check-runs` -> `total_count: 0`, while
+   `actions/runs?head_sha={sha}` -> **5 runs, every one `conclusion: action_required`**. CI has been
+   triggered five times and is waiting on an org member, so updating the branch will NOT make it run.
+   The deeper error is the diagnosis: PR #302 carries **no labels** and no requested reviewers, and
+   CONTRIBUTING.md step 3 marks a PR ready by applying `READY_FOR_REVIEW`, which an author with
+   `author_association: NONE` cannot apply from a fork. #334, cited above as proof the repo merges
+   outsiders, carries `READY_FOR_REVIEW` + `READY_FOR_MERGE` and drew approvals from Maxim-Doronin
+   at +3h24m and nikolaygorb at +6h39m. #302 has been sitting SHORT OF the review queue for twelve
+   weeks, not ignored inside it — so "do not nudge" rested on an attention premise that was never
+   true, and the only remedy is an ask to someone who can apply the label and release the gate.
+   Compounding it: the correct reading of `action_required` was written into THIS FILE one day later
+   (2026-09-03, the optimum-intel#1969 entry: "all 10 workflows `completed / action_required` —
+   first-time-contributor approval gate (author association NONE). Zero check-runs executed.") and
+   never propagated back to this item.]*
+
 3. **genai#4368 — leave the issue; the value is in #4392.** The retraction posted 2026-09-02 23:22
    is sound and better controlled than I first credited from a truncated read: it ran the SDPA arm
    (the path the quoted pad-fill lives on), re-ran on an idle machine to rule out load, showed the
@@ -4963,3 +4981,495 @@ was found, and the fault was reported as not localised to a line. That was accur
 run and the posted comment states it as a gap, so nothing published is wrong. But a faulting stack
 is reachable, and if MaxxxDong or a maintainer asks where it crashes it would upgrade the strongest
 finding in the comment from an exit code to a stack.
+
+#### 2026-09-08 — POSTED on `#37736`: our own scoping claim retracted, a smaller reproducer handed over, and the promised A/B withdrawn. Both texts byte-verified.
+
+**Comment:** https://github.com/openvinotoolkit/openvino/issues/37736#issuecomment-5585075190 (id
+`5585075190`). **Body edit:** PATCHed after, `updated_at` 2026-09-08T12:40:57Z. Both fetched back
+and byte-diffed: identical apart from GitHub's one appended trailing newline. Blair approved the
+exact bytes; pre-flight cleared both, having refused twice first.
+
+**What went out.** Their 54-token prompt is genuinely safe — 6 of 6 in a pre-registered run — so the
+half of our report that said so was right. What was wrong is the generalisation that *length*
+matters: the first 287 bytes of the already-published `prompt.txt` (48 tokens) hung 6 of 6. Fisher
+exact p = 0.0022, with a known-zero control (the 54-token arm split across two labels, 3 clean
+against 3 clean, no separation). That prefix is now offered as a smaller and more reliable
+reproducer than the 1054-token one the report asks for, and it needs no new download.
+
+**The `WEIGHTS_PATH` A/B was withdrawn as a comparison and its runs kept as a rate.** Reading the
+plugin at the 2026.3.1 ref showed the runtime derives `weights_path` from the model path when it is
+absent (`core_impl.cpp:265-271`), so both arms compiled the same value. Confirmed three ways: the
+compiled model reads the same `openvino_model.bin` back in either arm; an explicitly empty
+`WEIGHTS_PATH` is refused at ratio 75 (`moe.cpp:57`) and accepted at ratio 0. The comparison varied
+nothing — but the 7 runs are 7 unperturbed replications, and 5 of 7 hung. That is the hang rate the
+thread never had, and it went in.
+
+**The body edit corrects three claims and withdraws two more as unsupported** rather than replacing
+them: "never returns", the two length generalisations on lines 23 and 58, and — marked unsupported,
+not reversed — "ratio-general" and "generation-length-independent", each resting on a single run.
+Our ratio-40 counter-evidence is 3 clean runs, below the N>=4 floor we set, so it does not get to
+replace anything either.
+
+**Four rounds of independent review, and each round's blocking finding sat in the previous round's
+centrepiece.** Round one: the draft pooled runs the pre-registration excluded, moving p from 0.0022
+to 0.0004 in our favour, in a comment about our own overstatement. Round two: the opening question
+about INT8 × GPU support rested on an empty cell in `supported_models_263.csv`, whose own page says
+unmarked means untested; the release note was quoted selectively (line 104's "INT4 models" without
+line 60, which names Qwen3-30B-A3B with no qualifier); and we were about to ask whether INT8 on GPU
+works of the engineer who had posted a table of it working. Round three: seven scope defects, of
+which the `taskkill` quotation survived in no artifact at all. Round four: "two clean runs on your
+side" asserted a count Intel never stated — they reported five clean second-generates, three at
+ratio 75, exactly one confirmed at 256 tokens.
+
+**Also caught, and this is the pattern worth keeping.** A claim verifier now re-derives every
+quantitative statement in the draft from artifacts and exits non-zero on drift. It caught four of my
+own errors, two of which the reviewers missed — including the same pooling error recurring in a
+different figure while I was writing the correction for the first one. And a reviewer's TTFT count
+(15, not 12) was right where mine was wrong: my lookup searched only `hangprobe/` and missed three
+completions in the flat scratch directory, the same shape as the glob defect that started the whole
+correction.
+
+**Two gates were themselves defective and are fixed.** `scripts/check_quoted_blocks.py` used a
+single regex requiring a bare opening fence, so in a body mixing tagged and untagged fences a
+closing fence read as an opening and the parse desynchronised — on this body it captured ordinary
+prose plus an entire tagged block and refused the post over prose. Replaced with a stateful line
+scan; two regression cases pin it. Recorded and NOT changed: a tagged block is still skipped as the
+author's own prose, so the `shell` block of captured run output in this body is never
+machine-checked. Its 29 lines were verified verbatim against the published status logs by hand
+instead. That is a gap in the rule rather than a bug, and changing what a gate considers in scope is
+not something to do while posting.
+
+**Not published, deliberately.** The hung-vs-healthy GPU evidence (30 hung captures with the
+worker's own Neural engine idle against 3 healthy with it busy) — no single pairing is a controlled
+comparison, and the generator says so itself. The kill-mode hypothesis for the wedged processes —
+confounded with configuration and date. The `igdrcl64` spin localisation — their own
+`gpu-device.rst` documents a driver spin-polling a CPU core as normal, so it is not evidence of a
+fault.
+
+**Owed next:** their answer on `max_new_tokens` for the newest row, and on patch-versus-internal,
+which has now gone unanswered through four maintainer comments.
+
+### 2026-09-08 — openvino#37737: maintainer's script request answered, reproducer published, posted byte-identical
+
+Zulkifli-Intel asked on #37737 (2026-09-07, comment 5575093781): "Can you share the script to run
+this test? Are you using the same script as the one in #37736?" Answered today.
+
+**Posted:** https://github.com/openvinotoolkit/openvino/issues/37737#issuecomment-5586424028
+(id 5586424028). Fetched back through the API and byte-diffed against the approved file: 7,444
+bytes, sha256 `a5b6391c4f86a1d1cede6cc27ff782a2b6b18944fcfe23cb94151b4fc0d442a4`, **identical —
+GitHub appended nothing, not even a trailing newline.**
+
+**The answer: partly.** Established from artifacts, not recollection. Of the three log blocks in
+the #37737 body, the driver-8991 re-validation came from `diag_second_gen.py --mode ATIMED`, the
+same file as #37736 in a different mode. The others came from `bench_moe_offload.py` (driven by
+`run_one.ps1`) and `bench_single_gen.py` (driven by `sweep_fresh.ps1`), and the VLM table from
+`bench_vlm_single_gen.py`. The `killed_pids=` line is written by `watchdog_kill.ps1` and
+`GEN warmup KILLED_STALLED` by `sweep_fresh.ps1:59` — PowerShell watchdogs, not the Python. All
+four take local paths as argparse defaults, which is why a new single-file reproducer was written
+rather than pointing at the folder.
+
+**Published:** `repro_37737.py` into the HF dataset at `moe_offload_2026-08-28/reproducers/`,
+commit `d7732f58`, sha256 `8ba3893a...`, 24,163 bytes, pure LF. Verified twice: `hf_hub_download`
+with `force_download`, and a plain `curl` of the literal permalink that goes in the comment
+(http 200, same hash). No local paths; reads back `OFFLOAD_RATIO` from the compiled model; samples
+its own memory to CSV; a generate timeout that kills and a whole-run cap so it cannot hold a host.
+
+**New exogenous finding:** the overcommit reproduces **at compile time**, with no `generate()`.
+`core.compile_model(..., {"OFFLOAD_RATIO": 100})` returns without raising, the compiled model reads
+back 100, GPU shared passes the 27.03 GB pool and committed passes physical — in ~2 minutes rather
+than the 17-minute run the issue describes. Also surfaced: `core.get_property("GPU",
+"OFFLOAD_RATIO")` defaults to 0, and `WEIGHTS_PATH` auto-populates to the model `.bin` even when
+never passed (relevant to the #37736 A/B, which may therefore be a null comparison).
+*[Annotated 2026-09-08: "may therefore be" was already settled when this was written. The #37736
+session had established it — property read-back identical in both arms, an empty `WEIGHTS_PATH`
+refused at ratio 75 (`moe.cpp:57`) and accepted at ratio 0 — and had POSTED it 83 minutes earlier
+as comment 5585075190, together with the 5-of-7 hang rate the 7 runs still produced. This sentence
+and the "Still open on #37736" line in Vikunja comment 3409 reached Blair as a live obligation.
+Left standing rather than edited away; the correction is Vikunja 3410. The rule it cost: a status
+line about another session's thread is read live from that thread or omitted.]*
+
+**Evidence, all on the published bytes, driver 32.0.101.8991:** ratio-100 peaks 29.26 / 28.54 /
+28.70 GB shared against a 27.03 GB pool and 42.65 / 42.66 / 42.75 GiB committed against 31.32 GiB
+physical; ratio-75 control returns 256 tokens in 160.8 s at 9.55 GB / 22.50 GiB. First-sample
+baselines subtracted still leave 28.79 / 28.07 / 28.27 GB over the pool. Known-zero pair (runs 2
+and 3, identical argv) puts the floor of the set at 3.4 s compile, 0.16 GB shared, 0.09 GiB
+committed.
+
+**Two review rounds, both NOT POSTABLE, both caught real defects:**
+1. Table rows 1-4 were produced by revisions of `repro_37737.py` edited mid-series and never
+   committed — the published file has mtime 11:49:42Z, those rows ran 11:20-11:45Z. Proof was in
+   our own logs: two runs with the same `--skip-generate` flag reported `generate_returned` and
+   `generate_skipped`. Everything was re-run against the published bytes and the old rows were
+   dropped, not relabelled, because code that no longer exists cannot be characterised.
+2. A sentence named 28.66 GB as a reading *at* run 1's compile boundary, where the shipped
+   `gpu.csv` reads 2.867 GB — a tenfold apparent error a maintainer could "falsify" in one click.
+   The substance was right (28.66 is the peak over the compile window; 28.66 - 0.466 = 28.19 > the
+   pool); the preposition was wrong. Reworded.
+
+Both are now blocked structurally rather than by care: `build_table.py` refuses any row whose START
+precedes the script mtime and refuses ambiguous globs; `build_draft.py` guards the compile-peak
+wording and asserts baselines appear in the prose, not just in the artifacts;
+`test_build_draft_guards.py` proves five mutations are refused.
+
+**LESSON, for any session sharing a scratch directory (commit `e6f5282`).** I reported that
+`boundary_audit.py` and `build_draft.py` "do not exist" and that `baseline_audit.py` /
+`build_table.py` were the same scripts renamed. Both existed, added by another session in commit
+`5c06a0b`, and the repeated "file modified on disk" warnings I had been dismissing were that
+session writing. I inferred disk state from what I already knew instead of running `ls`. The cost
+was real: two gates that existed went unrun, and the option (c) fix was hand-edited into the
+generated body while `build_draft.py` was its generator — so the next `build_draft.py` run would
+have silently reverted it. Worse, `build_draft.py --check` returned green, which I nearly reported
+as proof the hand edit was fine; it only asserts its own derivations and exits before comparing to
+the file. **In a shared scratch directory, run `ls` and `git log` before asserting what is there,
+and never treat a generator's `--check` as a statement about a file you edited by hand.**
+
+**Owed next:** the placeholder-detector fix in `scripts/preflight_external_post.py` — its built-in
+detector missed a bare `LINK_TO_SCRIPT`; only an explicit `forbid_patterns` entry caught it. On
+#37736 the `WEIGHTS_PATH` A/B is still publicly owed.
+
+Ticket: Vikunja #1461, comment 3409. Evidence: `scratch_ov37737/`.
+
+### 2026-09-14 - openvino#37737 check-back: Intel hits a hard OpenCL error at ratio 100, and raises the INT8 scope question
+
+Read-and-report pass, nothing posted or drafted for posting. Report:
+`scratch_37737_checkin/CHECKIN_2026-09-14.md`; raw `gh` output kept beside it under unique
+`*_20260914.*` names, and both quoted blocks were re-checked line-for-line against those files
+after the report was written.
+
+**What changed since comment 5586424028 (2026-09-08).** Zulkifli-Intel replied on 2026-09-13 at
+14:02:08Z, comment `5653741563`. They ran ratio 100 themselves and got
+`[GPU] clWaitForEvents, error code: -58 CL_INVALID_EVENT` out of
+`src/plugins/intel_gpu/src/runtime/ocl/ocl_memory.cpp:591` - **not** our silent accept-and-overcommit -
+and state they have not confirmed the two are related. Ratios 60, 75 and 90 succeed on their side,
+and with the same 1054-token prompt at ratio 75 both `generate()` calls complete. Closing line:
+"I'm checking whether MoE offloading is available for INT8 or not." 25 minutes earlier they posted
+the #37736 comment `5653617459` that routed the -58 discussion here and offered to test a build
+carrying PR #36891 on their 16 GB Arc 140V.
+
+**Their bracket agrees with the source reading, and the agreement is not circular.** 90 succeeds,
+100 errors - which is where `moe.cpp` at tag 2026.3.1 puts the break ("ratio=100 means all on
+disk (invalid, disabled)", so fully resident). On a 16 GB part a 30 GB-class model forced resident
+cannot fit, and an allocation-path OpenCL failure is what that looks like. Their observation was
+made without reference to our source reading. **It is still an inference about their run**: they
+named neither the model and precision nor the script, so whether their experiment is ours is
+unknown, and nothing yet separates "same cause, different symptom at 16 vs 32 GB" from "two faults".
+
+**The INT8 line is the only item with consequence, and the material for it was already banked.**
+Our issue is filed against `Qwen3-30B-A3B-int8-ov`. If they conclude MoE offload is INT4-only the
+thread closes as unsupported configuration. The 3b check of 2026-09-08
+(`scratch_ov36891/INSCOPE_37736_20260908.txt`) already established the answer, and its artifacts
+were re-read today: `review5_20260908/supported_models_263.csv` has `qwen3-30b-a3b` INT4-MIXED
+passed on GPU and INT8-CW passed on CPU with the **INT8 x GPU cell blank** (that page's legend
+reads unmarked as untested, not unsupported); `scratch_ov37737/relnotes_2026.3.1.rst:104` says
+offloading reduces memory "for INT4 models" while `:60` names Qwen3-30B-A3B running on 16 GB
+devices with no precision qualifier; the property carries no precision restriction in its own
+validator or docs; and no test in either repo exercises `OFFLOAD_RATIO` on a GPU device.
+
+**Nothing else moved.** #37737 OPEN, `state_reason` empty, labels `bug` + `support_request`,
+assignees Zulkifli-Intel + Munesh-Intel, no linked PRs (`is:pr` search `total_count` 0), our
+2026-09-03 title and body untouched by anyone else, our comment intact. PR #36891 read live
+because a cross-thread status line must be: OPEN, REVIEW_REQUIRED, head still
+`6c09f7b2282bd8e3e751c2d1cafabff78f8cda5a` with its newest commit dated 2026-08-13 - its
+2026-09-14 `updatedAt` is the `copilot-pull-request-reviewer[bot]` re-review, not a human, so
+Vikunja #1530's watch conditions remain unmet.
+
+**Nothing is owed.** Their comment asks no question.
+
+**For Blair, two calls, both his because they touch scope or public posture:** (1) reply now on
+the INT8 scope point rather than wait - recommended, since arguing a conclusion after they reach
+it is worse than informing it before; (2) whether to volunteer a build for the #36891 offer.
+Verified today on that second point: `<build dir>\openvino-pr36891` sits at the current PR head,
+but `moe_offload_constant.cpp` carries our 17-line local diagnostic patch, so it is not a clean
+PR-head build and could not be handed over as one without rebuilding.
+
+Ticket: Vikunja #1461 (was due 2026-09-12, overdue at check time; comment added, due date moved).
+Evidence: `scratch_37737_checkin/`.
+---
+
+*[An entry is omitted from the public mirror at this point: private infrastructure work, not an upstream contribution. The full entry is in the private log.]*
+
+---
+
+## 2026-09-14 (late) — #37737 INT8 reply: decided NOT to post; three check-in claims retracted
+
+**Outcome.** Nothing posted on #37737. The INT8 scope reply recommended earlier the same
+day fails engagement rule 0 on every element, and the question it would put to them is
+already in flight. Check-back stands at 2026-09-19.
+
+**Why it fails rule 0.** We already made the identical argument in writing on 2026-09-08,
+twice: #37736 comment `5585075190` ("the highlights, naming Qwen3-30B-A3B with no
+precision qualifier, and under the GPU plugin as 'reducing memory requirements for INT4
+models'. Everything in this issue is INT8... if the intended scope is narrow") and #37737
+comment `5586424028`, which closes "that INT8 scope question is the one I put to you on
+#37736 today." Zulkifli-Intel's "I'm checking whether MoE offloading is available for INT8
+or not" is them going away to answer exactly that. Every supporting fact is their own
+release notes, their own supported-models table, their own test suite — the thing rule 0
+names as the failure — and the strongest fact in the argument ("you have run it yourself")
+is theirs too. No exogenous sentence remains, so nothing is posted.
+
+**Retractions.** Three claims in `scratch_37737_checkin/CHECKIN_2026-09-14.md`, relayed to
+Blair earlier today, were agent findings passed on without independent verification
+(verification_discipline rule 8). Read back from the threads:
+
+- "Not known: their model and precision" — **wrong.** Stated 2026-09-04, #37736 comment
+  `5536724232`: "Intel Arc 140V GPU with 16 GB memory using OpenVINO 2026.3.1 and
+  Qwen3-30B-A3B-int8-ov." The same model as ours.
+- "Not known: their pool size and driver" — **wrong.** 16 GB stated 2026-09-04; driver
+  stated 2026-09-07, comment `5574002008`: 32.0.101.5730, retested on 32.0.101.8992 —
+  newer than our 8991.
+- "`max_new_tokens=256` open through five maintainer comments" — **wrong.** Asked once,
+  2026-09-08, about the label on their 2026-09-07 table; they have posted twice since
+  without answering. One ask, six days, two non-answers.
+
+The corrected picture is materially better than the one reported: their arm is the same
+INT8 model on the same GPU family with a newer driver, differing from ours essentially in
+pool size (16 GB vs 32 GB).
+
+**The open ask is not worth its own comment.** The `max_new_tokens` table label is a
+clarification; append it to the next substantive exchange rather than interrupting an
+investigation we asked for.
+
+**Where the live opportunity is: #37736.** Comment `5653617459` (2026-09-13) ends with an
+unanswered maintainer offer — "If there is a build containing the #36891 changes
+available, I can test it on my 16 GB Arc 140V system." `<build dir>\openvino-pr36891`
+is at the current PR head but carries our 17-line local diagnostic patch in
+`moe_offload_constant.cpp`, so it is not a clean PR-head build. Our 2026-09-03
+patch-vs-internal question also remains unanswered; their "reasonable to proceed with the
+PR" is about zaixing-wang's #36891, not about our offer.
+
+**One exogenous experiment exists, not started.** They wrote "I have not confirmed that
+this is related." Same model, same GPU family: 16 GB pool gives a clean `-58
+CL_INVALID_EVENT`, 32 GB pool gives silent overcommit and thrash. Applying host memory
+pressure here to see whether the ratio-100 failure mode flips from thrash to `-58` would
+test that directly and no one else holds both outcomes. Memory-pressure work on a shared
+32 GB machine, so it falls under the unattended-run preflight — Blair's call.
+
+Decision record: `scratch_37737_reply/DECISION_2026-09-14.md`; `gh` artifacts alongside it.
+
+---
+
+## 2026-09-14 (evening) — full open-ticket sweep: 23 tickets triaged across four agents, one published number found under-specified, two of our own records corrected
+
+**Outcome.** Nothing posted, built or run externally. Four read-only triage agents swept every open
+task in Vikunja project 11 except #37736/#36891 (held by a fifth agent running the PR-36891
+hardware experiment). Reports: `scratch_triage_20260914/{EAGLE3,NPU,OVMS,REST}_CLUSTER.md`, raw `gh`
+captures under `scratch_triage_20260914/live/`. The GPU and ~19.5 GiB were committed to the #36891
+run throughout, so every agent was barred from builds, benchmarks and starting `ovms.exe`; none did.
+
+**The finding that touches published work — ticket 1473.** The live HF dataset card
+(`blairducrayoppat/openvino-arc140v-lunarlake`, fetched to
+`scratch_triage_20260914/hf_card_live_20260914.md`) publishes a `moe_flag` table: flag ON 31.33
+tok/s, flag OFF **38.58 tok/s**, concluding `MOE_USE_MICRO_GEMM_PREFILL` costs ~19% generation. The
+table records gen median, TTFT median and eval score. **It does not record OVMS `--cache_size`.**
+A private project's `docs/performance/ovms_cache_size_decode_cliff_2026-08-31.json` (on disk, verified this
+session) headlines: "`--cache_size` is a decode cliff on this box: 1 GB gives 36.5-39.3 tok/s, 4 GB
+gives 2.9-3.0 tok/s — a ~13x collapse", same model and driver, no offload involved. An unrecorded
+parameter therefore dominates the published figure by an order of magnitude more than the effect the
+table reports. The A/B itself likely survives (both arms same-campaign, presumably same setting);
+the absolute number is published without its governing condition. A second, unexplained
+contradiction sits under it: OVMS 2026.2 at `cache_size 4`, same model/driver/harness, measured
+38.58 in June and 3.02 in August — identified, not explained. Nothing published draws an offload
+conclusion from the disputed 1.71 tok/s run. Annotating the published table is Blair's call, put to
+him this session.
+
+**Two of our own records were wrong.** Ticket 1452 said the npu_compiler PCH issue was drafted and
+deliberately NOT posted; it was posted as `npu_compiler#344` on 2026-08-28T17:04:45Z (open, 0
+comments, no labels, timeline empty since creation) and recorded only in a ticket comment. Ticket
+1467 said "rebase and reopen" for openvino#34617/PR#34651 while this log's 2026-09-02 entry says do
+NOT revive; the contradiction had sat unreconciled.
+
+**Retraction filed in place.** The 2026-09-02 portfolio-sweep conclusion on npu_compiler#302 ("CI
+has never run"; "the action is mechanical, not social") is retracted inline at its own entry above,
+wrong version left visible. See that annotation for the evidence; the short form is that
+`check-runs` does not carry runs held at the fork-workflow approval gate, five such runs exist, and
+#302 has been short of the review queue for twelve weeks for want of a `READY_FOR_REVIEW` label its
+author cannot apply.
+
+**Live state established, each re-verified by the coordinator against `gh` before reaching Blair:**
+- `openvino.genai` PR **#4332** (candidate fix for the model_server#4428 crash) labelled `Stale`
+  2026-09-07T00:15:57Z; `stale.yml` is Monday 00:00 UTC, 14d stale / 7d close, only `keep-open`
+  exempt. Today's Monday run fell ~16 min short of the threshold; **2026-09-21 closes it.** Zero
+  human reviews (6 Copilot), CI green 144/150.
+- `model_server` **#4428**: lusoris answered our question by name on 2026-09-03 (comment
+  `5522559369`) — the leaked-block signature DOES escalate to the hard assert at production scale
+  (Arc B580, hybrid 9B, static 4 GiB u8 cache at 100%, `block_manager.hpp:738`, child killed, 21
+  requests 502'd) — proved `:738` and `:633` are the same assertion in `free_group_partially()`,
+  endorsed our cancellation-churn harness, and wrote "please do not keep waiting on us". mzegla's
+  2026-08-31 hold was conditional on exactly that check; the condition discharged 11 days ago and we
+  did not notice. Our silence was compliant, not delinquent — the failure is a missed trigger.
+- `optimum-intel` PR **#1969**: all 10 workflows `action_required` at head `41e0a60e`; CI has never
+  run; 0 reviews, 0 comments, 11 days. Their PR template explicitly invites an @-mention after a
+  week.
+- `npu_compiler` PR **#302**: no labels, no requested reviewers, `author_association: NONE`, 0
+  reviews. #334 (merged outsider) carries `READY_FOR_REVIEW` + `READY_FOR_MERGE`, approvals at
+  +3h24m and +6h39m.
+- `openvino.genai` **#4390**: frozen since 2026-09-02, but PR **#4449** (xufang-lisa, 2026-09-09,
+  draft) rewrites the hidden-state detection and turns our reported silent no-op into an
+  `OPENVINO_ASSERT`. Attribution to our issue is INFERENCE from a matching Jira ref (CVS-194082),
+  subject and timing; no Intel account said so and corroboration on a second ref example failed.
+- `openvino.genai` **#4425**: songbell self-assigned 2026-09-04T09:15Z, said nothing, and merged
+  **#4411** (KV-cache fix in `eagle3_strategy.cpp` — the file our ticket named) at 13:27:29Z the
+  same day. Our numbers predate it; they are stale, not wrong.
+- `model_server` PR **#4332** (exzile, idle-unload) never merged — open, dirty, 0 reviews, last
+  touched 2026-07-20. The feature shipped via atobiszei's **#4486**, merged 2026-09-07T14:35:54Z,
+  not in any tagged release. The deferred "+1" post is dead and was dropped.
+- `sst/opencode`: ticket 1373 fully superseded by **#47350** (2026-09-04, 4 comments); recommend
+  close.
+- `openvino.genai` **#4267** (profiling readback) open 40 days, assigned dmatveev, 0 comments;
+  #2662 closed-completed. Shape changed to a comment on #4267 rather than a third issue (rule 2).
+
+**Ticket hygiene.** All 23 open tasks now carry live state and real triggers; 13 had dead due dates
+(overdue by 3-45 days). 1454/1457 marked done (shipped 2026-08-29). Recommended to Blair: close
+1373, park 955 (governed by a private project's rules, appears nowhere in this log, inflating this queue).
+
+**Not verified.** No build, no GPU, no benchmark, no OVMS anywhere in this sweep; every runtime
+claim is quoted from a thread participant or carried from a prior logged run. The live OVMS version
+is inferred from directory names (`ovms.exe --version` not run under the hold). The 48-trial
+per-trial diff behind the #4428 draft was NOT re-run today — artifacts confirmed present on disk,
+but it must be re-run before those numbers are posted. The 2026-09-21 auto-close date is derived
+from `stale.yml` plus `actions/stale` defaults, not observed. The June-vs-August OVMS drift is
+identified, not explained.
+
+---
+
+## 2026-09-14/15 (overnight) — #37736 x #36891 hardware campaign, dataset published then CORRECTED, two draft reviews, nothing posted
+
+**Outcome.** 28-row A/B run completed on the Arc 140V; dataset published to the HF dataset and then
+corrected within hours after a second independent review; the `moe_flag` table annotated; two draft
+revisions produced and BOTH refused by review. **Nothing posted to GitHub.** #37736 is unchanged
+(open, 8 comments, newest still `5653617459`); PR #36891 head still `6c09f7b2282b`.
+
+**The measurement.** At `OFFLOAD_RATIO=75`: PR 4/6, merge-base 5/6, 2026.3.1 wheel 5/6; Fisher
+exact p = 1.000, with a 6-vs-6 counterfactual at p = 0.00216, so the design could resolve a large
+effect. At ratio 40: 0/9 across both source builds; ratio 75 vs 40 p = 0.000153, Clopper-Pearson
+upper bound 0.336 for 0/9. Silent-window counters separate cleanly: Neural engine 0.0-2.7% when the
+call does not return vs 87.5-90.6% when it does; the CPU-core column does NOT separate and is
+published as such. Every figure recounted by the coordinator from `rows_ab36891.csv` and every
+exact test re-derived independently.
+
+**The structural finding, which the first write-up missed.** The merge-base ratio-75 arm IS the
+known-zero control pair — r2 (`control_open`) + r6 (`control_close`). Its own internal split is
+2/3 vs 3/3: identical build, commit, ratio and prompt, differing only in when they ran. That is the
+instrument's resolution floor, and it is the same magnitude as the 4/6-vs-5/6 difference being
+reported. The honest reading of p = 1.000 is "inside the noise floor", not "not significant". Also
+established: `plan.csv` pre-registers 12 rows and 28 ran, so the arms are not a symmetric designed
+A/B but a pre-registered core extended mid-session.
+
+**Publication, and the sanitisation near-miss.** The first sanitising pass reported the staged tree
+clean while a private project's scheduler inventory sat in it — the paths were COLUMN-WRAPPED
+across line boundaries, so no contiguous token existed for string matching to find. Separately, 87
+absolute paths survived because Python's `repr` of an argv list doubles every backslash and the
+patterns used single ones. `scripts/screen_publish_package.py` caught all of it, exit 1, categories
+`[private platform name]`, `[private tooling path]`, `[agent role name]`. Both defects fixed;
+column-wrapped host inventory is now replaced by a substance-preserving summary rather than shipped
+raw. **The screen refusing on this tree is the proof it can fail, on real data.**
+
+**Then the dataset itself was found wrong and was corrected.** A second independent review found
+errors in the published prose (the rows were never wrong). Corrected and republished as 171 files
+with a `CORRECTIONS.md` recording each, rather than silently overwritten: (1) "the controls bracket
+the session" — withdrawn; `control_close` began 23:40:03Z and 16 of 28 rows start after it; (2) the
+merge-base arm's identity with the control pair — now disclosed; (3) the plan/actual asymmetry —
+now stated, with `_patch_add_wheel_arm.py` and `_patch_ratio40_arm.py` published so it is
+checkable; (4) `r4`'s `kill_reason` says `avail_phys 0.63 GiB` while its own `avail_phys_gib_min`
+column reads 1.93 — guard and sampler disagree, neither is quotable as the true minimum; (5) the
+`prompt_short54.txt` filename is misleading on this thread, where "the 54-token prompt" names a
+prompt that did NOT hang; (6) `COLUMNS_README` overclaimed and referenced an AUTO ratio no row
+carries; (7) two cited harness files had not been published.
+
+**`moe_flag` annotated** on the live card: the two arms never recorded `--cache_size`, which a
+same-host bisect measures as a ~13x decode swing — an order of magnitude larger than the ~19% the
+table reports. Within-table comparison likely survives (same campaign); 38.58 tok/s is not
+portable. June-vs-August contradiction recorded as open. Card fetched back byte-identical.
+
+**Two drafts, two refusals.** v1: seven blockers, four checkable by the maintainer in a minute
+(test files described as added when both are modified and present at merge-base; the docs legend
+misstated; "31.3 GiB of physical memory" a hard-coded literal measured by nothing; the ratio-26
+kill placed in compile when the status file puts it inside generate A). v2, a coordinator rewrite,
+cleared all seven and was then refused for four more, including a sentence the coordinator
+introduced: "the very first run of the evening, on the merge-base, which completed" is false
+against our own published rows — the first unit by `start_utc` is r0 (wheel, KILLED) and the first
+merge-base run is r2 rep1 (KILLED); the first completion is the fifth unit. It appears to describe
+the pre-campaign foreground iteration, which was archived as VOID and is not in the dataset, so it
+cannot be counted inside the 18.
+
+**Gate defect fixed.** `preflight_external_post.py` printed "clear to post: the approved bytes,
+verified quotes, correct identity, live SHAs" over a spec with empty `shas`,
+`quoted_output_logs` and `duplicate_searches` and a null `expect_head_sha` — four of the five
+things it named had not run, and that false assurance was relayed onward. The success line now
+names only what executed and prints an explicit NOT-checked list. Proven in both directions:
+declaring one SHA grows the line and drops the corresponding warning.
+
+**Standing lesson.** Three of the four v2 blockers, and the whole sanitisation near-miss, were
+cases where a check reported success over ground it never covered: a grep whose pattern the shell
+had mangled, a sanitiser that could not see wrapped text, a gate naming checks it had skipped. A
+passing check is only as good as its coverage, and coverage has to be asserted, not assumed.
+
+**Next.** v3 must NOT be authored by the coordinator — v1 and v2 were both refused, and same-author
+revision is the pattern that produced the second round. Author fresh, review by a third party,
+re-pin the preflight hash. Nothing posts before that.
+
+---
+
+## 2026-09-15 — model_server#4428: a published number corrected, the assertion reproduced at the reporter's own site, and #4332's patch shown to fail differently there. POSTED.
+
+**Posted** 2026-09-15T22:30:52Z as `blairducrayoppat`:
+https://github.com/openvinotoolkit/model_server/issues/4428#issuecomment-5688970229
+
+Posted from a file, never a hand-assembled string. Fetched back and byte-diffed: approved 16,099
+bytes, posted 16,100, **delta exactly 1 — the trailing newline GitHub appends**, nothing else.
+Artifact `scratch_triage_20260914/posted/as_posted_5688970229.md`, commit `aa22fe3`.
+
+**What was owed and is now discharged.** The 27 August comment reported "the hybrid model pinned
+the cache at 100%" in 16 of 16 trials. That figure is `PipelineMetrics.max_cache_usage`, whose
+per-step value is the max across block managers; with prefix caching off the linear-attention
+manager holds one block per `max_num_seqs` slot, so at `max_num_seqs=16` "100%" was sixteen slots
+held, not a full KV cache. Established by holding the workload fixed and sweeping only
+`max_num_seqs`: 100 / 75 / 37.5 / 18.75 / 9.375 % at 4 / 8 / 16 / 32 / 64, flat at 37.5% across
+`cache_size` 1/2/4 GiB, with same-build controls (dense SDPA, and hybrid with prefix caching on)
+flat across 8/16/32. GPU only; the sentence corrected said CPU and GPU, and the comment says so.
+The saturation/drain split is unaffected and stands — it is what lusoris cited on 3 September.
+
+**The methodology error behind it, which is the part only we could report.** Prefix caching was
+turned off on 20 August for a stated reason, flagged in the same comment as "worth re-testing
+with more prompt diversity", and never re-tested. That flag decides whether the linear-attention
+manager is fixed-size per sequence, and preemption skips managers of that kind — so all 48
+published trials drove a pool preemption never touches. That is why the reproducer never reached
+the assert, and turning the flag back on is what let it.
+
+**New results, exogenous and on hardware Intel's own suite does not cover.** At a hand-constrained
+pool: the unpatched build reaches `Invalid sequence group.` in `free_group_partially` — the site
+in lusoris's production logs — in **10 of 10** units under greedy and multinomial, the ordinary
+sampling path. The #4332 patch does not hang there but raises `IndexError: invalid map<K, T> key`
+in **7 of 10** (greedy 5/5, multinomial 2/5), located by a diagnostic build to
+`m_block_table.at(seq_id)` in `BlockManager::get_block_tables`. At the sibling site under beam
+search the patched build does not return from `step()`, with a resolved stack in
+`free_partially_beam_search_group` and an unsigned comparison that holds only on exact equality.
+Cause versus unmasking is explicitly **not** settled and the comment says which it has.
+
+**Gate chain, every link re-run live at post time rather than carried.** Approved-bytes hash
+matched; `preflight_external_post.py` exit 0 across seven groups; `check_pr4332_unmoved.py`
+returned UNMOVED with the live PR diff still byte-identical to the capture the arms were built
+from; target confirmed open at 16 comments; identity confirmed. Evidence package sealed at 398
+manifest entries, `sha256sum -c` clean.
+
+**Six review passes, and the two that mattered reversed conclusions in our favour.** "Nobody took
+up the offer" was false — lusoris endorsed it on 3 September and asked mzegla to unblock it. And
+a carve-out saying two units threw inside the unpatched range was false: the seed fixes the
+workload draw, so only the per-seed pair is valid, on which **all seven** ran further. Pass 4
+gave the right per-seed numbers and drew a pooled conclusion from them, pass 5 praised it, the
+coordinator endorsed it twice, and this session wrote it into the draft. Four readings, right
+data every time, one false sentence — recorded in the package README beside the classifier
+refusal, which is the same failure caught from the machine side.
+
+**Published package corrected the same day.** `repro4428/README.md` line 9 carried the same claim
+in its own words; amended locally with a dated correction note in the package's existing style,
+matching the comment's wording. **Not synced** — `publish-public-repo` is Blair-invoked and needs
+his word.
+
+**Open, with a trigger.** #4332 carries `Stale` and the next run (2026-09-21T00:00Z) closes it.
+Vikunja **1536** fires 2026-09-19 if mzegla has not routed the material, with three options laid
+out; **1446** keeps the #4428 history and its 2026-09-21 date.
+
+**Defect to fix:** the stored `the project-management API token` returns 401. User and password from the same store
+mint a working JWT, which is what the ticket writes used. Reported rather than fixed — the fix
+writes a new value into Blair's environment.
