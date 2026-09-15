@@ -1,4 +1,4 @@
-READING C:\Users\mrbla\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
+READING C:\Users\<user>\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
 model->is_dynamic() = 1
 PARAM 'input_ids' shape=[?,?] is_dynamic=1
     dim[0] dynamic=1 unbounded(INT64_MAX)=1

@@ -1,7 +1,7 @@
 @echo off
 call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul 2>&1
-cd /d "C:\Users\mrbla\oss\openvino\build-x86_64\RelWithDebInfo"
-set "LOG=C:\Users\mrbla\oss\_verify_npu_guard\build_log.txt"
+cd /d "C:\Users\<user>\oss\openvino\build-x86_64\RelWithDebInfo"
+set "LOG=C:\Users\<user>\oss\_verify_npu_guard\build_log.txt"
 echo BUILD_START %DATE% %TIME% > "%LOG%"
 echo --- reconfigure (pick up new model_validation.cpp via globs) --- >> "%LOG%"
 cmake . >> "%LOG%" 2>&1

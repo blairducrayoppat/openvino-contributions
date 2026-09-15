@@ -320,8 +320,8 @@ Call Stack (most recent call first):
 [58/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\pipelines\kokoro\kokoro_utils.cpp.obj
 [59/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\moe_transformations\device_routed_moe_transform.cpp.obj
 [60/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\__\src\plugin\npuw\moe_transformations\gather_to_2d_gather.cpp.obj
-[61/64] Linking CXX shared module C:\Users\mrbla\oss\openvino\bin\intel64\RelWithDebInfo\openvino_intel_npu_plugin.dll
+[61/64] Linking CXX shared module C:\Users\<user>\oss\openvino\bin\intel64\RelWithDebInfo\openvino_intel_npu_plugin.dll
 [62/64] Building CXX object src\plugins\intel_npu\tests\unit\CMakeFiles\ov_npu_unit_tests.dir\__\functional\behavior\npuw\test_engine\models\model_builder.cpp.obj
-[63/64] Linking CXX executable C:\Users\mrbla\oss\openvino\bin\intel64\RelWithDebInfo\ov_npu_unit_tests.exe
+[63/64] Linking CXX executable C:\Users\<user>\oss\openvino\bin\intel64\RelWithDebInfo\ov_npu_unit_tests.exe
 BUILD_EXIT=0 
 BUILD_DONE Fri 06/19/2026 10:32:53.22 

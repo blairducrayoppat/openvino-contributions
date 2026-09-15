@@ -1,4 +1,4 @@
-C:\Users\mrbla\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_quantize_shared_param_locations.mlir:37:16: error: CHECK-DAG: expected string not found in input
+C:\Users\<user>\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_quantize_shared_param_locations.mlir:37:16: error: CHECK-DAG: expected string not found in input
  // CHECK-DAG: [[SCALE_SLICE_0:#.+]] = loc("scale_slice_0")
                ^
 <stdin>:55:36: note: scanning from here
@@ -9,7 +9,7 @@ C:\Users\mrbla\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_qua
  ^
 
 Input file: <stdin>
-Check file: C:\Users\mrbla\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_quantize_shared_param_locations.mlir
+Check file: C:\Users\<user>\oss\npu_compiler\tests\lit\NPU\dialect\IE\passes\unroll_group_quantize_shared_param_locations.mlir
 
 -dump-input=help explains the following input dump.
 

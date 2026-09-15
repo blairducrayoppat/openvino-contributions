@@ -428,17 +428,17 @@ caught the real assertion if it fired: `OPENVINO_ASSERT` failures surface to Pyt
 Exception` catches and records exactly that. So the "0/48 hard crashes" result is a genuine
 negative, not a blind spot in the harness.
 
-**Draft comment:** `C:\Users\mrbla\oss\scratch_ovms4428\draft_comment_4428.md` — NOT posted.
+**Draft comment:** `C:\Users\<user>\oss\scratch_ovms4428\draft_comment_4428.md` — NOT posted.
 States all of the above, the exact numbers, what wasn't tested, and an AI-assistance disclosure
 per this workspace's non-negotiable floor. Awaiting Blair's independent review.
 
 **Reproducer scripts and raw logs (all local, not committed anywhere):**
-- `C:\Users\mrbla\oss\scratch_ovms4428\build_models.py` — builds both tiny synthetic HF models
-- `C:\Users\mrbla\oss\scratch_ovms4428\stress.py` — the trial driver (staggered-wave stress test)
-- `C:\Users\mrbla\oss\scratch_ovms4428\calibrate.py` — early single-request cache-pressure calibration
-- `C:\Users\mrbla\oss\scratch_ovms4428\logs_{cpu,gpu}_{hybrid,standard,standard_hard}.txt` — raw
+- `C:\Users\<user>\oss\scratch_ovms4428\build_models.py` — builds both tiny synthetic HF models
+- `C:\Users\<user>\oss\scratch_ovms4428\stress.py` — the trial driver (staggered-wave stress test)
+- `C:\Users\<user>\oss\scratch_ovms4428\calibrate.py` — early single-request cache-pressure calibration
+- `C:\Users\<user>\oss\scratch_ovms4428\logs_{cpu,gpu}_{hybrid,standard,standard_hard}.txt` — raw
   per-trial output for all 48 trials
-- `C:\Users\mrbla\oss\scratch_ovms4428\models\ov-tiny-qwen3next-hybrid-dense`,
+- `C:\Users\<user>\oss\scratch_ovms4428\models\ov-tiny-qwen3next-hybrid-dense`,
   `ov-tiny-qwen3-standard` — the two exported OpenVINO IRs used for the reported numbers
   (`ov-tiny-qwen3next-hybrid`, the MoE-enabled variant, kept alongside for the record — GPU-
   incompatible, CPU-only calibration data)
@@ -749,8 +749,8 @@ rollback notification for stateful transformers under speculative decoding — p
 affects grammar too, out of scope.
 
 **Drafts (NOT posted — no external writes of any kind this session):**
-- `C:\Users\mrbla\oss\scratch_pr4139\draft_reply_comment.md` — reply to PlanteAmigor.
-- `C:\Users\mrbla\oss\scratch_pr4139\draft_review.md` — formal review; recommendation is to
+- `C:\Users\<user>\oss\scratch_pr4139\draft_reply_comment.md` — reply to PlanteAmigor.
+- `C:\Users\<user>\oss\scratch_pr4139\draft_review.md` — formal review; recommendation is to
   submit as COMMENT (not approve — unbuilt; not request-changes — heavier than doctrine wants
   against a student author), with 4 inline comments anchored to `316f6055` line numbers.
   Anchors and the head SHA must be re-verified at post time.
@@ -794,7 +794,7 @@ field is gone) — the review wording was made precise. Disclosure lines extende
 model research; still static-analysis-only, still nothing posted. The researcher's raw
 evidence files (Hub configs/templates/tokenizer configs for Qwen3.8/3.6, the byte-verified
 QwenLM/Qwen3 `thinking_budget.md`, and the extracted Qwen Cloud thinking page) were copied out
-of the ephemeral session scratchpad into `C:\Users\mrbla\oss\scratch_pr4139\evidence\` so the
+of the ephemeral session scratchpad into `C:\Users\<user>\oss\scratch_pr4139\evidence\` so the
 verification trail survives the session. The review draft's inline comment 3 also gained the
 tie-in that Qwen3.8-27B, being a VLM, lands on exactly the kwargs overload with the
 config-clobber regression.
@@ -1165,7 +1165,7 @@ author Wovchena, "Fix stale sequence handling during partial preemption" — mak
 reviews yet (only Copilot bot comments); CI on the head commit green in the sampled window.
 This is exactly the code path our reproducer exercised.
 
-**Handoff package built:** `C:\Users\mrbla\oss\scratch_ovms4428\handoff\` (127MB) — README.md
+**Handoff package built:** `C:\Users\<user>\oss\scratch_ovms4428\handoff\` (127MB) — README.md
 (environment, per-config run commands, caveats, Apache-2.0, AI disclosure), the three scripts
 exactly as run, all six raw trial logs unmodified, and the two exact IR exports the reported
 numbers came from (each file well under GitHub's 100MB limit). Destination on approval: a
@@ -1180,7 +1180,7 @@ in `cache_orchestrator.hpp` returns 0 when prefix caching is disabled, before co
 multiplier. So the posted comment is not factually wrong, but the README and the draft reply
 both disclose it explicitly rather than quietly tidying the script.
 
-**Draft reply:** `C:\Users\mrbla\oss\scratch_ovms4428\draft_reply_4428_followup.md` — NOT
+**Draft reply:** `C:\Users\<user>\oss\scratch_ovms4428\draft_reply_4428_followup.md` — NOT
 posted. Delivers the package link, the two as-run disclosures, production-scale run guidance
 for lusoris, and (Blair-gated scope decision) an offer to run the identical 48-trial matrix
 against a master build and a #4332 build on the Arc 140V for a before/after leak count —
@@ -1259,7 +1259,7 @@ attention-checkpoint subsystem as the `model_server#4428` work; the failing test
 `scratch_pr4139/run_v2_full_suite.txt`, `run_v2_full_suite_rerun.txt`,
 `run_v2_thinkingbudget_filtered.txt`.
 
-**Draft heads-up reply:** `C:\Users\mrbla\oss\scratch_pr4139\draft_heads_up_20260824.md` — NOT
+**Draft heads-up reply:** `C:\Users\<user>\oss\scratch_pr4139\draft_heads_up_20260824.md` — NOT
 posted. Confirms the six fixes (from the diffs), delivers the heads-up with tip SHA, files
 touched, zero-conflict statement, and full test numbers including the disclosed flake; supports
 the separate-issue plan for the VLM finding and offers to file it with our evidence; states the
@@ -1531,7 +1531,7 @@ place, package corrected locally.** The review (every number re-checked against 
 a skeptical-maintainer pass) found one blocker and a set of real defects, all now fixed:
 1. **Blocker, verified false claim:** the draft said the control script/logs/README note "are
    now in the repro4428 folder" — none of that was true; the tracked package at
-   `C:\Users\mrbla\oss\repro4428\` still carried the retracted "deterministic block-accounting
+   `C:\Users\<user>\oss\repro4428\` still carried the retracted "deterministic block-accounting
    leak" framing. Fixed locally: `teardown_control.py` + the three `logs_teardown_control*.txt`
    copied into the package, README reframed (saturation split is the reproduced result) with a
    dated 2026-08-26 correction note. The draft's present-tense sentence stays only because the
@@ -3150,7 +3150,7 @@ configurations, 0 crashed**. Spot-check artifacts also re-read:
 standard-hard seeds 1000/1001 draining at 824/924 steps; 1 on the 2026.3.1.0 wheel — hybrid seed
 1000 at 5526), all matching published values, status file shows `exit=0` for all three batches.
 
-**Draft reply (NOT posted):** `C:\Users\mrbla\oss\scratch_ovms4428\draft_reply_4428_hold_2026-09-02.md`
+**Draft reply (NOT posted):** `C:\Users\<user>\oss\scratch_ovms4428\draft_reply_4428_hold_2026-09-02.md`
 (2063 bytes, asserted LF-only). Content: accepts the hold explicitly and states no further
 synthetic-scale work on the leaked-blocks path without a request; notes the package is unchanged
 and that the 48-trial matrix reproduces exactly on 2026.3.1.0 (with the driver-swap condition
@@ -3277,17 +3277,17 @@ embeddings row count. The PR author states the Python VLM regression they added 
 executed locally** for want of a model.
 
 **The settling experiment needs no new build.** `PR4139_BUILD_OK Thu 08/27/2026 15:58:29.96`
-(`C:\Users\mrbla\oss\pr4139_build_status.txt`); the Release build of head `a5fc4d5f` is at
-`C:\Users\mrbla\oss\openvino.genai-pr-worktree\build-pr4139\`, with
+(`C:\Users\<user>\oss\pr4139_build_status.txt`); the Release build of head `a5fc4d5f` is at
+`C:\Users\<user>\oss\openvino.genai-pr-worktree\build-pr4139\`, with
 `openvino_genai\py_openvino_genai.cp311-win_amd64.pyd` present, and the model
-`C:\Users\mrbla\models\qwen3-vl-8b-instruct\openvino-int4-ov` still on disk. Design in
+`C:\Users\<user>\models\qwen3-vl-8b-instruct\openvino-int4-ov` still on disk. Design in
 the session report; three arms (default properties, `ATTENTION_BACKEND="SDPA"`, LLM control),
 plus an `echo=True` / `max_new_tokens=1` read-out arm that shows the prompt IDs the sampler
 actually received, 3 runs each, unique log names under `scratch_pr4139/`.
 
 **Nothing posted. Drafts (NOT posted, awaiting Blair):**
-`C:\Users\mrbla\oss\scratch_pr4139\draft_4368_comment_20260902.md` (comment on `#4368`) and
-`C:\Users\mrbla\oss\scratch_pr4139\draft_4368_body_correction_20260902.md` (the correction
+`C:\Users\<user>\oss\scratch_pr4139\draft_4368_comment_20260902.md` (comment on `#4368`) and
+`C:\Users\<user>\oss\scratch_pr4139\draft_4368_body_correction_20260902.md` (the correction
 paragraph for the issue BODY). Both are contingent on the experiment above returning a result;
 posting either before running it would repeat the mistake being corrected.
 
@@ -3322,7 +3322,7 @@ entry are withdrawn:
 **Build under test, confirmed not assumed.** `openvino.genai-pr-worktree` HEAD =
 `a5fc4d5ffd737a66ca25d250324ea4ac4c49d7e4`, `git status` clean. Release build from
 `PR4139_BUILD_OK Thu 08/27/2026 15:58:29.96`; module resolved at import to
-`C:\Users\mrbla\oss\openvino.genai-pr-worktree\build-pr4139\openvino_genai\__init__.py`,
+`C:\Users\<user>\oss\openvino.genai-pr-worktree\build-pr4139\openvino_genai\__init__.py`,
 `ReasoningConfig` present. OpenVINO `2026.4.0-22828-14db3f4a1cd`, Python 3.11.9 (MSVC v1938),
 Intel Core Ultra 7 258V, CPU device. No rebuild, no second configure, no retries: all 12 scripted
 runs plus 6 arm-5 runs, 6 arm-6 runs and 1 control exited 0 first time, per the status artifacts
@@ -3375,14 +3375,14 @@ build bisect. `#4392` itself was never built or run.
 2026-08-25T00:01:50Z. master `cae3e709176e3da58c25291f33141a5acd390869`. `#4139` head
 `a5fc4d5ffd737a66ca25d250324ea4ac4c49d7e4`. `gh auth status`: blairducrayoppat, active.
 
-**Evidence on disk:** 31 artifacts under `C:\Users\mrbla\oss\scratch_pr4139\`, all named
+**Evidence on disk:** 31 artifacts under `C:\Users\<user>\oss\scratch_pr4139\`, all named
 `run_a5fc4d5f_<arm>_<purpose>_run<N>.txt` plus three status files. New scripts committed to the
 scratch dir: `vlm_t4_sdpa.py`, `vlm_t4_echo.py`, `vlm_t4_chat.py`, `vlm_t4_thinking.py`,
 `check_backend_kwarg.py`, `run_experiment_20260902.ps1`.
 
 **Drafts REWRITTEN FROM SCRATCH (v2), still NOT posted:**
-`C:\Users\mrbla\oss\scratch_pr4139\draft_4368_comment_20260902.md` and
-`C:\Users\mrbla\oss\scratch_pr4139\draft_4368_body_correction_20260902.md`. Both now retract the
+`C:\Users\<user>\oss\scratch_pr4139\draft_4368_comment_20260902.md` and
+`C:\Users\<user>\oss\scratch_pr4139\draft_4368_body_correction_20260902.md`. Both now retract the
 issue's central claim rather than refining it. The v1 mechanism narrative, the `#4218` attribution
 and the "already fixed by the Omni change" framing are all gone.
 
@@ -3472,7 +3472,7 @@ you plan to continue working on this.", verified from the events API, not inferr
 cannot use PagedAttention regardless.
 
 **Draft (NOT posted, awaiting Blair):**
-`C:\Users\mrbla\oss\scratch_4138\draft_comment_4138_20260902.md`, LF-only (asserted, 0 CR
+`C:\Users\<user>\oss\scratch_4138\draft_comment_4138_20260902.md`, LF-only (asserted, 0 CR
 bytes). Evidence preserved alongside it: `gguf_modeling_master_20260902.cpp`,
 `arch_registry_20260902.cpp`, `ov_gguf_supported_models_20260902.md`, `pr4318_20260902.diff`,
 `genai_CONTRIBUTING_20260902.md`, `ov_AI_USAGE_POLICY_master_20260902.md`,
@@ -3488,7 +3488,7 @@ modified.**
 **Conditions addendum (2026-09-02, same evening).** The entry above reported results without
 recording what else was running on the machine — a doctrine miss, caught by the coordinating
 session on Blair's report that Firefox was open during at least part of the run window. Full
-record now at `C:\Users\mrbla\oss\scratch_pr4139\run_a5fc4d5f_CONDITIONS.md`; the original run
+record now at `C:\Users\<user>\oss\scratch_pr4139\run_a5fc4d5f_CONDITIONS.md`; the original run
 logs were left untouched rather than annotated in place.
 
 - **Original window 19:04:39-19:13:06 local (UTC-04:00):** Firefox open for at least part of it
@@ -3592,7 +3592,7 @@ property dump recorded in RUNLOG.
   per its own docs), so file size is not footprint in either direction. No `qwen35` model has been
   run on this machine at all.
 
-**Draft updated** at `C:\Users\mrbla\oss\scratch_4138\draft_comment_4138_20260902.md` (LF-only,
+**Draft updated** at `C:\Users\<user>\oss\scratch_4138\draft_comment_4138_20260902.md` (LF-only,
 re-asserted): the size paragraph rewritten around the ladder and the gate, a new scope bullet for
 the `qwen35moe` reject fixture, and one non-numeric sentence recording the MoE offload runs as
 Blair's own with the explicit note that it does not transfer. Disclosure amended to say the MoE
@@ -3665,7 +3665,7 @@ thread check should look for a response to it and for the first maintainer revie
 **Evidence added:** `_post_4368_comment_body.md`, `_post_4368_correction_block.md`,
 `_current_4368_body.txt`, `_post_4368_new_body.md`, `_build_4368_body.py`,
 `_fetched_4368_comment.txt`, `_fetched_4368_body.txt` under
-`C:\Users\mrbla\oss\scratch_pr4139\`.
+`C:\Users\<user>\oss\scratch_pr4139\`.
 
 **Vikunja still NOT updated** — MCP tools remain absent from this subagent's tool set. Handoff text
 given to the coordinating session.
@@ -3747,8 +3747,8 @@ line.
 referenced in one clause, as the reason the offer is specific rather than generic.
 
 **Drafts on disk, both kept — the long one stays visible as the version that failed the value test:**
-`C:\Users\mrbla\oss\scratch_4138\draft_comment_4138_20260902.md` (~750 words, DO NOT POST) and
-`C:\Users\mrbla\oss\scratch_4138\draft_comment_4138_TRIMMED_20260902.md` (150 words, LF-only,
+`C:\Users\<user>\oss\scratch_4138\draft_comment_4138_20260902.md` (~750 words, DO NOT POST) and
+`C:\Users\<user>\oss\scratch_4138\draft_comment_4138_TRIMMED_20260902.md` (150 words, LF-only,
 awaiting Blair).
 
 **Nothing posted to GitHub, nothing pushed, no build run, no model downloaded, no upstream checkout
@@ -5473,3 +5473,66 @@ out; **1446** keeps the #4428 history and its 2026-09-21 date.
 **Defect to fix:** the stored `the project-management API token` returns 401. User and password from the same store
 mint a working JWT, which is what the ticket writes used. Reported rather than fixed — the fix
 writes a new value into Blair's environment.
+
+---
+
+## 2026-09-15 (late) — public mirror synced: the repro4428 correction published, one entry excluded on the merits, and the sync script given a section-exclusion mechanism
+
+**Outcome.** `blairducrayoppat/openvino-contributions` is at **`1a84968`**, pushed and verified
+against the live remote. `repro4428/README.md` now carries the 2026-09-15 correction the posted
+`model_server#4428` comment promised — the "100% cache usage" figure re-described as
+linear-attention slot occupancy, with the driver/build boundary named and the saturation/drain
+split preserved as the load-bearing result. That closes the commitment made in the comment.
+
+**The screen found something the pattern scan could not.** The 567 added log lines carried **four**
+references to the private project in phrasings no redaction rule covered, against a published log
+that had **zero**. Three sat in a single entry that was not upstream contribution work at all —
+task-tracker credential debugging — which also published an 8-hex-char sha256 prefix of a
+then-current password, and in which the literal credential-name redaction had rewritten a line of
+source into prose that was neither valid code nor readable English. Blair's ruling: exclude that
+entry, genericize the other two mentions the way he settled 2026-08-20 and 2026-08-26.
+
+**A redaction table could not do this job, so the script got a second mechanism.** Redaction
+substitutes strings; `$ExcludeSections` removes a block from its heading to the next heading of
+equal or higher level and leaves a one-line marker in its place, so the omission is **stated in the
+published file** rather than hidden. Design points worth keeping:
+
+- **A configured exclusion that does not fire is FATAL.** A silent no-match would republish the
+  exact block the rule exists to remove. Mutation-tested: with the heading text deliberately broken
+  the script printed `FATAL`, threw, and **exited 1 before reaching `git add`**.
+- **`HeadingLike` is matched ASCII-only**, as a substring of a heading line, so the match cannot
+  depend on an em-dash surviving an encoding round-trip.
+- **Exclusion runs before redaction**, so the block leaves whole instead of being substituted into
+  mangled prose on its way out.
+- Function tested in **both directions**, 13/13: fires correctly, preserves CRLF, does not let a
+  nested `###` end the section early, leaves the entries either side intact, and returns text
+  **byte-identical** when the heading is absent or the file is a different one.
+
+**Two defects in the sync script, both caught in flight, both fixed.**
+
+1. `git commit -q -m $Message` was followed unconditionally by `Write-Output "committed."`.
+   `$ErrorActionPreference = "Stop"` does **not** catch a native command's exit code, so a failed
+   commit reported as a success. It did exactly that today: a multi-line `-Message` split on its own
+   embedded double quotes, git exited non-zero with `error: pathspec 'cache' did not match`, and the
+   script said `committed.` **HEAD had not moved.** Every native call in that block is now checked
+   against `$LASTEXITCODE`, and the push has the same guard.
+2. `-MessageFile` added. A commit message containing quotes, backticks and `#` does not survive
+   being passed as one argument through a shell; a file sidesteps the quoting entirely.
+
+**Verified against the live remote, not the local working copy.** Live tree fetched via the API:
+147 files, **zero** `claude`-shaped paths, **zero** private-project-shaped paths. Both changed files
+re-fetched over the contents API and **sha256-matched** their local copies. Eleven content checks
+run on the **live bytes**: zero private-name hits, zero occurrences of the credential-derived value,
+marker present, excluded heading absent, the mangled redaction artifact gone, both genericizations
+present, personal address absent, and the README's correction note, amended line and link to
+comment `5688970229` all present. All eleven passed.
+
+**Tables extended this run**, so the next reviewer knows what is now automatic versus what still
+needs reading: `$RedactionMap` gained the two genericizations; `$ExcludeSections` is new and holds
+one entry. Everything else in the screen was pre-existing published content or a false positive —
+the model-file flags are tokenizer-vocabulary byte sequences on unchanged files, and the remaining
+"secret/token" hits are the words *secret* and *password* in ordinary prose, which this log already
+documents about itself.
+
+**Not done, deliberately.** The 24 published files that no longer exist in the curated set were
+left in place; deleting already-published content is a separate decision and Blair kept it that way.

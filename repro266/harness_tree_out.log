@@ -1,4 +1,4 @@
-READING C:\Users\mrbla\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
+READING C:\Users\<user>\models\qwen3-0.6b\openvino-int4-npu\openvino_model.xml
 COMPILING (NPUW_LLM) ...
 [33m[WARNING] 05:10:41.142 [NPUZeroInitStructsHolder] Some features might not be available! Plugin L0 API minor version = 15, Driver L0 API minor version = 14[0m
 [36m[INFO] 05:10:41.143 [NPUZeroInitStructsHolder] Found Driver Version 1.14, Graph Extension Version 1.16 (ZE_extension_graph)[0m
