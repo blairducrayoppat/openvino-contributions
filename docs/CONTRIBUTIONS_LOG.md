@@ -1034,7 +1034,7 @@ Battery ended 02:50 (team-lead signal); coexistence constraints lifted. All run 
   4. Local path + `--task image-text-to-text` + all caches/tmp on B: → got through config and
      into real weight loading, then `OSError: The paging file is too small for this operation
      to complete. (os error 1455)` in `safe_open` — the genuine commit-limit failure
-     (31.3GB RAM + fixed 24GB C: pagefile vs ~52GB bf16 source). TERMINAL for this machine
+     (31.3GB RAM + fixed 24GB pagefile vs ~52GB bf16 source). TERMINAL for this machine
      as configured. Per the sanctioned-outcome rule, recorded rather than fought; the
      genuine retry lever is Blair adding a pagefile on B: (system-settings change,
      deliberately not made by the agent). Attempts 2-3 also yield reusable know-how: the
@@ -5536,3 +5536,1904 @@ documents about itself.
 
 **Not done, deliberately.** The 24 published files that no longer exist in the curated set were
 left in place; deleting already-published content is a separate decision and Blair kept it that way.
+
+---
+
+## 2026-09-15 (late, second pass) — the username removed from the mirror, and 24 orphaned files brought back under maintenance
+
+**Outcome.** `openvino-contributions` is at **`b15bf65`**, pushed and verified live: 138 files,
+**161 username occurrences across 33 files reduced to 0**, all replaced by a placeholder. Nothing
+added, nothing deleted.
+
+**This started as a question about 24 stale files and turned into a bigger finding.** The sync had
+been reporting 24 published files as outside the curated set since the allowlist was adopted
+2026-09-07, leaving them in place each run. Screening them to decide their fate surfaced the real
+problem: **they were still public but no longer copied or redacted**, so no redaction rule added
+after 2026-09-07 could ever reach them. They held 70 of the 161 username occurrences and would have
+held them permanently.
+
+**Applying Blair's own same-day ruling.** `f046194` removed the username from two live HuggingFace
+folders and recorded why no screen had caught it: `screen_publish_package.py` carries a standing
+ALLOWED entry for a contribution-workspace home path, so ``C:\Users\<user>\...`` matches the blocking
+"local absolute path" rule and is then permitted by that allowance. **This mirror had never been
+screened for it either.** The ruling was already made; this applies it here rather than re-asking.
+
+**Deleting the 24 was considered and rejected.** They still exist privately, `README.md` presents
+them as build-reproducibility material, and removing already-published files is the more
+destructive option once the only finding in them is redacted. They are now named **individually**
+in the allowlist, not matched by a wildcard, so maintenance is restored without letting a new
+root-level file join the mirror unreviewed. Five other root files that have never been published
+(`build_pr4139.cmd`, `pr4139_build_status.txt`, `master4390.cpp`, `a4390.txt`, `STATUS.txt`) were
+deliberately **not** added: keeping something already public is not a publication decision, adding
+something new is, and that one is Blair's.
+
+**Three instrument failures in this pass alone, all silent, all caught only by a control.**
+
+1. `grep -c 'C:\Users\<user>' file` returned **0** on a file where `grep -cF` returned **8**.
+   The escaped-backslash pattern matched nothing. A scan written that way reports a clean file
+   whatever it holds — the same defect `f046194` recorded ("my 527 used a single-backslash literal
+   and missed the `B:/` spelling in 6 files"). **Every path scan in this pass uses `-F` or a byte
+   count.** The only reason it was caught: a positive control run against a string known to be
+   present.
+2. A `grep -rc` per-directory sum reported **1,247** occurrences where a byte-count reported
+   **161**. Two instruments disagreeing is the only reason either was checked; the wrong figure was
+   discarded before it was reported to Blair.
+3. A shell heredoc collapsed doubled backslashes in the patch script three times, twice producing a
+   `SyntaxError` and once a silently wrong pattern. Literal backslashes are now built with
+   `chr(92)`.
+
+**Git history is NOT being rewritten, and that is a decision, not an omission.** Every commit before
+`b15bf65` still carries the username, and removing it means a history rewrite and a force-push to a
+public repository. Against: the exposure is a Windows account name, not a credential; the repository
+is published under Blair's own name and GitHub handle, so it is already correlated with his public
+identity; and a force-push breaks existing clones and links irreversibly. The forward-looking fix is
+complete. If Blair wants history purged, that is one destructive operation and needs his explicit
+instruction. (`f046194` flagged the identical question for HuggingFace revisions and left it open
+for the same reason.)
+
+---
+
+## 2026-09-15 — POSTED on openvino#37736: the #36891 A/B, after nine review rounds
+
+**Comment:** https://github.com/openvinotoolkit/openvino/issues/37736#issuecomment-5689792843 (id
+`5689792843`). Posted from `scratch_ov37736/_v3_body.txt`, 8,528 bytes, sha256
+`ae014335b419aeed0ee7188ea0960f0d84e3cd63fc7ea2a28878342b2607c21e`, fetched back and byte-diffed:
+**identical apart from the one trailing newline GitHub appends.** Gates at post time: body hash
+matched the pin, `preflight_external_post.py` passed six check groups, and the target was unchanged
+at 8 comments with `5653617459` still newest.
+
+**What went out.** The PR does not change the reported failure at an explicitly set ratio — 4/6
+against 5/6, Fisher exact p = 1.000 — and the stronger statement is the floor beneath it: the six
+merge-base runs are one configuration under two labels whose true difference is zero, and they
+split 2/3 against 3/3. That 33.3 pp gap is **exactly twice** the 16.7 pp gap being compared, so the
+result sits inside the instrument's own noise floor rather than merely failing significance. Ratio
+dependence is strong and separate: 14/18 at ratio 75 against 0/9 at ratio 40, p = 0.00015. Nothing
+extrapolates to AUTO, which never ran. Our own 8 September "6 of 6" is corrected to intermittent on
+our own account. The CPU column that failed to discriminate is published beside the ones that did.
+The confound that runs against our own headline is stated: all six merge-base runs fall inside the
+control bracket, three of six PR runs do, seven ratio-75 runs fall outside.
+
+**Nine review rounds, and what they cost.** v1 drew seven blockers, four of them checkable by the PR
+author in a minute. v2 — a coordinator rewrite — cleared those and drew four more. v3 went through
+two review rounds of its own. The measurement never moved: every rate and all four exact statistics
+survived six independent recounts unchanged. **It was the prose that needed the work**, every time,
+and same-author revision failed twice before the rule became "the fresh author writes it".
+
+**Defects that originated with me and reached a draft.** The "about 31 s into the first
+`generate()`" figure, which is 25.0 s — `unit_seconds` minus `load_seconds` mixes the launcher's
+clock with the worker's, and the launcher starts 6-7 s earlier on all 28 units. It propagated fact
+sheet to v2 to v3, and the v1 review had already caught it eight rounds earlier. The linked folder's
+own `CORRECTIONS.md` said 25 s the whole time. Also: incomplete drift figures (I checked one end of
+the bracket, missing `r0` rep 1 ten minutes before `control_open`), and a relayed "four test files"
+that was five.
+
+**The item-(ii) defect, worth recording as a pattern.** The figures were right and the sentence was
+wrong *for its reader*: it gave 38 `TEST`s and "`offload_ratio` in exactly one file" without naming
+a ref. At `releases/2026/3` and `master` that is exact; at the **#36891 head it is 44 and two
+files**, the delta being the PR's own test additions. The maintainer is reviewing that PR, so the
+head is the first ref they open. Naming the ref converts an apparent inability to count into
+evidence we looked at both. The fix deliberately does NOT describe what the added tests exercise —
+that is their code, and narrating it back is the rule-0 failure the post exists to avoid.
+
+**Also cleared this session, unrelated to the post.** The operator's Windows username was live on
+the HuggingFace dataset in 239 files of `pr36891_auto_offload_2026-09-03` and 38 of
+`moe_offload_2026-08-28`, both linked from posted comments and issue bodies. 791 files sanitised and
+re-uploaded in place; live is now 0 of 3,704. **`screen_publish_package.py` was never a gate for
+it** — a standing `ALLOWED` entry ("contribution workspace", ruled 2026-09-05) permits the operator's
+own workspace path by design, and it refused the raw pylogs only because those carried an unallowed
+drive prefix. History was squashed with Blair's approval; that made old SHAs undiscoverable but did
+NOT remove the bytes, which still resolve by SHA. **Open decision for Blair: accept,
+delete-and-recreate, or ask HF support to purge.**
+
+**Next:** watch for a reply. Check-back on Vikunja #1461 stands at 2026-09-19.
+
+---
+
+## 2026-09-15/16 — openvino.genai#4332: findings drafted for the PR's own thread, on Blair's direct instruction. STAGED, not posted.
+
+Blair instructed tonight, directly, to execute the preferred option already recorded on Vikunja
+**1536**: post the #4332-specific findings as a short comment on PR #4332 itself, separately from
+the #4428 comment posted earlier the same evening — because #4332's own reviewers only watch that
+thread, and posting resets the `Stale` label's clock (PR was auto-labelled `Stale` 2026-09-07,
+scheduled to close 2026-09-21).
+
+**Scope, deliberately narrow.** The comment covers lusoris's site only — `free_group_partially`
+(the assert `OPENVINO_ASSERT(m_block_table.count(seq_id) > 0, "Invalid sequence group.")`) and the
+`get_block_tables` `IndexError` it unmasks — using the same numbers already established in
+`FINDINGS_LEDGER_4332.md` E4/E9/E10/E16 and posted on #4428 the same evening (comment
+`5688970229`): unpatched build hits the assert 10/10 (5 greedy + 5 multinomial seeds); patched
+build never hits it but raises `IndexError: invalid map<K, T> key` in `get_block_tables` in 7/10
+(greedy 5/5, multinomial 2/5), confirmed to the exact step count by a diagnostic rebuild that
+labels the call site. Cause-vs-unmasking stated as open, matching the ledger — `get_block_tables`
+is not a function the patch touches. The sibling beam-search hang site and all #4428/OVMS-side
+material (load account, scheduler behaviour) are deliberately excluded — that stays on #4428, per
+Blair's own instruction and to avoid restating content the ledger already scoped to that thread.
+One new observation beyond the ledger's own framing: the assert reproduces under plain
+greedy/multinomial decoding, not only beam search, which is broader than the PR description's "the
+easiest way to trigger" framing — checked, not assumed, from the 10/10 result itself.
+
+**In-scope checks run before drafting.** (ii) the function targeted is exactly the one the PR's own
+regression test (`TestBlockManager.IgnoresAlreadyFreedSequencesDuringPartialPreemption`) exercises;
+(iv) `gh search issues`/`gh search prs` for `invalid map` and `get_block_tables` in this repo:
+zero hits, live, both before drafting and re-run inside the preflight spec's `duplicate_searches`.
+AI Usage Policy re-fetched live from `openvinotoolkit/openvino`'s `AI_USAGE_POLICY.md` (the cached
+copy in `scratch_triage_20260914/live/ai_usage_policy.md` was truncated, not stale — diffed
+identical in substance) and its suggested disclosure shape used directly.
+
+**Gates run, all clear.** `check_pr4332_unmoved.py`: UNMOVED, live head `025b9cbc5fd16440a1b36870
+552a453bbfdebc19`, diff byte-identical (sha256 `550f041ae182…`) to the capture the test arms were
+built from — also independently confirmed by diffing `gh pr diff 4332` against the pinned patch
+file. `preflight_external_post.py --spec scratch_triage_20260914/preflight_4332_2026-09-15.json`:
+exit 0, 7 check groups run (approved-bytes hash, body/leak/placeholder scan, AI-assistance
+disclosure, identity `blairducrayoppat`, both cited SHAs resolve live, target head unmoved,
+duplicate searches empty).
+
+**Draft:** `scratch_triage_20260914/DRAFT_4332_comment_2026-09-15.md`, sha256
+`c761b6c2b8cf65a834f5a45f71634b7e60ed269970f4ec3318d4f7362d3e5240`, 262 words / 1839 bytes —
+about 1/9 the length of the #4428 comment posted the same evening (16,100 bytes), deliberately,
+per Vikunja 1536's own standing recommendation that length is the main risk to a finding landing.
+
+**Not yet done, and why: posting itself.** Per this workspace's operator doctrine, a post does not
+go out without Blair's explicit approval of the exact text, and that approval had not arrived
+synchronously when this entry was written. Vikunja **1536** carries the same staged status as a
+comment. Next action on approval: post from the file, fetch back, byte-diff, then update this
+entry and 1536 with the posted comment URL and the diff result.
+
+### 2026-09-15 (decision) — HuggingFace pre-redaction revisions: ACCEPT, no further action
+
+Blair delegated the call and accepted the recommendation. The pre-redaction revision content still
+resolves by SHA on the dataset repo after the history squash. **Decision: leave it.**
+
+Grounds, checked rather than assumed. I fetched the pre-redaction revision directly and scanned it
+for token-like strings, AWS keys, private keys, `password=`/`secret`/`api_key` assignments, email
+addresses, and the private project's identifiers: **none present.** The only finding is the
+operator's Windows username — 1 occurrence in `RUNLOG.md`, 74 in `STATUS.txt` — which is a
+contraction of a name already public on every PR he has filed, beside local directory paths on a
+machine running no exposed service.
+
+Reaching it requires a commit SHA that was never published and is no longer enumerable: the commits
+endpoint returns one entry, refs shows only `main`, no tags. The squash did not remove the bytes,
+which is what I wrongly told him it would do, but it did remove discoverability.
+
+Against that, delete-and-recreate now costs more than it did: the comment posted today
+(`5689792843`) links `secondgen_36891_2026-09-14`, so deleting breaks a link inside a live Intel
+thread, on top of re-uploading 2,084 files with partial-failure risk. Asking HF support means
+disclosing an exposure to a third party in order to remove a non-secret.
+
+**What would reverse this:** a credential, token, or private-project identifier in the old
+revisions. Then delete-and-recreate immediately, link breakage accepted. That is not the case here.
+
+The durable protection is `hf_package_36891/DO_NOT_PUBLISH_FROM_HERE.md`, which names the clean
+source, the screen's standing allowance for the operator's own workspace path, the 19 non-UTF-8
+files, and the `B:/` spelling a naive check misses. Preventing recurrence matters more than the
+residue.
+
+### 2026-09-21 — npu_compiler#344 re-verified at develop head 0b38f7d42: STILL REPRODUCES
+
+Live check before anything else: `gh issue view 344 --json comments,updatedAt` — 0 comments,
+`updatedAt` unchanged since the 2026-08-28 post. No maintainer response in 24 days.
+
+`origin/develop` fetched and confirmed at `0b38f7d42113ff329ac2bdd33583d123de4ccf2f` (UD2026.38,
+PR #347, merged 2026-09-02) — the only commit since `6761af885`, our original negative-control
+commit. Checked out detached, `git submodule update --init --recursive` (elf, llvm-project,
+vpucostmodel all moved for UD2026.38).
+
+Reused the same out-of-source build directory as the original negative control
+(`<build dir>\pch-fix\RelWithDebInfo`; Ninja; RelWithDebInfo; `ENABLE_FASTER_BUILD=ON`, the same
+setting `developer-build-relwithdebinfo` establishes), same source checkout, same target
+(`npu_compiler_pipelines`), inside a VS2022 x64 developer environment. Because the submodules had
+moved, this forced a full CMake reconfigure and a large incremental rebuild — 4,622 ninja steps,
+~1h23m wall (1:46:58 → 3:10:29) — almost entirely rebuilding LLVM/MLIR objects invalidated by the
+submodule bump, not the PCH failure itself. Materially longer than the original 56-second run, but
+same mechanism, same target, same build directory.
+
+**Result: exit code 2, same failure signature as `6761af885`.** 5 translation units failed in
+`npu_compiler_pipelines` (`compilation_options.cpp`, `developer_config.cpp`,
+`function_statistics_instrumentation.cpp`, `options_mapper.cpp`, `pipeline_strategies.cpp` — one
+more TU than the original 4, from ninja's parallel scheduler queuing a 5th job before the first
+failure halted new dispatch, not a substantive difference). 25× `error C2855` + 5× `fatal error
+C1903`, identical flagged options every time (`/Zc:referenceBinding`, `/Zc:hiddenFriend`,
+`/Zc:externC`, `/Zc:externConstexpr`, `/permissive-`).
+
+**PR #347's `DISABLE_PCH_REUSE` does not fix this issue.** It gates LLVM's own internal
+`REUSE_FROM` inside `add_mlir_library`/`llvm_add_library`. npu_compiler's own, separate
+`target_precompile_headers(${name} REUSE_FROM npu_compiler_pch_base)` call — added immediately
+after `DISABLE_PCH_REUSE` in the same `add_npu_library()` function, confirmed by reading
+`src/vpux_compiler/cmake/add_npu_library.cmake` at `0b38f7d42` — is untouched, and
+`npu_compiler_pch_base` in `src/vpux_compiler/src/CMakeLists.txt` still has no
+`enable_warnings_as_errors` call at this commit. Two independent PCH-reuse mechanisms exist on the
+same targets; UD2026.38 fixed one, our issue is the other.
+
+Artifacts: `<build dir>\negctl_C2855_develop_0b38f7d42_2026-09-21.log` (8,241 lines),
+`<build dir>\negctl_0b38f7d42_status.txt` (START/EXITCODE=2/END/NEGCTL2_DONE). Prior run for
+comparison: `<build dir>\negctl_C2855_develop_6761af885.log`.
+
+The npu_compiler checkout was restored afterward to its pre-task state: branch
+`rebase/pr302-2026-08-26` at `1c00f41b9307f6c4be8a5ead6484a3b19a23398a`, submodules re-pinned
+(elf `0c96256`, llvm-project `0f0abce229bc`, vpucostmodel `48ece58`), working tree clean, the
+transient driver script (`negctl2_run.cmd`) deleted.
+
+**Draft re-verification comment, not posted:**
+`scratch_triage_20260914/DRAFT_344_followup_2026-09-21.md`. Carries only the new measurement, per
+engagement rule 0 — it does not restate PR #347's own change back to the maintainers, who already
+own that information.
+
+**Flagged to Blair, not decided here:** CLAUDE.md engagement_doctrine rule 2 forbids a second PR in
+a subsystem while a first stalls. `npu_compiler#302` (different subsystem: an IE pass, vs. this
+CMake/build issue, but same repo and maintainer queue) is still open, unlabeled, zero reviews. A PR
+would plausibly move faster than a comment here given `#334`'s precedent (2-line outside build fix,
+2 approvals in 6.5h, merged in 6 days) — but whether that overrides rule 2's boundary is his call,
+not mine, and nothing was posted pending it.
+
+Vikunja 1452 updated with the full result and this same artifact trail.
+
+### 2026-09-21 (later) — Full open-ticket review; three comments posted, one plan corrected by review
+
+Ran a full pass over every open GitHub thread across the five tracked repos (openvino, genai,
+model_server, npu_compiler, optimum-intel), reconciling live `gh` state against Vikunja project 11
+and this log. Two prior background passes the same day (above) rebuilt npu_compiler at the new
+upstream head for #344 and reran the Eagle3 CPU reproducer for genai#4425; this pass covered
+everything else and reached the posting decisions.
+
+**The correction, which is the part worth recording.** The plan going into this pass was to post
+the staged openvino.genai#4332 findings comment (`DRAFT_4332_comment_2026-09-15.md`) now that
+#4332 had closed via the stale-bot before mzegla ever routed it — reasoning that the wait-for-
+routing path was exhausted. An independent adversarial review (a session that did not draft the
+plan) caught what that reasoning missed: the 2026-09-15 comment on model_server#4428
+(issuecomment-5688970229) already told mzegla, on the record, "on your instruction I will post
+these findings there." Posting to #4332 unprompted would have done the thing we told him was
+conditional on his word, not honored it. Corrected before anything was posted — drafted a routing-
+check question for #4428 instead (does he still want it on the closed PR, or consolidated here),
+and left the original #4332 draft untouched and ready if he says yes. Same review pass verified two
+other drafts (npu_compiler#302, optimum-intel#1969) against live GitHub state and required one
+wording fix on #302 (a claim that read as 3 months of CI silence when only 25 days — since the last
+push — was verified).
+
+**Posted, all three from a file, fetched back, byte-diffed clean (delta exactly 1, GitHub's
+trailing newline), each gated first by `scripts/preflight_external_post.py`:**
+
+1. **npu_compiler#302** — https://github.com/openvinotoolkit/npu_compiler/pull/302#issuecomment-5763148813.
+   Asks @andrey-golubev to apply `READY_FOR_REVIEW` and release the `action_required` CI runs — both
+   mechanical blockers (fork PR, `author_association: NONE`), not review capacity. Does not claim the
+   still-outstanding rebase to `0b38f7d42` has happened.
+2. **optimum-intel PR#1969** — https://github.com/huggingface/optimum-intel/pull/1969#issuecomment-5763154536.
+   Asks @rkazants whether he's the right reviewer, after 18 days of zero review and CI that has
+   never run (first-time-contributor approval gate).
+3. **model_server#4428** — https://github.com/openvinotoolkit/model_server/issues/4428#issuecomment-5763157900.
+   The routing-check correction above.
+
+**Also found this pass, not requiring a post:** a broadened `--commenter`/`--involves` search (the
+earlier author-only search missed threads we commented on without opening) turned up three more
+open participated threads — openvino#36270, openvino.genai#3937, model_server#4035 — all with our
+comment as the unanswered last word for 1-2 months and nothing new to add. Confirmed the
+model_server idle-unload feature (tracked under Vikunja 741) shipped in tagged release v2026.4.0
+(2026-09-17); opened Vikunja #1609 as the hardware-measurement follow-up rather than posting
+anything, since nothing about the release itself needed a GitHub response.
+
+Vikunja 1453, 1525, 1446 updated with the posted comment URLs and next check-back dates; 1536
+marked resolved. Full report: `scratch_triage_20260921/TICKET_REVIEW_REPORT.md`.
+
+### 2026-09-21 (later still) — Two decisions Blair pushed back on decided directly; two more comments posted
+
+Blair approved the three drafts above and then corrected two things: he couldn't find the
+npu_compiler#344 draft from a file reference alone, and he rejected being asked to judge the
+genai#4425 posting call — "either it's ready or it's not... you should be able to answer these
+things." Both addressed by deciding and acting, not by re-explaining.
+
+**npu_compiler#344.** The draft was real (committed at `13986c7`) but only linked, not shown or
+posted. Re-examined the one thing it had flagged as undecided — a "PR-vs-comment" boundary call —
+and found it didn't actually apply: CLAUDE.md rule 2 forbids opening a *second PR* in a subsystem
+while a first stalls, not posting a plain comment. Nothing was actually blocking this one. Ran it
+through `scripts/preflight_external_post.py`, which caught a real defect (`ENABLE_FASTER_BUILD=ON`
+outside backticks) on the first pass — fixed, gate passed clean on the second. Posted:
+https://github.com/openvinotoolkit/npu_compiler/issues/344#issuecomment-5763262436. Fetched back,
+byte-identical except GitHub's trailing newline.
+
+**genai#4425 — the real finding.** Re-examining the "should this post" question properly (rule 0,
+not deferral) showed the morning's nightly-rerun result was worse than merely inconclusive: nightly
+was already clean *before* #4411 too, so a clean nightly after #4411 couldn't speak to the actual
+reported defect at all. Correctly not postable. But checking whether a REAL test had become possible
+—  rather than accepting the "no release since 2026.3.0.0" framing carried over from the 2026-09-14
+triage — found `openvino.genai` had tagged **`2026.4.0.0` on 2026-09-17**, four days before this
+check. Confirmed it contains PR #4411 by diffing `eagle3_strategy.cpp` directly against the merge
+commit: 0 lines of difference. That made the actual decisive test possible for the first time.
+
+Installed `openvino-genai==2026.4.0.0` fresh (a new venv, `scratch_oi1964/rerun_release_20260921/`),
+reran the issue's own standalone reproducer at the issue's own N=50, same model pair, same script,
+CPU. **Result: 50/50 clean** — zero zero-acceptance, zero crashes. The issue's own numbers on the
+prior release wheel (`2026.3.1.0`) were 3/50 zero-acceptance and 2/50 crashes. Power stated in the
+post rather than implied: at N=50, a still-present ~6% zero-acceptance rate had roughly a 5% chance
+of producing zero occurrences by chance; a still-present ~4% crash rate had roughly 13%. Posted:
+https://github.com/openvinotoolkit/openvino.genai/issues/4425#issuecomment-5763352660 — gated
+through preflight (exit 0), fetched back, verified identical.
+
+The lesson generalizes past this one ticket: "no release exists yet" is a fact with an expiry date,
+not a standing conclusion — it has to be re-checked at the moment of deciding, not carried forward
+from the last time it was checked, especially when days have passed.
+
+Vikunja 1452 and 1527 updated with the posted URLs, methodology, and next check-back dates.
+
+### 2026-09-25 — fleet check-back round: five threads, one agent each (coordinator note)
+
+Blair asked for each effort needing an update to be brought current: openvino#37737, PR #36891, openvino.genai PR #4139, model_server#4428, openvino.genai#4390. One upstream-contributor agent per thread under `scratch_fleet_20260925/BRIEF.md` (post nothing, shared-checkout and heavy-machine locks, report to file); every draft independently reviewed by an agent that did not write it. Main was fast-forwarded to `review-open-source-tickets-67bb85` first, so the 2026-09-21 entries above were previously only on that branch. Per-thread entries follow; the #4390 entry and a new 2026.4.0 `weights_path` regression (model_server#4580, Vikunja 1658) are appended when their work settles. Vikunja 1536 closed as superseded by 1446.
+
+### 2026-09-25 - openvino#37737 check-back: Intel escalates internally ("Ref. 195660"), nothing owed, nothing drafted
+
+**Outcome.** Intel escalated the issue to an internal engineering ticket. Nobody asked us anything, so
+nothing was drafted or posted. The 2026-09-14 INT8 scope reply was never posted, as decided that day;
+the newest comment from us is still `5586424028` (2026-09-08). Raw `gh` output (fetched
+2026-09-25T14:39:22Z) is in `scratch_fleet_20260925/ov37737/` under `*_20260925.*` names.
+
+**What changed since comment `5653741563` (2026-09-13).** On 2026-09-23 Zulkifli-Intel added the labels
+`category: GPU` (11:10Z) and `PSE` (11:15Z); `PSE` has no label description. On 2026-09-24 at 19:18:48Z,
+diego-villalobos posted comment `5820635161`, whose body is exactly `Ref. 195660`, and self-assigned four
+seconds later. Their GitHub profile gives the company as Intel; their org membership is not public. In three
+recently closed-completed `PSE` issues (#37573, #37820, #37501), the same "Ref. NNNNNN" step by the same
+account was followed by developer engagement 7 to 21 days later (`pse_pattern_20260925.txt`). That is a
+sample of three chosen from the successes; the `PSE` list also contains a `not_planned` close (#36792).
+Our title and body, and both of our comments, are byte-identical to the 2026-09-14 snapshot. There are no
+linked PRs. The INT8 question Intel raised on 09-13 has no answer on the thread.
+
+**2026.4.0 (released 2026-09-16) does not touch the ratio-100 path.** The only difference in `moe.cpp`
+between 2026.3.1 and 2026.4.0 is `auto&` becoming `const auto&` at line 119. Lines 31-48 at 2026.4.0 still
+treat 100 as "invalid, disabled" and gate offload on `otd_ratio > 0 && otd_ratio < 100`. The
+`offload_ratio` doc text in `properties.hpp` is unchanged. Neither the GitHub release body nor the in-repo
+release-notes file at the tag mentions offload; that file's newest section is still 2026.3. This is a
+source reading; the 2026.4.0 wheel was not run on hardware.
+
+**Cross-thread, #36891.** The head moved from `6c09f7b2` to
+`340b7adfc4eca49612845e0b66cceb1a1649c517`: commits `30f33a3816` and `340b7adfc4` landed on 2026-09-24,
+and the PR is still REVIEW_REQUIRED. The new code clamps AUTO to at most 75, and a code comment gives the
+reason as "preventing ratio=100 from disabling OTD downstream". An explicit 100 still passes the validator
+(`(v >= 0 && v <= 100) || v == -1`) and still disables offload, so the PR does not address #37737. That is
+their own code and reasoning, so it fails rule 0 and was not drafted. Our posted #37736 A/B
+(`5689792843`) measured the old head. #37736 has had no activity since that post.
+
+**For Blair, carried from 2026-09-14.** The open call is the memory-pressure experiment: under host memory
+pressure, does ratio 100 switch from thrash to `-58`? The recommendation is to **hold** while internal
+engineering owns the issue. Reopen it if they report that they cannot reproduce, say the two faults are
+unrelated, or ask which release we saw it on. The useful run in that case is the compile-only reproducer on
+the 2026.4.0 wheel, N>=3, with a ratio-75 control.
+
+Ticket: Vikunja #1461. A dated #37737 paragraph was appended to the description, with prior text intact
+(read back), plus one comment. The due date moved from 2026-09-19 (overdue) to 2026-10-02 12:00 UTC.
+Evidence: `scratch_fleet_20260925/ov37737/`.
+
+### 2026-09-25 — openvino PR #36891 check-back: head moved to 340b7ad, published figures unaffected at recorded budgets, no reply, nothing posted
+
+**Outcome.** The first head move since our 2026-09-05 comment: `6c09f7b2282b` → `340b7adfc4eca49612845e0b66cceb1a1649c517`,
+two commits authored 2026-09-24 by `yuanxion` (yuan.xiong, Intel) on zaixing-wang's branch. There is still no human
+review since 2026-08-14 and no reply to our comment `5555547203`. That comment is unedited: 8,455 bytes,
+sha256 prefix `c2a530d320589dcd`, 0 reactions, still the only issue comment. The PR is now CONFLICTING with
+master. At the new head, 10 private Jenkins builds fail and `ci/jenkins` errors; 13 GitHub workflows are
+`action_required`. At `6c09f7b228` all 14 statuses and 90 checks passed. No response is warranted. Nothing was
+posted and nothing was built or run.
+
+**What moved.** `30f33a3816d2` caps AUTO at `MAX_AUTO_OFFLOAD_RATIO = 75` and returns 75 when `budget_for_moe <= 0`,
+answering Copilot BLOCKER `3980021655`. `340b7adfc4ec` counts a constant as a routed expert only when every consumer
+is a routed input. That rule also governs partial-upload eligibility at explicit ratios (`moe_offload_constant.cpp:95`
+at 340b7ad).
+
+**Our published AUTO figures at the new head.** `inertness_check_340b7ad.py` ports the ratio function at both heads.
+Applied to all 31 `[MOE OTD auto]` lines in `scratch_ov36891/budget_lines_36891.txt`, 0 of 5 configurations differ
+(exit 0). The self-test on two lines where the heads must differ (old 82 and 102, new 75) reports both.
+The INT4 zeros cannot change under reclassification, because the "everything fits" test depends only on total
+bytes. INT8's 26 becomes 27 only if at least 287,925,495 B (0.99% of `w_moe`) gains a non-routed consumer.
+**That was not measured**: no build at 340b7ad exists here, and `<build dir>\openvino-pr36891` carries our local
+diagnostic patch.
+
+**Held item retired.** The unconditional `std::cout` decision line was held on Vikunja 1530 for "a second shorter
+contact". Copilot has posted it publicly twice (`3980021717`; review `5196038059`), and it is still unconditional
+at 340b7ad. Raising it again would fail the value test (rule 0).
+
+**Cross-thread, not acted on:** commit 1's code comment cites ratio 100 disabling OTD, which is the #37737 ratio-100
+topic.
+
+Evidence: `scratch_fleet_20260925/ov36891/` (live captures, diff, both sources, check script with output and
+self-test). Ticket: Vikunja 1530 updated, comment 3750, due 2026-10-09.
+
+### 2026-09-25 — `openvino.genai#4139`: author rebased to `863606d7` and nudged apaniukov; stale bot labelled 09-21; Copilot review flags our known multinomial bug; nothing addressed to us, nothing drafted
+
+*Plain summary: the author kept the PR alive, rebased it, and told the maintainer Blair's fixes are ready. Blair's commits came through unchanged and the held fixes still apply cleanly. No reply needed. A private project no longer depends on this PR (S0c, #1611).*
+
+**Live state (`gh api`, 2026-09-25T14:39Z):** head `863606d73a483b461324903df68b4333dc12c05a` (force-push 2026-09-22T14:58:27Z, rebased onto `eaaf9a97`); `mergeable: true`, `mergeable_state: behind` master `4ef689f2` by 7 commits, none touching PR files, merge-tree clean. CI: 6 workflows `completed / action_required`, only the labeler `triage` check-run has ever executed. Label `Stale` (github-actions, 2026-09-21T00:15:50Z; bot comment 5753789235). 18 issue comments, 43 review comments, 23 commits. New: PlanteAmigor 5778946504 (2026-09-22T15:08:30Z) asks apaniukov for the fork-CI approval and his three design calls (multinomial fix shape, parallel-sampling / speculative-decoding rollback, auto-detect location), states "@blairducrayoppat has both fixes ready", asks that the stale bot not close it. Copilot review 5279960729 (2026-09-22T15:08:44Z) with 10 inline comments; 4073191065 and 4073191135 = forcing after top-k/top-p truncation, the bug held commit `2fa0ccad` fixes (TopK/TopP/MinP registered only under `is_multinomial()`, `logit_processor.hpp:77-105` at `863606d7`); the other eight target the author's code. apaniukov silent on #4139 since 2026-08-11, active elsewhere in the repo daily.
+
+**Verified locally (read-only fetch into `refs/fleet20260925/*`, locks taken and released):** patch-id match `3b67c9603c`↔`ea855b472afc` (`e670c8a6…`) and `6fb6f69d`↔`56b7f074e478` (`e09ad8dc…`). PR delta `eaaf9a97..863606d7` vs `5f7f1278..a5fc4d5f`: changed lines identical in 11 of 13 files; only `__init__.pyi` and `py_openvino_genai.pyi` differ (`__version__` literal dropped, master's new classes in `__all__`). Held `2fa0ccad` + `cf9b750e` merge-tree clean onto `863606d7` in stack order, changed lines identical to the originals (103 lines); result `refs/fleet20260925/held-on-863606d7` = `7bba4fdb`, also clean against master. Fork `feat/thinking-suppression` still `9750f3ce`, archive still `cf9b750e`.
+
+**Stale bot, from source:** `stale.yml` runs Mondays 00:00 UTC, stale 14 d, close 7 d, exempt `keep-open`, `remove-stale-when-updated` default `true`. actions/stale at the pinned `4391f3da`, `issues-processor.ts:746-835`: a comment by a `User` account after the stale label removes it and skips closing, so the 2026-09-28 run should un-stale the PR. Re-stale uses `updated_at` (`:470-492`); earliest close with no further activity 2026-10-19. Predicted, not observed.
+
+**Not verified:** no build or test at `863606d7`; stub check never run by CI.
+
+**Nothing posted, pushed or edited on GitHub.** Vikunja #923: description block appended, comment 3751, due 2026-09-29 12:00 UTC.
+
+### 2026-09-25 — model_server#4428: mzegla asked two direct questions and caught our wrong #4332 links; the assertion reproduces on the public 2026.4.0.0 wheel; reply and three link-fix edits DRAFTED (v2 after a blocking review), nothing posted
+
+**New upstream since the 2026-09-21 routing-check post (5763157900).** mzegla, 2026-09-23T14:14:59Z,
+issuecomment-5796451734:
+(1) he asks whether we got the assertion "in 'real scenario' (so live generation, not after final
+drain)", and if so for instructions to run it;
+(2) he says our links point to model_server#4332 rather than openvino.genai#4332.
+
+He is right about (2). GitHub's rendered HTML of our comments (`live_v2/all_comments_full.json`)
+links **nine** `#4332` references in **three** comments to `openvinotoolkit/model_server/pull/4332`,
+which is exzile's idle-unload PR:
+- 5433302591 (08-27): 2 references.
+- 5688970229 (09-15): 6 references.
+- 5763157900 (09-21): 1 reference, the bare `#4332-specific`. Its `openvino.genai#4332` spelling
+  renders as unlinked text.
+
+5402900833 (08-24) used the full `openvinotoolkit/openvino.genai#4332` form and links correctly.
+
+*Retracted 2026-09-25, kept visible:* the first version of this entry said "That includes the
+`openvino.genai#4332` form in the 09-21 comment: GitHub linked its `#4332` part to the current
+repo ... every #4332 reference we have made on #4428 was affected." Both halves were false. I read
+a de-duplicated set of hrefs as a count, and I never checked 5433302591 or 5402900833. The
+independent review caught it (`INDEPENDENT_REVIEW_2026-09-25.md`, B3).
+
+**Other live state (gh, 2026-09-25 ~14:40Z and re-checked 17:30Z).** #4428 is OPEN with 19 comments;
+the last comment is mzegla's. openvino.genai#4332 was CLOSED by github-actions at
+2026-09-21T00:16:03Z: not merged, not reopened, 0 human reviews. The genai PR searches for "partial
+preemption", "stale sequence", "free_group_partially" and "Invalid sequence group" return nothing
+newer than #4332. No commit has touched `block_manager.hpp` on genai master since 2026-08-25
+(ff4fb26d24).
+
+**Releases do not contain a fix. Read from source, not inferred.** The genai 2026.4.0.0 tag
+(7ea2546852a, 2026-09-17) and master carry byte-identical `block_manager.hpp`
+(sha256 0ac8bb9d...). `free_group_partially` still asserts at `:759` with no guard. The 184-line
+diff against #4332's base 2e24cc93 adds a pool-growth ceiling and changes the temporary-block
+handling; it does not touch that function's logic. OVMS v2026.4.0's `versions.mk` sets
+`OV_GENAI_BRANCH ?= 7ea2546852a382cd16bd22dea0cfad2db70ed744`. Neither release's notes mention
+preemption or the block manager.
+
+**Measurement (plan written first: `scratch_fleet_20260925/ovms4428/PLAN.md`).** 35 churn.py units
+plus 1 traceback unit, then 15 standalone-script units, then one verbatim run of the commands to be
+posted. Tiny synthetic hybrid IR, `num_kv_blocks=64`, `num_linear_attention_blocks=64`,
+`cache_interval_multiplier=64`, prefix caching on, cancel fraction 0.75, drain mode with 3x12
+requests, `min_new_tokens=100`. Arc 140V on driver 32.0.101.8831. Heavy lock held.
+- Known-zero control: arm A (local 2e24cc93) opened and closed the run (R1 and R7). Both were
+  identical per seed (steps 7/9/7/7/13, all at `:738`) and identical to the 2026-09-15 cell738 rows.
+- Public `openvino-genai==2026.4.0.0` wheel on GPU: 5/5 greedy (R2) and 5/5 multinomial (R3), each
+  per-seed identical to arm A, at `:759`. On CPU: 4/5 (R4), per-seed identical to arm A on CPU (R5),
+  and seed 1001 ran all 36 requests (26 cancelled) without the assertion. With prefix caching off on GPU: 0/5 (R6), each unit
+  reaching the 1500-step budget.
+- A traceback-preserving unit (churn, wheel, GPU, seed 1000) shows the exception raised by
+  `pipe.step()`. On GPU it comes at `step()` call 8-14, with 12 requests added. Before the raise
+  the GPU seeds had cancelled 0, 1, 0, 0 and 1 requests. With `min_new_tokens=100`, no stop
+  strings and `max_new_tokens >= 200`, no request could have reached a stop condition by call 14.
+  "While requests are generating" is NOT measured. The review's tokenizer replay
+  (`review_evidence_2026-09-25/prompt_tokens_output.txt`) shows that in seeds 1000, 1002 and 1003
+  at least one wave-1 prompt was still unprocessed at call 8.
+- v1 `repro_assert_4428.py` (83 lines, public wheel plus the public repro4428 model only)
+  reproduces the churn.py per-seed results exactly: GPU calls 8/10/8/8/14, CPU
+  248/none/422/11/621, prefix caching off 0/5. It ran against a sparse clone of the public repo at
+  b15bf65; all 15 model files there are identical by git hash to the local copy. Its `try` also
+  enclosed `add_request` and `has_non_finished_requests`, so its "step() call N" label was
+  unmeasured for the CPU second-wave raises (review B2.3).
+- v2 `repro_assert_4428_v2.py` puts only `step()` inside the `try` and counts cancellations. It
+  was re-run on 2026-09-25 at 19:03Z with the heavy lock held, free memory 21.6 GB before and
+  21.4 GB after (`minrepro_v2_2026-09-25/`). Results, identical to v1 and churn.py:
+  - GPU: calls 8/10/8/8/14, with 0/1/0/0/1 cancelled before the raise.
+  - CPU: calls 248/none/422/11/621, with 7/-/16/0/10 cancelled; seed 1001 finished with 26 of 36
+    requests cancelled.
+  - Prefix caching off: 0/5.
+  The cancellation counts match churn.py's `cancel_count_actual`. The CPU second-wave raises are
+  now established as raised by `step()`.
+- The v1 commands were run verbatim in a fresh venv (Python 3.14, cp314 wheels; every other run
+  used 3.11.9): `instructions_check_2026-09-25/`. The v2 commands, which pin the clone to b15bf65,
+  were likewise run verbatim: `instructions_check_v2_2026-09-25/commands_run_v2_2026-09-25.log`.
+  Seed 1000 on GPU raised at call 8 in both. The full v2 output includes four `[ERROR] ... leaked`
+  lines, printed by the `~BlockManager` and `~BlockAllocator` destructors
+  (`block_manager.hpp:266-272, 687-693` at 2026.4.0.0) after the exception.
+
+**What happened to the staged #4332 comment (eeca030).** It was never posted. The 2026-09-21
+review replaced it with the routing check on #4428, because the 09-15 comment had made posting on
+#4332 conditional on mzegla's instruction. That review is logged only on branch
+`review-open-source-tickets-67bb85`: six commits, not merged into main, and main's log lacks the
+2026-09-21 entries. mzegla has not asked for it on the closed PR. The reply draft points him to
+the 09-15 comment and does not repost. `DRAFT_4332_comment_2026-09-15.md` stays unposted.
+
+**Drafts v1 were BLOCKED by independent review** (`INDEPENDENT_REVIEW_2026-09-25.md`):
+- B1: the output block omitted the four destructor `[ERROR] ... leaked` lines, which are the
+  signal mzegla challenged on 08-26.
+- B2: "while requests are generating" and "none can have finished" were unmeasured or false for 2
+  of 5 seeds.
+- B3: comment 5433302591 was missing from the edit set, and the 5763157900 edit note was false.
+
+**Drafts v2, NOT posted:**
+- `drafts/DRAFT_reply_4428_v2_2026-09-25.md`: full output shown, and the leak lines named as the
+  08-26 teardown messages with the leaked-block line still on hold. "Mid-run, inside `step()`,
+  before any request could reach a stop condition" on GPU, with the cancellations in the table.
+  Clone pinned to b15bf65, one @-mention in the closing line, the `versions.mk` sentence dropped.
+- Link-fix edits for all three affected comments: `drafts/EDIT_5433302591_links_v2.md`,
+  `drafts/EDIT_5688970229_links_v2.md`, `drafts/EDIT_5763157900_links_v2.md`. Each is byte-diffed
+  against the live body (`*.bytediff.txt`) and rendered through GitHub's markdown renderer, with
+  no remaining link to model_server/pull/4332.
+- Preflight exit 0 on all four. For 5433302591 the spec sets `require_disclosure=false`: the
+  body's own "AI-assistance disclosure" paragraph, which the edit leaves unchanged, does not match
+  the gate's markers. See `spec_edit_5433302591_v2_NOTE.txt`.
+
+Posting order on approval: the three edits first, then the reply, because the reply says the links
+are already corrected.
+
+**Not verified:** Linux; OVMS itself; whether the OVMS 2026.4.0 binaries use GenAI built from
+7ea2546852a or the 2026.4.0.0rc3 package also named in `versions.mk`; the standalone script with
+multinomial or beam decoding (only churn.py ran multinomial on the wheel); any driver other than
+8831; whether production reaches the assertion by this path; the #4332 patch against the release.
+
+**Vikunja 1446** updated: title, description (prior text kept), priority 3, due
+2026-09-27T12:00Z, label Gate:Approved swapped to Gate:Pending-Human. **1536** is recommended for
+closing and was left untouched.
+
+### 2026-09-25 — `genai#4390`: Intel answers Blair directly; fix PR #4449 built and measured on the Arc 140V; reply drafted, nothing posted
+
+**What changed upstream.** `2026-09-23T03:53:00Z`, `peterchen-intel` (COLLABORATOR, Intel) commented `5788670199`,
+@-mentioning Blair: #4449 "fixes the functionality issue and enables EAGLE3 to work with MoE models" but gives no TPS
+gain, because verifying ~6 tokens activates ~24 experts against 8 for one token, so verification is almost 3x slower
+and EAGLE3 needs an acceptance length above 3; he recommends DFlash. This settles the 09-14 inference that #4449 is
+this issue's fix. #4449 itself unchanged since 2026-09-10: draft, head `5f9953de`, 0 human reviews, 49 behind master,
+CI 158/6/0. Not in 2026.4.0.0 (released 2026-09-17; notes silent on it).
+
+**The run.** openvino.genai `2026.4.0.0` (`7ea25468`) built from source twice in a fresh clone on a separate volume — A unmodified,
+B with #4449's `eagle3_model_transforms.cpp` (byte-identical after CRLF strip to the tag's file at the PR merge base;
+DLL hashes differ; the new assert string is in B only). First B build was a silent no-op (Windows `copy` preserved
+mtime, ninja rebuilt nothing, DLL identical to A) — caught by hash, log kept. OV 2026.4.0 wheel, Arc 140V driver
+32.0.101.8831, `Qwen3-30B-A3B-int4-ov` rev `3fb72075`, `OFFLOAD_RATIO=30` + explicit `WEIGHTS_PATH`, greedy, 1062-token
+prompt, 128 tokens, fresh process per unit. Preflight gate + one foreground iteration before each launch; no kills.
+- Build A + Tengyunw head: 3/3 `Port for tensor name last_hidden_state was not found.` — the bug ships in 2026.4.
+- Build B: loads and generates every unit, both heads, every k.
+- run1 (36 units): closing controls 32-53% below opening controls; the builder refused every speedup claim (38%
+  resolution). Kept for the A rows and A-vs-B no-draft before the drift (22.0 vs 21.4 tok/s).
+- run2 (43 units, every EAGLE-3 unit bracketed by no-draft units; known-zero N=14, 0.935-1.045, resolution 6.5%):
+  paired throughput vs no-draft k1 0.94 (0.88-1.00), k3 0.82, k5 0.69, k7 0.61; AngelSlim k5 0.59. Tokens per target
+  step 1.66/2.25/2.37/2.51; verify step 1.55x/2.22x/2.67x/3.09x a no-draft decode step. Dense control (one-sided
+  pairs): verify step 1.05-1.17x, throughput 1.00-1.12x. Agrees with Intel's explanation.
+- No-draft MoE throughput fell ~40% across each run (22.25 -> 13.09 in run2) with memory, thermal zone (360-369 K) and
+  CPU performance-limit flat. Cause not identified.
+- Greedy output: MoE EAGLE-3 output differs from no-draft (first token index 10 at k1, 21 at k5), deterministic per k;
+  dense EAGLE-3 output equals no-draft in 12/12 units. Cause not investigated; not in the draft.
+
+**Side finding (routed to team-lead, belongs to the OFFLOAD_RATIO threads).** Released 2026.4.0 wheels:
+`LLMPipeline(Qwen3-30B-A3B-int4-ov, "GPU", OFFLOAD_RATIO=30)` raises at GPU plugin `moe.cpp:57` ("ov::weights_path
+property is not set. OTD requires a valid path to the model .bin file.") with or without a draft; explicit
+`WEIGHTS_PATH` works. The same call worked on 2026.3.1 on 2026-08-29. N=1 per build.
+
+**Static lead, not run.** On `Qwen3.6-35B-A3B-int4-ov` both the old and #4449 predicates match only the 10 full-attention
+layers (likely the gated-attention residual), none of the default taps; #4449 would assert there rather than mis-tap.
+
+**Drafted, not posted:** reply to peterchen with the table (`scratch_fleet_20260925/genai4390/DRAFT_4390_reply_peterchen_2026-09-25.md`,
+sha256 `f4807461…`), preflight exit 0, every number traced by `trace_numbers.py` (itself proven to fail on a known-bad
+copy after its first version silently skipped numbers followed by "x"). Awaiting independent review and Blair's call.
+
+**Vikunja:** 1463 appended, re-titled, due 2026-10-02 12:00 UTC. **NOT verified:** one MoE model, one prompt, GPU only,
+OFFLOAD_RATIO=30 only; B is the release tree plus the PR's one compiled file, not the PR head's tree; drift cause.
+Evidence: `scratch_fleet_20260925/genai4390/` (`run1/README.md` documents every file and column).
+
+**Addendum, same day (after independent review, `INDEPENDENT_REVIEW_2026-09-25.md`: BLOCKING B1 + B2).**
+B1: every MoE row above ran with `OFFLOAD_RATIO=30` (offload-to-disk), which the verify-cost mechanism interacts
+with. Re-measured with all experts resident (`OFFLOAD_RATIO` not passed; default 0 at releases/2026/4
+`options.inl:57`, value-only readers, so not-passed == 0). run3's resident block was disturbed at rows 24-30
+(known-zero 49.6%, no claim); run4 replicated it, declared beforehand as the comparison set: known-zero 3.6% (N=14).
+Resident, #4449 build: throughput vs no-draft k1 0.85, k3 0.93, k5 0.75, k7 0.65, AngelSlim k5 0.52 - slower in every
+pair at every setting; tokens per target step (prefill excluded) 1.57/2.54/2.70/2.95; target-model step 1.58x/2.12x/
+2.65x/3.23x a no-draft decode step (both from raw per-step durations, prefill excluded). Build A resident: 3/3 port
+error. B2: generated token ids recorded. OTD itself changes the no-draft greedy output (resident vs ratio-30 differ
+from token index 10). With experts resident, EAGLE-3 output still differs from no-draft (index 40 at k1, 22 at k3/k5/
+k7/AngelSlim), deterministic; so not an OTD effect. Dense pair (no OTD) identical. "MoE only" withdrawn as an
+attribution. **Corrections to the entry above:** the thermal sentence ("flat ... cause not identified") over-read the
+sensor - ~~thermal limiting is plausible (run3: 341-345 K -> 362-364 K where throughput fell), not established;~~ *[Retracted 2026-09-25 (v3 re-review, V3-B1/V3-d): per-unit counters in `run1/between/thermal_counters_resident.txt` - run3 thermal medians rise from row 20 (349 K), four units before the drop at row 24; run4 ran at medians 354-358 K / maxima 367-368 K with no drop; `% Passive Limit` 100 and `Throttle Reasons` 0 in every sample of all 62 resident units; run4 row 1's own samples read 352-367 K. The drop's cause is not identified, and no thermal cause is claimed.]* the
+run1/run2 tokens-per-step figures counted the prefill iteration. Revised draft `DRAFT_4390_reply_peterchen_2026-09-25_v2.md`
+(sha256 `1b8a4b39…`): resident table, output-divergence paragraph, "consistent with" instead of "agree", k1 not
+presented as a speed result beyond its range, disclosure says the agent chose and ran the measurements. Preflight exit
+0; numbers traced by `trace_numbers_v2.py` (known-bad copy exits 1). Not posted; awaiting re-review.
+
+**Addendum 2 (v3/v4).** v3 described both resident runs, taking the resolution from the between-run gap and
+adding a draft-model-share / verify-only decomposition. It was BLOCKED on one clause ("dropped ... while the thermal
+reading rose"): per-unit counters show the rise starting 4 units before the drop, run4 at the same readings with no
+drop, and `% Passive Limit` 100 / `Throttle Reasons` 0 in every sample. v4 states the drop with its cause not
+identified. v3 also carried two double-rounding errors from a 3-decimal evidence file (k5 verify-only 1.09 -> 1.08,
+k3 draft share 21% -> 20%); the checker now reads 4-decimal evidence and fails on the v3 values. Thermal-cause wording
+in TAIL2/TAIL3/README/this entry is retracted in place. Draft v4 `DRAFT_4390_reply_peterchen_2026-09-25_v4.md`
+(sha256 `72983281…`), preflight exit 0; not posted, awaiting re-review.
+
+**Addendum 3 (v5, coordinator).** The v4 re-review (`INDEPENDENT_REVIEW_v4_2026-09-25.md`) found no blocking defect and one non-blocking one: "Token ids do not depend on speed" generalised past the 62 runs. v5 changes that one sentence to "In these 62 runs the token ids were the same before and after the drop"; diff against v4 verified as that single line, preflight exit 0 re-run by the coordinator, thread unchanged (3 comments, updated 2026-09-23T03:53Z). Candidate for Blair: `DRAFT_4390_reply_peterchen_2026-09-25_v5.md`, sha256 `ed0919a9e3a52db5741905beab9a89006068443c0cb3fb763e79c2a0ddbdccc6`. Side finding routed to Vikunja 1658, not pursued: `OFFLOAD_RATIO=30` changes the no-draft greedy output of Qwen3-30B-A3B-int4 against the resident run from generated-token index 10, each side deterministic (7/7, 16/16), build B on openvino 2026.4.0.
+
+### 2026-09-25 - Vikunja 1658: 2026.4.0 MoE offload fails at load because read_model() stopped setting __weights_path (core regression, #35457). Issue drafted, not posted
+
+**Outcome.** The lead from genai4390 reproduces 3/3, and the 2026.3.1 control passes 3/3. It is root-caused
+to OpenVINO core's IR frontend. In 2026.4.0, `Core.read_model()` with mmap on (the default) no longer puts
+`rt_info["__weights_path"]` on the model. That key is where the GPU plugin gets `ov::weights_path`, so the
+MoE offload op asserts at `moe.cpp:57` for any OFFLOAD_RATIO from 1 to 99. Ratio 100 disables offload
+before the assert, so the 2026-09-25 #37737 reading for ratio 100 stands. Passing `WEIGHTS_PATH` explicitly
+works around it, 3/3 through core and 3/3 through GenAI.
+
+**Mechanism** (tag 2026.4.0). `input_model.cpp:271-275` now takes the key from `m_weights_provider->path()`.
+That is empty for the `BufferWeightsProvider` used on the mmap branch (`frontend.cpp:237-242`) and set only
+for `FileWeightsProvider`. The path argument to `InputModel` is now unused (`:247`, `:254`). At 2026.3.1,
+`input_model.cpp:276-277` set the key from that path whatever backed the weights. PR #35457 (merge
+`e4ff31c6b4`, 2026-08-24) is an ancestor of 2026.4.0 and not of 2026.3.1. Master `c13bcf09f178` has the
+same code. The GPU plugin's `execution_config.cpp` and `moe.cpp`, and `core_impl.cpp`, are unchanged in
+this respect.
+
+**Measured.** Every row is N=3, fresh process each, planned before the runs. Machine: Arc 140V, driver
+32.0.101.8831, wheels 2026.3.1 and 2026.4.0.
+
+- `read_model`, mmap default: `__weights_path` present 6/6 on 2026.3.1 and 0/9 on 2026.4.0 (1.7B and 30B
+  models, plus mmap explicitly True).
+- `read_model`, mmap False: present 3/3 on both wheels. That locates the trigger in the weights-provider
+  branch.
+- Core `compile_model` GPU at ratio 30: 2026.4.0 fails 3/3; 2026.3.1 OK 3/3 (read-back ratio 30,
+  `WEIGHTS_PATH` = the model .bin); 2026.4.0 with `WEIGHTS_PATH` OK 3/3.
+- `LLMPipeline`: the same three results (0/3, 3/3, 3/3), each OK run followed by an 8-token generate.
+- Heavy units: about 12 GiB peak per successful arm, memory returned after every unit.
+
+Only pass/fail was compared. Dataset, scripts and column README: `scratch_fleet_20260925/ov37737/weights_path_lead/`.
+
+**The four checks.**
+1. In scope: the release notes name MoE offload for INT4 and Qwen3-30B-A3B.
+2. Their tests: the functional test sets `__weights_path` by hand, and no test in their suite (default-branch
+   search) checks that `read_model` sets it.
+3. Rules: CONTRIBUTING and AI_USAGE_POLICY are unchanged since 2026-09-08 and were re-read in full. The
+   draft follows `bug.yml` and the policy's disclosure format.
+4. Coverage: no existing issue or PR in openvino or openvino.genai; no open weights-provider PR touches the
+   IR frontend files.
+
+**Track B.** ExternalPR merges run 4.3-13.7 days, including a `[CORE]` fix in 7.3 days.
+
+**Draft.** `DRAFT_issue_weights_path_2026-09-25.md`, sha256 `23fe8da7...8d28`, preflight exit 0 over seven
+check groups. It states the intent to open the fix PR, with an IR frontend test, after a local build.
+
+**Not verified.** A fix built from source; Linux; the GPU weightless cache, which also reads
+`__weights_path`; `ENABLE_MMAP` False as a compile-level workaround. Whether Intel tracks this internally
+is not visible from here.
+
+**Blair's call.** Whether and when to file. Recommended: file now, then build the fix and open the PR.
+
+Ticket: Vikunja #1658.
+
+#### 2026-09-25 (rounds 2-5) - the openvino issue dropped, a fix built on master, PR and #4580 comment drafted. Nothing posted
+
+- **Round 2.** The independent review found that the bug had been public since 2026-09-18 as model_server#4580 (Linux/B580, same 2026.4.0 build). My not-already-covered search had been scoped to openvino and openvino.genai only. The openvino issue draft was dropped. The track changed to B: a short comment on #4580, plus a fix PR in openvino. An open-PR scan (378 openvino PRs updated since 2026-08-24) found none that restores the key; #37940 is a `releases/2026/4` sync draft.
+- **Round 3.** openvino master `c13bcf09f178` was built from source: GPU plugin, IR frontend, Python and the IR frontend tests, with the CPU and NPU plugins off. The first configure failed, because `commonTestUtils` needs `openvino_template_plugin` and `ov_hetero_func_tests` needs `openvino::funcSharedTests`. The second configure succeeded with `-DENABLE_TEMPLATE=ON -DENABLE_FUNCTIONAL_TESTS=ON`. The build took 68 min in total against a 60-100 min estimate, with a 3.86 GiB peak tree against an 8-10 GiB estimate. Unfixed master reproduced the failure: key absent 0/3 with mmap on, and `moe.cpp:57` 3/3. The fix gave 3/3 on both. An intermediate "84 tests, only that one failing" was retracted: 4 tests are disabled, so 80 ran and 79 passed on unfixed code.
+- **Round 4.** A second test was added: weights passed from memory must not gain the key. It passes 3/3 on both unfixed and fixed code, and fails 3/3 against a mutant fix that invents a path. `SCOPED_TRACE` was added and the code comment corrected. With both tests included, the suite reads 80/81 unfixed and 81/81 fixed, and the GPU rows are 3/3 on the fixed build. The PR title, commit message and branch name were pinned and preflighted.
+- **Round 5 (text only).** The PR body now:
+  - names the two unfixed builds behind the master column;
+  - attributes the configure failure precisely;
+  - carries the required attribution footer.
+
+  The comment's remaining first-person lines were made impersonal. TAIL4's clang-format "can fail" claim was retracted in place and its artifact produced.
+- **Final drafts:** see `TAIL5_weights_path.md`. The PR body sha256 is `0909f153...be97`, the comment `75a33c3a...6715`, the diff `b4e4bb3e...34cb`.
+- **Blair's calls:** whether to open the PR and post the comment together, the PR posture under openvino's AI_USAGE_POLICY, and the `Claude-Session` trailer.
+
+**Coordinator close-out (2026-09-25 evening).** Final package re-verified against the round-3 review: body v3 differs from the reviewed v2 only by the B1/B2 wording and the attribution footer; comment v4 differs from v3 only by the two K1 wordings. openvino master still `c13bcf09f17883427f7882e39bbe6b34559d87c9` and model_server#4580 unchanged (3 comments, updated 2026-09-24T18:53:05Z) at close. Nothing posted, pushed or committed upstream; awaiting Blair.
+
+
+### 2026-09-29 — Fleet check-back after four days paused: two posts (model_server#4428, #4580), #4390 closed by Intel, #37736 reproduced by Intel
+
+**Retraction, kept visible (from 2026-09-25).** The coordinator reported #4428 reply v2 and #4390 reply v5 as ready to post. Blair's separate review session blocked both (commits 2daef33, e2b8e49), and neither was posted. The claim was wrong because it came before any independent review had cleared the drafts.
+
+**Live state, gh api 2026-09-29T17:38Z.**
+- **openvino#37736.** Zulkifli-Intel reproduced the second-`generate()` hang (comment 5893573468) after reinstalling the driver: 2026.3.1, Arc 140V 16 GB, driver 32.0.101.8992, INT8, ratio 75. Generate A took 148.3 s and generate B hangs. He has taken it to the dev team and asked us nothing, so nothing was posted.
+- **openvino.genai#4390.** diego-villalobos closed it as completed on 09-28 with no comment. The fix PR, #4449 (xufang-lisa, Intel), is still a draft and was labelled Stale on 09-28.
+  - Blair's decision: post nothing on the closed issue. #4449 is Intel's PR, not ours to close or comment on.
+  - Reply v6 was retired unposted. The reply to peterchen's 09-23 @-mention went through six blocked versions and missed the thread (memory `reply-while-the-thread-is-live`).
+- **model_server#4580.** mzegla asked "OV issue or misconfiguration?" and cc'd peterchen-intel. The reporter's LOG_LEVEL=5 log shows the same `weights_path` assert, on a B580.
+- **Unchanged or not ours:**
+  - #37737: unchanged.
+  - #36891: 9 author commits, nothing to us.
+  - #4139: Stale label removed on 09-28; now in conflict with master, and the PR is not ours.
+
+**Decisions and rules from Blair today.**
+- **No PR for the `weights_path` fix.** openvino's AI_USAGE_POLICY says contributors must be able to explain their change end-to-end. It lists "AI-generated responses in place of direct, human-to-human communication during review" as not acceptable. The fix went as an issue comment carrying the tested patch.
+- **Be concise for the engineers.** On #4428 our comments averaged 6,490 characters, against lusoris's 3,151 and mzegla's 501 (memory `match-the-threads-length`). Rule 0 applies to every sentence.
+- **Reproducers are pre-authorized.** Publishing reproducer scripts to his public repo needs no question; his name, email and handles are not sensitive (memory `publish-reproducers-without-asking`).
+
+**POSTED model_server#4428** (Blair's go, after independent review INDEPENDENT_REVIEW_v7_2026-09-29.md, POSTABLE):
+- **Link edits.** Four comments, 5357627024, 5433302591, 5688970229 and 5763157900, had 11 wrong model_server auto-links. They were edited to links only, per O1. The rendered HTML now has 0 wrong links.
+- **Reply.** Posted as 5895992823, 1,558 characters; v4 was 7,659. It answers mzegla's two questions: the assertion is raised mid-run in 5 of 5 GPU seeds, and here is how to run it.
+- **Reproducer.** Published at blairducrayoppat/openvino-contributions d105690. The posted commands, run verbatim from GitHub, raise at `step()` call 8.
+- **Checks.** Every edit and the reply were fetched back and matched the approved draft byte for byte.
+
+**POSTED model_server#4580** (Blair's go, after INDEPENDENT_REVIEW_ms4580_v10_2026-09-29.md, POSTABLE):
+- Posted as comment 5896054287, with 964 visible characters.
+- **Cause:** #35457.
+- **Arc 140V table:** 2026.3.1 3/3 vs 2026.4.0 0/3; master c13bcf09 0/3 vs patched 3/3. Every failure is the same assert as the reporter's.
+- **The full tested patch** is in a collapsed details block.
+- **Checks.** `git apply --check` OK at live master 9082f040. Fetch-back is identical.
+
+**Gate fixed (commit 2e9f838).** `check_quoted_blocks.py` used to skip language-tagged fences, so a reply with four tagged fences "checked 0 blocks" and passed. It now checks every block, and non-quote blocks are exempted only by sha256. The self-tests were extended. The #4428 v4 reply is the known-bad case: it is now refused.
+
+**Not verified.** The #4580 patch was not built at 85e8cb27 or 9082f040. It was tested on Windows only, not through OVMS or GenAI, and the GPU weightless-cache tests were not run.
+
+**Next.**
+- Vikunja 1446 (#4428): check back 2026-10-06.
+- Vikunja 1658 (#4580): check back 2026-10-03. If Intel asks for a PR, that returns to Blair under the AI policy.
+- Vikunja 1461 (#37736/#37737): check back 2026-10-02.
+- Vikunja 1463 (#4390): closed.
+
+
+### 2026-09-29 (later) — SOP: an AI-usage policy shapes the process, never the path; #4580 PR offer added
+
+**Retraction, kept visible.** Earlier today I recommended "Comment + patch, no PR" for the #4580 fix, marked "(Recommended)". The reason given was openvino's AI_USAGE_POLICY: the contributor must be able to explain the change, and review replies must not be AI-generated in place of human communication. Blair chose that option on my recommendation. He then corrected the reasoning: an AI policy is something we abide by through proper process, never a reason to deselect a PR when a PR is the appropriate path. He also wants merged-PR credit with the Intel team and the community.
+
+**SOP (CLAUDE.md engagement rules 4 and 4a; upstream-contributor agent).**
+- When a PR fits, it is the primary option.
+- For openvino, the policy is met by process: the agent explains the code and every reviewer question to Blair in plain language, and Blair writes review replies in his own words.
+- Every comment carries one @, to the engineer who asked, matches the thread's comment length, and ends with one concrete offer useful to the maintainers (a PR whenever one fits).
+- Memories: `ai-policy-shapes-process-not-path`, which also absorbed `publish-reproducers-without-asking`, and `upstream-comment-sop`, which absorbed `match-the-threads-length`, `end-with-a-useful-offer` and `reply-while-the-thread-is-live`. Those three names appear in the entry above.
+
+**Applied to #4580.** Comment 5896054287 was edited in place, at Blair's direction, to end with "@mzegla, shall I open this patch as a PR against openvinotoolkit/openvino?". v11 was blocked on rule 5a over the phrase "if it's useful"; v12 passed review (POSTABLE, 0/0). The fetch-back was identical. Whether GitHub notifies an @ added by editing is unknown; no authoritative source was found. If mzegla says yes, the PR opens from the tested patch, and the SOP above governs the review.
+
+### 2026-09-29 (evening) - review of our openvino#36891 comment; comment-shape gate added
+
+Blair asked whether comment 5555547203 (posted 2026-09-05) wasted the maintainers' time. Read live
+with `gh`: 0 replies, 0 reactions, and no later review cites it. yuanxion's three 2026-09-28 replies
+answer Copilot findings. Whether anyone read it is not known.
+
+Measured defects of the comment: 8,420 characters against a median of 83 over the thread's 21 other
+human comments; two @-mentions; no offer; a second answer to the question zaixing-wang had answered
+on 2026-07-21; ends on a null result. Head `6c09f7b228` is 8 commits behind (2026-09-27 to 09-29:
+zero-budget handling, tracked-memory budget, Linux `MemAvailable`). Our DXGI-budget finding describes
+superseded code.
+
+Changes: `scripts/preflight_external_post.py` gains `post_kind: "comment"` (refuses more than one @,
+no offer before the disclosure, body over 3x the thread median with a 1200-character floor;
+`length_waiver` for an explained exception), 11 self-test cases; replayed on this comment it refuses
+on all three. CLAUDE.md rule 4b, the `upstream-contributor` agent and the `upstream-review` skill
+carry the judgment rules. Memory: `comment-must-be-actionable`.
+
+Not resolved: `scripts/test_preflight_external_post.py` fails on `scratch_pr4392/post_spec_4392.json`
+(the 2026-09-07 posted comment) with and without this change - the 2026-09-29 tagged-fence fix flags
+its `AI assistance used: yes` block. Cause not confirmed; the gate's own self-test says tagged fences were unchecked before 09-29.
+
+#### 2026-09-29 (evening, addendum) - the three open items closed
+
+1. `scripts/test_preflight_external_post.py` failure on `scratch_pr4392/post_spec_4392.json`: cause
+   confirmed. Commit `2e9f838` made the quote gate check tagged fences; the fixture's `text` fence
+   holds the AI-assistance disclosure, not captured output. Fixed by exempting that block by its
+   sha256 in the spec's `not_quoted_blocks`. Suite passes.
+2. `upstream-review` skill moved into the repo (`.claude/skills/upstream-review/SKILL.md`); the
+   user-level path `~/.claude/skills/upstream-review` is now a directory junction to it, byte-identical
+   at the move. The regression suite fails if the two ever stop resolving to the same directory.
+   Original global copy kept at the session scratchpad (`upstream-review.global-backup`). Not
+   verified: that Claude Code loads the skill through the junction in a fresh session.
+3. Rules 4b.1 and 4b.2 are now in the gate: `thread_read_through` (refuses any newer other-person
+   comment) and `data_head_sha` (refuses a moved PR head the body's first 700 characters do not
+   name); a bare null result is refused by the existing offer check. New live regression fixture
+   `scratch_ov36891/comment_5555547203_KNOWNBAD_spec.json` (the 09-05 comment as posted): refused
+   for all four expected reasons. Limit: the gate checks declared values, so it cannot tell
+   whether `thread_read_through` was set honestly or whether a reply truly answers the question;
+   the reviewer skill checks that.
+
+#### 2026-09-29 (evening, second addendum) - skill load verified; review can no longer be skipped silently
+
+- Skill load through the junction: a fresh headless `claude -p` process invoked `upstream-review` and
+  returned the new Step 3 header line, so a new session loads the repo copy.
+- Review enforcement: every post spec needs `review_file` (report from the `upstream-review` skill,
+  first lines `REVIEW-OF-SHA256`, `VERDICT: PASS`, `REVIEWER`) or `review_waiver` with a reason,
+  which the gate prints ("NOT INDEPENDENTLY REVIEWED"). The hash must equal the body's, so editing the
+  body after review voids it (checked end to end: reviewed bytes exit 0; one line appended, exit 1).
+  CLAUDE.md 4c. The 4392 historical fixture carries a waiver.
+- Limit: the gate proves a review file exists for these bytes and says PASS. It cannot prove the
+  REVIEWER was a different agent from the author or that the review was thorough.
+
+### 2026-09-30 - model_server#4580: mzegla invited the openvino PR; fix rebuilt and re-verified on master 88f8c6bf7c, PR package reviewed. Nothing pushed or posted
+
+**Invitation.** mzegla (collaborator) commented 2026-09-30T13:55:44Z (5912737902): open a PR in openvinotoolkit/openvino linking model_server#4580 and the suspected regression. Track B (openvino external-author merges 0.2-8.1 days in the last 40); rule 2 not triggered (our only openvino PR, #34651 NPU, closed by the stale bot 2026-07-30; it needed a maintainer to approve the workflow run). AI_USAGE_POLICY, CONTRIBUTING, CONTRIBUTING_PR unchanged since 2026-09-25. Bug still present on master.
+
+**Measured** (Arc 140V, driver 32.0.101.8831; master 88f8c6bf7c, version 2026.5.0-23302-88f8c6bf7c4; N=3 fresh processes, suite N=1): new mmap-on test 0/3 -> 3/3; full IR frontend suite 80/81 -> 81/81 (4 disabled); read_model key present on the 30B model 0/3 -> 3/3; GPU compile OFFLOAD_RATIO 1, 30, 99: 0/3 -> 3/3; controls 3/3 both arms: ratio 0 and 100, explicit WEIGHTS_PATH, mmap false on the 1.7B model. Build 638 s, peak 2.12 GiB (preflight_unattended 31 pass, 0 fail). Evidence: scratch_ovms4580/fixbuild/ (README COLUMNS_README.txt).
+
+**Retraction.** The 2026-09-29 comment said the patch was not built at 85e8cb27 or 9082f040. It is now built and measured at 88f8c6bf7c. The master arm's IR frontend DLL hash was not recorded (named in the PR body); the first foreground iteration ran against a wrong log path in the copied script and still printed its OK marker; check_iter.py caught it and the iteration was re-run.
+
+**Package.** Local commit ec0f7240d1 on branch ir-fe-weights-path-rt-info (worktree <build dir>\openvino-wp-master), body sha256 3c59e764..., two independent reviews (the first PASS on 9d78ba17 was voided by edits; REVIEW_PR_body_v2 PASS, zero blocking). Preflight exit 0 for body, title, branch; the commit message trips only the gate's email rule on the Co-Authored-By trailer. Not verified: Linux, B580/OVMS, CPU/NPU, GPU weightless cache, template plugin, non-MSVC compilers. Vikunja 1658. Blair's go is pending for the push and the PR.
+
+**2026-09-30 (later), correction to the entry above.** The coordinator removed the claude.ai session link and "Generated with Claude Code" line from the PR body, and the Co-Authored-By and Claude-Session trailers from the commit message (Blair's standing rule, effective 2026-09-30: nothing leaving this machine carries them; AI disclosure lives only in the body's AI Assistance section). Local commit ec0f7240d1 (named above) was amended to 97b46516d248426924e262f3ef8f35d87fb0fc8d; the tree is unchanged (e6865e76cc for both, empty diff), so the measurements apply unchanged. Body sha256 is now a563a081...; the reviews bound to 9d78ba17 and 3c59e764 are void (marked in place). Superseded files listed in scratch_ovms4580/VOID_NOTES_2026-09-30.md. A new review and new preflights follow.
+Review v3 of body a563a081 BLOCKED: with the footer removed, the AI Assistance section no longer said Claude Code drafted the description and the commit message (rule 5; openvino AI policy item 4). Fixed by adding that bullet; the ratio 0 and 100 rows were relabelled "(offload off)", because the fix does change the compiled WEIGHTS_PATH read-back at ratio 100 (execution_config.cpp:193-194), though not the outcome. Body 80a579e4...: REVIEW_PR_body_v4_2026-09-30.md PASS, 0 blocking. Commit message 774360b1...: REVIEW_commit_message_v2 PASS. Preflight exit 0 for body, title, branch and commit message (scratch_ovms4580/preflight_*_v2_20260930.txt). Still awaiting Blair's go.
+
+**2026-09-30 (evening), package review.** Body v5 (42ec910a..., restructured at Blair's direction: Not verified moved into Details, AI Assistance condensed to the policy's three fields; oss commit 454b628) and commit message 774360b1... and pr_commit_97b4651.patch 7949b5c4... were reviewed as one package by a fresh reviewer (a subagent): REVIEW_pkg_PR_body / REVIEW_pkg_commit_message / REVIEW_pkg_patch_2026-09-30.md, all PASS, 0 blocking. Re-run by the author: format-patch of 97b46516d2 is byte-identical to the patch file; the commit object's message equals the draft; master is 51c4794bff, 4 commits past 88f8c6bf7c, none touching the IR frontend, weights provider, execution_config.cpp, moe.cpp or the template plugin, and `git merge-tree` onto it is clean; #4580 unchanged since mzegla's 13:55:44Z invitation; no attribution in any of the three files or the commit object. Nothing edited, nothing voided. Preflight exit 0 for body, commit message, title and branch (scratch_ovms4580/preflight_*_pkgreview_20260930.txt). Non-blocking, left as drafted: the GPU compile rows do not state ENABLE_MMAP (read back true in all 36 rows); commit author name "Blair" versus "Blair DuCray-Oppat" on genai eed42c806b, same email. Blair's calls: go to push and open; whether to open with the disclosure that he did not build or test (openvino AI policy Contributor Responsibility 2), recommended as drafted.
+
+### 2026-09-30 - openvino#38526 opened (model_server#4580 fix, invited by mzegla of Intel)
+
+On Blair's go, commit 97b46516d248426924e262f3ef8f35d87fb0fc8d was pushed to
+blairducrayoppat/openvino as `ir-fe-weights-path-rt-info` and opened as
+https://github.com/openvinotoolkit/openvino/pull/38526 against master.
+
+- **Before the push:**
+  - Master was at 51c4794bff, 4 commits past the measured base 88f8c6bf7c.
+  - `git diff --stat 88f8c6bf7c origin/master` over the PR's files, `src/frontends/ir`, GPU
+    `execution_config.cpp` and `moe.cpp` was empty, and `git merge-tree` was clean.
+  - The commit message in the pushed commit is byte-identical to the reviewed
+    `DRAFT_commit_message.txt`.
+  - The final preflights exited 0 for body, title, commit message and branch
+    (`scratch_ovms4580/final_preflight_*_prepush_20260930.txt`).
+- **After the push:**
+  - The PR body read back through the API (`posted_PR_38526_body_readback.md`) equals the approved
+    body sha256 42ec910a..., apart from the trailing newline the jq output adds.
+  - Head SHA, title, base and author match.
+  - No Claude attribution appears in the body or the commit.
+- **CI:** 23 workflow runs are `action_required` and 1 is queued. A maintainer must approve the runs
+  for this fork.
+- **Next:** a comment to @mzegla on model_server#4580 with the PR link and a request to approve the
+  runs, which needs its own review and Blair's go. Check back 2026-10-01 (Vikunja 1658).
+
+**2026-09-30 (later), comment posted on model_server#4580 (Blair's go).**
+https://github.com/openvinotoolkit/model_server/issues/4580#issuecomment-5919700776, posted
+as blairducrayoppat.
+
+- **Content:** it links openvino#38526 and openvino#35457 and asks mzegla, or someone on the
+  OpenVINO side who can, to approve the 23 `action_required` workflow runs.
+- **Review and preflight:** fresh review PASS, bound to sha256 df0a2c4b...
+  (`REVIEW_4580_comment_mzegla_2026-09-30.md`). The preflight exited 0 both at review time and
+  immediately before posting.
+- **Read-back:** `posted_4580_comment_5919700776_readback.md` is byte-identical to the approved
+  draft, 370 bytes.
+- **Not known:** mzegla's openvino permission. His only openvino PR is `author_association` NONE and
+  the org-membership check returns 404, so he probably cannot approve the runs himself.
+
+## 2026-10-01 (afternoon): openvino#38545 opened, fix for #37736
+
+https://github.com/openvinotoolkit/openvino/pull/38545, opened as blairducrayoppat from
+`gpu-moe-offload-slot-buffer-lifetime` (commit 6970e4a5f3 on base 846954b7ed). Blair's decision:
+push on the old base, state the base in the body, let upstream CI test the rebase.
+
+- **Body:** sha256 73e3e768...; the fetched-back body is byte-identical to the approved file
+  (`scratch_ov37736/package/live_pr38545_body_20261001.md`); title identical.
+- **Review:** round 5 PASS (`REVIEW_PR_body_2026-10-01_r4.md`) after four FAIL rounds on earlier
+  bodies (`REVIEW_PR_body_2026-10-01*.md`). Preflight for body, title and commit message exited 0
+  (`preflight_*_final_20261001.txt`).
+- **Data:** batch B 160 of 160 units, analysis `ANALYSIS_batchB_FINAL_160of160_20261001T144534.md`;
+  HF dataset folder `followon_37736_2026-10-01`, data revision 3f2b8c50dafd4b63e9da4f6c01e48d94e31a66b9.
+- **State at post:** triage check passed, label check pending. Master 13 commits ahead of the base at
+  15:37 (head 89adf0d7465b); none changes the two files.
+- **Next:** Vikunja #1659 check-back due 2026-10-04.
+
+## 2026-10-01 (evening): openvino#38545 body shortened
+
+Operator judged the 2260-word body too verbose. Replaced by a 1046-word body (sha256 08c7cd34...),
+applied by editing the PR body at 21:36 UTC; the fetched-back body is byte-identical to the approved
+file (`scratch_ov37736/package/live_pr38545_body_after_edit_20261001.md`). The long body (73e3e768...)
+is kept at `scratch_ov37736/package/PR_BODY.md`; the full evidence stays in the HF dataset (revision
+3f2b8c50dafd...).
+
+- **Review:** four rounds on the short body; rounds 1-3 FAIL (`REVIEW_PR_body_short_2026-10-01.md`,
+  `_r2`, `_r3`), round 4 PASS (`_r4`, Opus reviewer, bound to 08c7cd34). Preflight exit 0
+  (`preflight_PR_body_short_final_20261001.txt`).
+- **Why the first drafts failed:** each cut removed a caveat that kept a remaining sentence honest
+  (trace scale limit, INT4 comparators, per-document findings in "What I checked", asymmetric
+  explanation of single-unit performance exceedances). The final form names all five exceeding
+  timing cells with no unit-level explanation, in both directions.
+- **Open note:** only the PR-slower cell carries its means and N; the README in the dataset explains
+  the 91.2 s unit but not the 59-id cells' dependence on master unit B131.
+- **State at edit:** PR open at 6970e4a5f3, 0 comments, 0 reviews; master 13 commits ahead of the base.
+
+## 2026-10-02: openvino#38526, praasz review round 1 answered locally (test moved to the GPU plugin); nothing pushed or posted
+
+**What praasz asked (Intel, core/IR maintainer; review 5390915968, inline 4165019160 at 10:46Z; issue comment
+5946934739 at 06:48Z).** The IR FE tests must go: `__weights_path` is internal and not part of the IR format. The test
+belongs on GPU, must reproduce the reported failure and assert that compilation works, and must not check how it is
+done. Separately: `__weights_path` should be removed, the GPU plugin should not use it, and weightless compilation must
+get a path or a model hint. Blair's instruction: make the changes Intel requires; the reply must be at most praasz's
+own length.
+
+**Changed (local commit 8470dd61a6 on `ir-fe-weights-path-rt-info`, parent 97b46516d2, worktree
+<build dir>\openvino-wp-master; NOT pushed).** `src/frontends/ir/tests/frontend_test_basic.cpp` restored to the base
+version (the two tests removed). New `src/plugins/intel_gpu/tests/functional/behavior/moe_offload.cpp`:
+`smoke_MoEOffload/MoEOffloadFromIRFile`, parametrised on `ENABLE_MMAP`; serialises the `smoke_MoE3GemmCompressedFusion`
+builder model (u8 experts, 4 experts, top-2, hidden 128) to IR with f16 boundary tensors, reads it back, and asserts
+`compile_model(model, "GPU", {OFFLOAD_RATIO: 50})` succeeds and the runtime model holds one `moe_3gemm_fused_compressed`
+node; a second case adds `WEIGHTS_PATH`. Skips without HW_MATMUL, as the existing MoE test does. `input_model.cpp`
+untouched. clang-format 18.1.8 clean under `src/plugins/intel_gpu/.clang-format` (160 columns). No trailers.
+
+**Measured** (Arc 140V, driver 32.0.101.8831; PR tree built Release with MSVC 2022/Ninja; `ov_gpu_func_tests` built for
+the first time on this box, 484 s, DX11/DX12 interop tests not compiled because ATL is absent; arms differ only in
+`openvino_ir_frontend.dll`, rebuilt from `input_model.cpp` at base 88f8c6bf7c or at the PR; test exe d75c533a identical
+in all 28 rows; N=3 fresh processes per row; counts from `build_counts_gpu.py`, which refused three known-bad inputs):
+
+| row | master | PR |
+|---|---|---|
+| CompileModelWithOffloadRatio/mmap=true | 0/3, every failure the moe.cpp:57 assert | 3/3 |
+| CompileModelWithOffloadRatio/mmap=false (known zero) | 3/3 | 3/3 |
+| CompileModelWithOffloadRatioAndWeightsPath, mmap true and false (known zero) | 3/3, 3/3 | 3/3, 3/3 |
+| closing control, mmap=true on the PR DLL rebuilt | | 3/3 |
+| `ov_ir_frontend_tests` after the removal | not run | 78/78, 4 disabled |
+
+Evidence: `scratch_ovms4580/gputest/` (README `COLUMNS_README.txt`, rows `rows_*.jsonl`, `counts_gpu_20261002.txt`).
+Two false starts are kept on disk and named in the README: the first test version had no f16 boundary tensors, so the
+expert block never fused and `compile_model` passed on both arms (wrong, left visible: only one fixed-arm unit was run,
+no master run; corrected 2026-10-02, review D12) (caught by the node-count assertion, 1/1 FAIL on the fixed arm); the first arm switch did not rebuild the DLL (subprocess quoting), so its "master" rows ran on the fixed
+DLL and were discarded. MSVC links are not byte-reproducible: the same source rebuilt differs in 2 of 490,496 bytes.
+
+**Not verified.** Inference with offload on (every row stops at compile); Linux, B580, OVMS, GenAI; CPU/NPU plugins;
+GPU weightless cache and template plugin; the rest of `ov_gpu_func_tests`; non-MSVC compilers. Dataset not published to
+HF (pass/fail table only; folder is ready).
+
+**Part 2 (analysis only, `scratch_ovms4580/gputest/PART2_analysis_20261002.md`).** Producers and consumers of
+`__weights_path` at the PR head: IR FE producer, serializer filter, GPU `execution_config.cpp:49-50/193-194` (applied for
+weightless cache or `OFFLOAD_RATIO > 0`, never over a user-set `WEIGHTS_PATH`), template plugin import, one shared
+behaviour test, and openvino.genai's continuous-batching pipeline (three sites, master e76f9f09). "Model hint" matches
+`ov::util::get_weightless_hint()`: `WEIGHTS_PATH`, `hint::model`, `hint::compiled_blob`; the core supplies them on the
+cache and import paths but not for `read_model(path)` + `compile_model(model)`, which is what GenAI/OVMS do. Under
+praasz's direction the PR's fix becomes unnecessary and the fix moves to GenAI passing `WEIGHTS_PATH` for
+`OFFLOAD_RATIO`; the no-`WEIGHTS_PATH` GPU test then fails by design, so his two comments reconcile only if this restore
+goes in first (wrong, left visible: Part 2 as re-derived on 2026-10-02 evening reads the comments, in their real order,
+as consistent and pointing at a path carrier other than the key, with the caller-side answer as the other reading;
+report review D4). Track A for the removal; nothing implemented.
+
+**Drafts (reviewed by fresh agents, `REVIEW_SUMMARY_r1.md`, `_round2.md`, `_round3.md`).** Reply
+`DRAFT_38526_reply_praasz_r1.md`, 345 characters (wrong, left visible: the file measures 349 characters, 350 bytes with LF;
+corrected 2026-10-02 after the report review, D2), 3 sentences, PASS round 1 (a5995d44); inline reply
+`DRAFT_38526_inline_reply_praasz_r1.md`, PASS round 3 (11d35266) after a wording defect ("only asserts") and a missing
+offer; PR body `DRAFT_PR_body_r1.md`, PASS round 2 (25b18900) after two defects (inference-with-offload missing from Not
+verified; the 1.7B row misdescribed); patch PASS round 1 (1b3c2bef). Part 2 (internal) failed three rounds on provenance (line
+numbers, a merge date, the search sentence); round 3 FAIL on one internal sentence, fixed in place, not re-reviewed;
+nothing external depends on it.
+Preflights: PR body exit 0; both replies refuse only on the unpushed SHA / data head, which clear after the push
+(`preflight_*_prepush_20261002.txt`). The reply carries no AI-disclosure line: Blair writes it himself under the openvino
+AI policy and the PR body carries the disclosure for the new test.
+
+**Blair's calls.** (1) Push 8470dd61a6 now and post the replies, or hold until praasz answers the direction question
+(recommended: push now; the test move is what he asked for regardless of the direction). (2) Post the reply as drafted or
+rewrite in his own words (recommended: rewrite, keeping the counts and the question). (3) Apply the PR body edit at push
+time (recommended: yes; the live body still describes the removed tests). Heavy lock taken over from the finished
+ov37736-followon run at 14:53Z and released at 16:12Z. Vikunja 1658 updated, due 2026-10-04.
+
+## 2026-10-02 (evening): openvino#38545 CI triage — GHA failure is a pip 504, no test ran; Jenkins DG2 failure unreadable
+
+Blair asked for the failures in https://github.com/openvinotoolkit/openvino/actions/runs/36917525756 (workflow
+"Linux (Ubuntu 24.04, Python 3.12)", attempt 2, head 6970e4a5f3) to be worked. Nothing posted, pushed or re-run.
+
+- **GHA failure:** job "LLM accuracy iGPU tests / LLM accuracy GPU tests" (110738949528, runner ov-dmz-26) failed at
+  step 8 "Install LLM accuracy test requirements"; step 9 (pytest) skipped. Log lines 4302-4304: `ERROR: HTTP error 504
+  while getting https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp312-...whl.metadata`, exit code 1, at
+  07:05:10Z. The aggregator `ci/gha_overall_status_ubuntu_24` fails only because it `needs:` that job
+  (`ubuntu_24.yml:318`). The extra index is the public one at `tests/llm/requirements.txt:2`; the job runs with
+  `use-pip-proxy: false` (`ubuntu_24.yml:211`).
+- **Environmental:** the same step on master push run 36974073856 (job 110741223673, ov-dmz-16, 07:02-07:20Z) succeeded
+  across our failure time; of 22 same-workflow runs created 06:26-07:55Z, every LLM accuracy job that ran passed. No
+  upstream issue mentions download.pytorch.org 504s.
+- **Our diff cannot reach it:** two files, both under `src/plugins/intel_gpu/`; nothing in `.github/` or `tests/llm/`.
+  Master is 28 commits ahead of the base; none touches the PR files or the LLM job.
+- **PR state:** p-durandin commented `build_jenkins` at 06:21:56Z and approved the GHA run (attempt 2,
+  triggering_actor p-durandin; attempt 1 was `action_required`). 0 reviews, 0 inline comments. We have no push/triage
+  permission on the repo, so re-run and approval are theirs.
+- **Jenkins (internal host, unreachable from here):** `build_rhel810_release` failure 07:08Z (also failed on internal
+  PRs #38546, #38551, #38556, #38557, #38567 the same day) and `ci/jenkins` "aborted" 08:40Z; `ci/jenkins/comment`
+  failure 11:49Z shared to the second with #38547. `ie_tests_cldnn_unit_dg2_ubuntu22_release` failure 08:40:26Z, six
+  seconds before the abort — cause unknown; other GPU PRs passed it that morning, and #38539 (CPU-only) shows the same
+  dg2-then-abort pair. ~~The three new `smoke_batched_gemv_offload/...` cases ran and passed on the public iGPU unit job
+  (110738072183, 27940 tests, 0 FAILED)~~ **[RETRACTED 2026-10-20: "passed" is not established. That runner is UHD
+  Graphics 770 (GPU_DEVICE_ID 0x4680, Xe-LP; its clinfo lists no `cl_intel_subgroup_matrix_multiply_accumulate`), and
+  `supports_immad` comes only from the DPAS feature flag (`ocl_device.cpp:316` at dffff39083), so the cases are expected
+  to stop at the `supports_immad` GTEST_SKIP. gtest_parallel's result JSON has no skip category (artifact 12184278204,
+  2026-10-19: 28353 PASS, 0 FAIL, including `smoke/.../10`, which fails 3/3 on Arc 140V). Same runner 2026-10-19 (job
+  118028746661). See the 2026-10-20 entry.]**; the BMG Level Zero job runs a 461-test subset without the MoE suite.
+- **Decision:** recommend no action; a maintainer re-run clears the GHA job. A rebase push is not recommended now (each
+  push waits for a maintainer approval click and would reset the Jenkins build they already triggered); it becomes right
+  if a reviewer asks or nothing moves by the 2026-10-04 check-back. No comment drafted (fails the value test).
+- **Evidence:** `scratch_fleet_20260925/ov38545/ci_run_36917525756/` (full job logs, step JSON, run/attempt metadata,
+  status comparisons, PR state JSON, diff patches). Report returned to the coordinator in the agent message, not as a
+  file (harness refused the report write). Vikunja #1659 updated, due date kept at 2026-10-04.
+
+**Not verified.** Any Jenkins log content; whether the DG2 unit failure is real; which tests the Windows GPU Jenkins
+job runs.
+
+## 2026-10-02 (evening): openvino#38526, independent review of the praasz round-1 report: FAIL; Blair sets the reply cap
+
+**Review** (`scratch_ovms4580/gputest/REVIEW_AGENT_REPORT_praasz_round1_20261002.md`, bound to report sha256 1b84781d,
+fresh upstream-contributor agent; oss 040ea00). Sound: local commit 8470dd61a6, the GPU test, the 28-row table and its
+controls, Part 2 citations. FAIL on the external text and the posting plan: no AI disclosure in either reply (rule 5);
+reply lengths 349 and 303 characters against praasz's 246 and 285 (the "345" given earlier in this log is wrong); the
+inline offer to swap the op-count check for inference; the report's "consistent only if" contradicts Part 2 §2.4, and
+it reverses the order of praasz's comments (removal comment 06:48Z, test request 10:46Z); dataset not on HF; the PR
+body edit drops the 2026-09-30 rows' provenance caveat and the weights-provider rework offer; no plain-language
+explanation or gate for Blair's rewrite; minor D9-D13 in the file.
+
+**Coordinator re-check of D3.** The review says the swap would leave the test unable to fail. With the PrePostProcessor
+f16 step kept, the model fuses and `compile_model` still throws on master, so the test still fails there; what the swap
+removes is the guard against the test passing silently if a future change stops the fusion. The offer still has to go.
+
+**Blair's decision (2026-10-02):** the reply lengths are approved; the cap on this thread is raised to 400 characters;
+the one-line AI disclosure does not count against the length (standing, all threads). D2 is closed by this decision;
+the wrong "345" figure still gets corrected.
+
+A fix agent dispatched from the review session was stopped at Blair's instruction ("that's not your job to fix")
+before it changed anything (no files, commits, HF revisions or ticket comments). The findings, Blair's decisions and
+the D3 correction go to the author session as `scratch_ovms4580/gputest/HANDBACK_review_r1_to_author_20261002.md`,
+which Blair carries over.
+
+Blair, on the stop: "you give me the report to give back to the other session." On where the rule lives: "that should
+be in the `upstream-review` skill already ... that's the output of that skill so putting it in your memory seems like
+bloat. fix the skill instead." The rule is now Step 4 of `.claude/skills/upstream-review/SKILL.md` (the hand-back file
+is the review's deliverable; the reviewing side never dispatches, messages or makes the fixes). The memory file written
+for it earlier this evening was deleted.
+
+## 2026-10-02 (evening): openvino#38526 round-1 package v2 after the report review (D1-D13); dataset published; nothing pushed or posted
+
+**Review of the v1 report FAILED** (`scratch_ovms4580/gputest/REVIEW_AGENT_REPORT_praasz_round1_20261002.md`, hand-back
+`HANDBACK_review_r1_to_author_20261002.md`). Blair's decisions: reply cap 400 characters per message on this thread; the
+one-line AI disclosure never counts against length. Each finding was re-verified against the artifact before acting.
+
+**Fixed.** D1: both replies carry a disclosure line ("drafted this reply; I reworded it"); the PR body's AI section says
+the same of review replies (body r4). D3: the inline offer now adds an inference step on top of the op-count check.
+D4: Part 2 §2.3-2.4 re-derived in the real comment order (removal 06:48Z, test request 10:46Z) and against a third
+shape, a path carrier other than rt_info (no existing structure carries the path: BufferWeightsProvider, MappedMemory,
+WeightOriginMetaData, get_id_for_file); preferred reading stated beside the caller-side reading; the question reworded
+("merge this restore now, or carry the path another way now"). D6: `EXPLAINER_praasz_round1_for_Blair.md`. D7, D8, D9,
+D10, D11, D12, D13 as stated (body caveat and provider offer restored, head pinned, unit files counted, CI and #36733
+in Not verified, log corrected in place, `diag/linkdet/LINKDET_RESULT.txt` committed).
+
+**D5, dataset published, with an error.** `pr38526_gputest_2026-10-02/` on
+`blairducrayoppat/openvino-arc140v-lunarlake`, data revision 76ea75b5a14b0e414196b0483b2e6ec37d5f6a7d (212 files,
+fetch-back identical), README index re-pointed (cb82c3e6). The first upload (cf27a89f) staged every text file under
+`gputest/`, so the reply drafts, PR body draft, reviews, specs, explainer and hand-back went public; the README commit
+23c3913f and the allowlisted re-upload 2ccfd79b still carried them (`upload_folder(delete_patterns)` did not delete);
+76ea75b5 deleted them by exact path. The three revisions stay readable in history; a squash would destroy the
+openvino#37736 pinned revisions, so none is recommended. Blair is told that posted replies can be compared with the drafts.
+
+**Reviews.** Fresh agents, four rounds: thread reply r3 PASS (7ac4fdb1), inline reply r3 PASS (85f9cb9f), PR body r4
+PASS (6aac3814), Part 2 PASS (round 4), explainer FAIL round 4 on the count of public revisions (E5: three, not two),
+fixed in place, not re-reviewed (internal). Superseded reviews in `void_r1_v1..v3/`, `void_r2/`, `void_r3/`,
+`void_r4/`. Preflights: every spec clear except the head/SHA not live until the push.
+
+**Report v2:** `scratch_ovms4580/AGENT_REPORT_praasz_round1_v2_20261002.md`. Blair's calls: go for the push + body
+edit + reworded replies (recommended), and whether to leave the three public revisions in history (recommended: leave).
+
+**2026-10-02 (later), HF leak record and containment.** The dataset publication for openvino#38526 carried internal
+working files beside the data. Revisions, all 2026-10-02 UTC: cf27a89f (17:24, first upload: every text file under
+`scratch_ovms4580/gputest/` staged, so reply drafts, PR body draft, reviews, specs, explainer and the hand-back went
+public), 23c3913f (17:25, README index, files unchanged), 2ccfd79b (17:40, allowlisted re-upload that still carried
+them: `upload_folder(delete_patterns)` matches relative to `path_in_repo`, so the `folder/*` pattern deleted nothing),
+76ea75b5 (17:41, deletion by exact path, `hf_remove_extras.py`), 7814672645 (17:41, the coordinator's deletion of the
+last three `preflight_build_*` gate files; main clean, 209 files, 0 internal). README re-pointed to 7814672645 (commit
+0158a800). History untouched; whether to leave the three revisions readable is Blair's decision (recommended: leave; a
+squash destroys the openvino#37736 pinned revisions). `publish_gputest_hf.py` now stages by allowlist only, refuses when
+an internal-prefix file is staged, and has a self-test proving the refusal (`--self-test`). PR body re-pinned (r5).
+README duplicate parenthetical from the two re-points removed in 2d814307 (fetched back equal). Report v3:
+`scratch_ovms4580/AGENT_REPORT_praasz_round1_v3_20261002.md` (v2 named 76ea75b5 as the revision to cite; wrong, left visible there).
+README line 549 re-pointed once more by the now-idempotent updater (a4c2f457): one parenthetical naming cf27a89f, 23c3913f,
+2ccfd79b as the carrying revisions and 7814672645 as the first clean one; read back in
+`scratch_ovms4580/gputest/publish/readme_line_readback_final.txt`. Part 2 2.6 (iii) stale cross-reference fixed.
+
+## 2026-10-02 (night): contributions summary written; GitHub profile README updated
+
+Summary: docs/CONTRIBUTIONS_SUMMARY_2026-10-02.md (live `gh` state; re-run with scripts/collect_contrib_state_20261002.py and scripts/contrib_counts_20261002.py). Profile repo blairducrayoppat/blairducrayoppat, commit 7837e50, replaces only the Open Source Contributions section (8 PRs: 1 merged/4 open/3 closed; 16 issues: 9 open/7 closed). Review 1 FAILED the draft on five clauses (#37737 "escalated", #38545 causation, #38526 settled direction, "maintainer" for an Intel support engineer, #4082 before/after devices); all five reworded; review 2 PASS bound to sha256 50eb6931.... Fetched back after push: equal to the approved text after LF normalisation. Evidence: scratch_profile_20261002/ (both reviews, proposed README). Not verified: private-vs-public mirror diff; Vikunja 1459/1460 still stale.
+
+## 2026-10-02 (night): openvino#38526 report v3 independent review, verdict FAIL
+
+Fresh reviewer subagent (upstream-review skill) reviewed `scratch_ovms4580/AGENT_REPORT_praasz_round1_v3_20261002.md` (sha256 a1860aa6d3e8...). Files: `scratch_ovms4580/REVIEW_AGENT_REPORT_praasz_round1_v3_20261002.md`, hand-back `scratch_ovms4580/HANDBACK_AGENT_REPORT_praasz_round1_v3_20261002.md`, evidence `scratch_ovms4580/review_v3_20261002/` (re-runnable `review_v3_checks.py`, 6 FAIL lines). Code commit 8470dd61a6, the GPU test and the 28 rows verified; the report's decisions and two published HF pages did not. Defects D1-D8: Decision 2 says nothing links to the three leaked HF revisions, the public README at main names all three; README and COLUMNS_README state the test move and commit 8470dd61a6 as done while the PR head is 97b46516d2 and that SHA returns 422; body r5 and COLUMNS_README say "sha256 of every binary" against five hash columns per row; posting order runs the body edit before its preflight; stale bookkeeping (Part 2 sha, Vikunja 1658, VOIDED lines); thin 3b paragraph; overstated sentences; mtime-only basis for measured tree = committed tree. Relay re-verified D1, D2, D4 and D5(a) against live sources (`scratch_ovms4580/relay_verify_20261002/`); D3, D5(b)-(e), D6, D7, D8 not re-verified by the relay. Open operator decision (HF history: leave and drop the three ids from the README [recommended], keep the README as written, or squash) is not yet put to Blair; go/hold on the push waits for D1-D5 fixed and a fresh review. Nothing edited, posted, pushed or uploaded by the reviewer or the relay.
+
+**2026-10-02 (night), decision on the HF history question above.** Blair approved the reviewer's recommendation: leave the HF history as is (no squash; `3f2b8c50dafd` cited in openvino#38545 stays valid) and have the dataset README stop naming revisions cf27a89f, 23c3913f and 2ccfd79b. The go covers only that README edit; D2 and D4 corrections to HF text need Blair's read-back of each sentence. The README edit is pending in the author session (hand-back `scratch_ovms4580/HANDBACK_AGENT_REPORT_praasz_round1_v3_20261002.md`); not yet made. The leaked drafts stay readable in revisions cf27a89f, 23c3913f and 2ccfd79b; the leak record above is the only place the ids stay named.
+
+## 2026-10-02 (late): profile README reworked to Blair's brief; live at 48e6590
+
+Brief: resume-level, under 2,000 characters, no in-flight specifics, summarise help on threads not authored, put the division of labor in the build section. Replaces the 7837e50 version. Reviews: v2 FAIL (universal AI-disclosure claim false for 4+ issues; "root-cause fix behind #265/#266" and the withdrawal reason unsupported; "after re-testing" true only for #4368), v3 FAIL (#4082 arms differ; "vendor-documented NPU draft path" contradicted by the dataset card; #4139 build fix was an inline suggestion; #4428 "at a maintainer's request" overstated), v4 FAIL (#4082 0/95 could not have disagreed; #4428 reproducer does not reach the reported assertion), v5 PASS, bound to sha256 c8763ea0.... The #302/#265/#266 clauses and the "1 in 95" figure that stood in the live README from 7837e50 (and the earlier profile) are removed in 48e6590. Fetch-back equals the approved text after LF normalisation. Evidence: scratch_profile_20261002/ (v2-v5, factsheet, raw_v3).
+
+## 2026-10-02 (night): openvino#38526 report v4 after the v3 review (D1-D8); Blair's HF decision applied; nothing pushed or posted
+
+**v3 report review FAILED** (`scratch_ovms4580/REVIEW_AGENT_REPORT_praasz_round1_v3_20261002.md`, hand-back
+`HANDBACK_AGENT_REPORT_praasz_round1_v3_20261002.md`, evidence `review_v3_20261002/`). Each finding re-verified against
+its evidence before acting. **Blair's decision:** HF history stays; the README stops naming cf27a89f, 23c3913f,
+2ccfd79b. Applied in one README commit 4b4957fcf83a91dad3cd091f85c6e161dcbc6432; line 549 read back equal to the
+approved text, no leaked id anywhere in the README (`gputest/publish/readme_line_readback_blair_decision.txt`); the
+updater's canonical parenthetical no longer carries the ids.
+
+**Fixed.** D1: decision 2 restated with true premises (the README did name the ids; #37736 posts cite `main`; the one
+pinned public citation is 3f2b8c50dafd in openvino#38545). D2: two published HF sentences run ahead of the PR (README
+"was moved", COLUMNS_README "later commit 8470dd61a6"); author's decision: the push makes them true, prepared
+replacements in `gputest/PREPARED_HF_corrections_20261002.md` wait for Blair's read-back if the push is held. D3: body
+preflight gated between push and body edit; CI sentence re-measured after the push. D4: body r6 (d408f2ae) says five
+binaries are hashed; local COLUMNS_README corrected, HF copy prepared, not pushed. D5: Part 2 sha a2019570 (edited after
+PASS, not re-reviewed), README commit, Vikunja 1658 rewritten, VOIDED lines appended to void_r1_v1/v2. D6: 3b paragraph
+completed (status quote, search scope, skip config `skip_tests_config.cpp:251`, CI runner HW_MATMUL unknown, OFFLOAD_RATIO
+search with one clause per nearest thread, no known-issues page). D7: first build failure named; "no existing structure"
+bounded to four examined; publisher self-test now calls the gate function main() uses and fails when the gate is
+disabled; reviewer condition for Blair's reworded text carried; explainer sentences corrected (maintainer role,
+"whichever mechanism", "preferred" basis). D8: measured-tree basis recorded (`gputest/measured_tree_basis_20261002.txt`:
+source mtime < obj < exe < first row; blob 5f8a84ab5c equal in HEAD and worktree).
+
+**Report v4:** `scratch_ovms4580/AGENT_REPORT_praasz_round1_v4_20261002.md`; fresh review of it and of body r6 pending;
+decision 1 (push) not put to Blair until that review passes.
+
+## 2026-10-02 (late): Vikunja 1459 and 1460 brought current; optimum-intel#2037 recorded
+
+optimum-intel#2037 (posted 2026-09-29, question to @sgonorov on exporting Intel's Qwen3-Omni-30B-A3B int4-AutoRound checkpoint) had no log entry; its history is Vikunja 1459 comments 3773-3787 (export attempts capped by RAM/commit, one conclusion withdrawn in 3782, pagefile raised to 48 GiB, independent review PASS after six FAIL rounds). Live 2026-10-02: open, 0 comments. Tasks rewritten as WATCH items: 1459 check-back 2026-10-13; 1460 (genai#4267 comment 5898138163, 1 comment, no reply) check-back 2026-10-06. Open item carried from 1459: revert the pagefile to 24 GiB at next restart.
+
+**2026-10-02 (night, later), v4 review and v5.** The v4 report review FAILED on three report sentences only (every D1-D8
+fix confirmed; body r6 PASS, `gputest/REVIEW_PR_body_r6.md`): the OFFLOAD_RATIO search list did not match its stated
+scope (org-wide search returns 11 hits incl. openvino.genai#4552, #4267, #4390); "sha256 of every binary" was
+misattributed to v3; the "exactly one check" sentence had no r6 preflight artifact behind it. Report v5
+(`scratch_ovms4580/AGENT_REPORT_praasz_round1_v5_20261002.md`, 36be8970) corrects the three with the wrong versions
+visible; `gputest/preflight_PR_body_r6_prepush_20261002.txt` recorded (fails only on the head not live); NOTE added to
+`REVIEW_explainer_r5.md`. Fresh review of v5 pending; decision 1 (push) still gated on it.
+v5 review FAILED on two sentences of 3b (iv) (#36891 is an open PR, not a feature request; the search run time postdated
+the report and had no artifact). Report v6 (`scratch_ovms4580/AGENT_REPORT_praasz_round1_v6_20261002.md`, 83541832)
+corrects both; the org-wide search output is saved as `gputest/search_offload_ratio_org_20261002T191406Z.txt`. v6 review
+pending.
+**v6 review PASS** (`scratch_ovms4580/REVIEW_AGENT_REPORT_praasz_round1_v6_20261002.md`, bound to 83541832). Package state:
+commit 8470dd61a6 unpushed; replies r3 and body r6 PASS with specs; HF clean at 7814672645, README 4b4957fc; decision 1
+(push, body edit, reworded replies) can now go to Blair.
+
+## 2026-10-02 (night): openvino#38526 report v6 independent review, verdict FAIL; body r6 PASS; prepared HF corrections FAIL
+
+The author lane's own subagent reviews (a separate session) returned PASS on report v6 (scoped to the v5-to-v6 diff) and on body r6, and FAIL on v4. Vikunja 1658 comment 3799 recorded "report v6 PASSED independent review ... Ready for decision 1". A separate fresh reviewer (upstream-review skill, a separate session; formed its verdicts before reading the other lane's v6 files) reviewed v6 sha256 83541832e690...: report v6 **FAIL**, body r6 (d408f2aefc98...) **PASS** (same bytes as the author lane's PASS), prepared HF corrections (d40325542e6b...) **FAIL**. Files: `scratch_ovms4580/REVIEW_INDEP_AGENT_REPORT_praasz_round1_v6_20261002.md`, `REVIEW_INDEP_PR_body_r6_20261002.md`, `REVIEW_INDEP_PREPARED_HF_corrections_20261002.md`, hand-back `HANDBACK_INDEP_AGENT_REPORT_praasz_round1_v6_20261002.md`, evidence `review_v6_indep_20261002/` (scripts rv6_checks_1..9). Substantive defects, relay re-verified against files and live HF: (1) `COLUMNS_README.txt` "sha256 of every binary" (local line 18, published line 19) is not corrected by the prepared file, which replaces a different sentence, while the report's Outcome says it is; (2) no plan step covers the pins: a COLUMNS_README correction is a new data revision, and body r6 and README line 549 pin 7814672645, whose COLUMNS_README keeps "every binary" and "later commit 8470dd61a6". Wording and bookkeeping defects (D3-D7: "a full build of 484 s", "the policy's bar ... is met", "this v4"/"report v4" in a v6 report, an unrecorded search rendering, "re-verified by every reviewer") are in the hand-back; relay re-verified D4 and D5 text presence, D3 facts. The author lane's v4 hand-back statement that the local COLUMNS_README carries the five-binary correction is wrong (line 18 unchanged); recorded in the INDEP hand-back, that file left unedited. Vikunja 1658 comment 3800 corrects comment 3799. Decision 1 (push, body edit, posts) waits for a report that passes. The reviewer's `git fetch origin master` moved remote-tracking `origin/master` 883978e645 to 702c7bad07 in the shared openvino object store; routine fetches by other sessions did the same earlier the same day; no oss script resolves origin/master at run time. v4-round files of the same reviewer (`*_reviewer2.md`, `REVIEW_PR_body_r6_20261002.md`, `REVIEW_PREPARED_HF_corrections_20261002.md`, `review_v4_20261002/rv4_*`) are superseded and committed with this entry. Nothing posted, pushed or uploaded.
+
+**2026-10-02 (night, later still), independent v6 review FAIL and v7.** The coordinator's independent review of report v6
+(`scratch_ovms4580/REVIEW_INDEP_AGENT_REPORT_praasz_round1_v6_20261002.md`) failed it on seven defects, two substantive:
+the five-binaries correction prepared for `COLUMNS_README.txt` replaced a sentence without the overclaim and left
+"sha256 of every binary" (published line 19, local 18) in place, and no order was given for the HF correction, the body
+edit and the revision pins; body r6 PASS there as well; the prepared file FAIL. The lane's own v6 PASS had been scoped
+to the v5-v6 diff and its v4 review wrongly said the local COLUMNS_README carried the correction (correction notes
+appended to that review and hand-back in place). Fixed: local COLUMNS_README line 18 corrected and the two-file basis
+for "committed tree equals measured tree" recorded; prepared file rewritten with the order (Blair's read-back, one HF
+commit as data revision R2, body r7 and README 549 re-pinned to R2, then push, gated preflight, body edit) and
+sentences dated so they hold before and after the push; dry run proves the phrase is gone from the sanitised upload
+(`gputest/publish/dryrun_columns_readme_20261002T193500Z.txt`); report v7 (`scratch_ovms4580/AGENT_REPORT_praasz_round1_v7_20261002.md`)
+restates the two build runs (382 s to step 415 of 751, failing object at 410; then 357 steps in 484 s), the AI-policy
+sentence as what is done, the search provenance (raw JSON `gputest/search_offload_ratio_org_raw_20261002T193434Z.json`),
+who re-derived the measurements, and current bookkeeping; Vikunja 1658 title and description rewritten. Fresh review of
+v7 and the prepared file pending; nothing pushed or posted.
+Independent v7 review FAILED (decision list still in the old order; launch time 15:46:59Z was the file-name stamp, the row
+says 15:47:01Z; policy lines 51-60; local fix time 19:34Z; no tool named for the R2 commit). Report v8
+(`scratch_ovms4580/AGENT_REPORT_praasz_round1_v8_20261002.md`) lists the eight-step order (read-back, R2 commit by the new
+`gputest/publish_r2_corrections.py`, body r7 and README re-pin, push, re-measure, gated preflight, body edit, reworded
+replies); launch times corrected in COLUMNS_README, the prepared file and the basis file (wrong line kept visible); dry
+run `gputest/dryrun_columns_readme_check.py` proves the phrase is gone and no real path survives. Review of v8 and the
+prepared file pending; nothing pushed, posted or uploaded.
+Independent v8 review: report FAIL on two stale strings (a leftover "~19:40Z"; Bookkeeping as of v7), prepared file v3 PASS.
+Report v9 (`scratch_ovms4580/AGENT_REPORT_praasz_round1_v9_20261002.md`) corrects both; review pending.
+**v9 review PASS** (`scratch_ovms4580/REVIEW_INDEP_AGENT_REPORT_praasz_round1_v9_20261002.md`, bound to a282b7d8). Package ready for
+Blair: read-back of the prepared HF sentences (PASS v3), then the eight-step order; nothing pushed, posted or uploaded.
+
+**2026-10-02 ~20:15Z, Blair's partial go and the hold.** Blair gave a go (~19:55Z) on the five prepared HF sentences, R2,
+body r7 and the README re-point; the coordinator held it because the build sentence's launch time had been wrong in the
+copy the v7 review examined (11:46:59 file stamp vs the row's 15:47:01Z). R2 NOT published (HF main 4b4957fc); body r7
+and the re-point held with it. Standing: S1 (build sentence) goes back to Blair; S2-S5 approved while their bytes hold;
+per-sentence hashes in `gputest/publish/prepared_sentence_hashes_20261002.txt`; S4 was reworded between the v2 and v3
+files, so it also needs read-back if Blair saw v2 (wrong, left visible: the rewording was between v1 5740643 and v2
+037b421; v2 and v3 share S4; a v2 reader needs only S1 re-read, a v1 reader S1 and S4; corrected after the v10 review). Report v10 (`scratch_ovms4580/AGENT_REPORT_praasz_round1_v10_20261002.md`)
+adds this section to the PASSed v9; review pending.
+v10 review FAIL (S4 version pair, README_EDITS wording, stale bookkeeping); report v11
+(`scratch_ovms4580/AGENT_REPORT_praasz_round1_v11_20261002.md`) corrects them; review pending. R2 still not published.
+v11 review FAIL (commit times stated as on-disk times; "verbatim" for a whitespace-normalised match); report v12
+(`scratch_ovms4580/AGENT_REPORT_praasz_round1_v12_20261002.md`) corrects both; review pending. R2 still not published.
+v12 review FAIL (commit-time bound stated backwards; unbacked v1 claim; stale bookkeeping line); report v13
+(`scratch_ovms4580/AGENT_REPORT_praasz_round1_v13_20261002.md`) corrects them; review pending. R2 still not published.
+v13 review FAIL (one sentence: the v4 reviewer's check output of 19:03:29Z binds the v1 prepared-file bytes); report v14
+(`scratch_ovms4580/AGENT_REPORT_praasz_round1_v14_20261002.md`) corrects it; review pending. R2 still not published.
+**v14 review PASS** (`scratch_ovms4580/REVIEW_INDEP_AGENT_REPORT_praasz_round1_v14_20261002.md`, bound to f7731f94). Standing:
+R2 not published (HF main 4b4957fc); S1 back to Blair (S4 only if he saw v1); body r7, README re-point, push, body edit and
+replies await his go. Nothing pushed, posted or uploaded.
+
+## 2026-10-02 (~21:10Z): openvino#38526 decision 1 executed on Blair's go: HF R2 published, commit 8470dd61a6 pushed, PR body r7 applied
+
+Blair's go (~20:10Z): the corrected build sentence approved at read-back, so all five prepared sentences stand at prepared-file
+sha256 1ca2bfce...; decision 1 as report v9 stated it. Executed in order, every gate passing:
+- (a) `gputest/publish_r2_corrections.py --go`: one HF commit, data revision R2 = c6d98387885c7290600585ba3cd6014ca1b9111f;
+  COLUMNS_README.txt and README.md fetched back equal to what was sent; per-line compare (`gputest/publish/r2_line_compare_20261002.txt`):
+  S2, S3 (tail), S4, S5 present; S1 is the prefix of its published line, followed by the pre-existing " Release, MSVC 2022 +
+  Ninja, -j6." that was never part of the replacement; "sha256 of every binary" absent at R2; no leaked id in the README.
+- (b) body r7 = r6 with the URL re-pinned to R2 (sha256 f6393444...); `spec_PR_body_r7.json`; fresh review PASS
+  (`gputest/REVIEW_PR_body_r7.md`). README line 547 (was 549) re-pointed to R2 by the idempotent updater (README commit
+  e851c47e, fetched back equal; `gputest/publish/readme_line_readback_R2.txt`).
+- (c) `git push fork ir-fe-weights-path-rt-info` from <build dir>\openvino-wp-master: 97b46516d2..8470dd61a6, plain push;
+  PR head 8470dd61a6 confirmed through the API, commits [97b46516d2, 8470dd61a6], state open.
+- (d) at the new head: 23 workflow runs action_required, Pull Request Labeler success (`gputest/ci_runs_head8470dd61a6_20261002.txt`);
+  branch merges cleanly onto origin/master 702c7bad07 (merge-tree); thread unchanged (2 issue comments, 1 inline, 1 review).
+  No body sentence changed, so no r8.
+- (e) body r7 preflight exit 0 at the live head (`gputest/preflight_PR_body_r7_postpush_20261002.txt`).
+- (f) `gh pr edit 38526 --body-file DRAFT_PR_body_r7.md`; fetched-back body equals the approved file apart from the one
+  trailing newline the API adds (`gputest/live_PR_38526_body_after_r7_edit_20261002.md`, 5846 vs 5845 bytes).
+- (g) both reply preflights exit 0 at the live head (`gputest/preflight_spec_*_r3_postpush_20261002.txt`); the drafts wait
+  for Blair's reworded text (new hash, fresh review that must diff against r3, preflight, byte-compare after posting).
+Hashes of every file acted on before acting: `gputest/publish/hashes_before_r2_*.txt`. Not done: the replies (Blair's).
+
+## 2026-10-02 (~21:15Z): openvino#38526 replies POSTED as drafted on Blair's exception; PR body r8
+
+**Blair's decision (~20:50Z):** he read both r3 reply drafts, will not reword them, and approved posting them as drafted
+("Approved to make an exception to the rewording and move forward"). This bears on openvino's AI_USAGE_POLICY.md lines
+59-60, under "Not Acceptable": "Using AI-generated responses in place of direct, human-to-human communication during
+review". The posted replies and the PR body say exactly what happened: Claude Code drafted them; Blair reviewed and
+approved them before posting; no rewording is claimed. Whether that satisfies the policy is the maintainers' reading.
+
+**Texts (only the AI line changed from the PASSed predecessors; fresh reviews PASS, bound to bytes;
+`gputest/REVIEW_reply_praasz_r4.md`, `REVIEW_inline_reply_praasz_r4.md`, `REVIEW_PR_body_r8.md`; preflights exit 0 at the live
+head 8470dd61a6, `gputest/preflight_*_r4_prepost_20261002.txt`, `preflight_PR_body_r8_prepost_20261002.txt`):**
+- PR body r8 (4eeecf7c): AI sentence now "Replies to review comments are drafted with Claude Code; I review and approve
+  them before posting." Applied first (`gh pr edit --body-file`); fetched back equal apart from the API's trailing newline
+  (`gputest/live_PR_38526_body_after_r8_edit_20261002.md`, 5854 vs 5853 bytes).
+- Thread reply r4 (61f3d94e, 393-character message plus the AI line): posted as issue comment 5961590035
+  (https://github.com/openvinotoolkit/openvino/pull/38526#issuecomment-5961590035, 21:14:45Z, blairducrayoppat) from
+  `gputest/payload_reply_r4.json` via `gh api --input`; read-back `posted_thread_reply_r4_readback_5961590035.md` equal
+  apart from the trailing newline (560 vs 559 bytes).
+- Inline reply r4 (5bc8be79, 308 plus the AI line): posted as reply 4169895624 to praasz's inline comment 4165019160
+  (https://github.com/openvinotoolkit/openvino/pull/38526#discussion_r4169895624, 21:14:46Z) via
+  `POST pulls/38526/comments/4165019160/replies`; read-back equal apart from the trailing newline (463 vs 462 bytes).
+State at post: head 8470dd61a6, 23 workflow runs action_required plus the labeler, nothing else on the thread since
+10:46:54Z. Next: praasz's answer to the direction question, CI approval. Vikunja 1658 due 2026-10-06 12:00 UTC.
+
+### 2026-10-02 — `openvino.genai#4139`: short question comment to apaniukov POSTED (issuecomment-5963188531)
+
+Asks whether #4139 is still the intended path or a maintainer-led design is planned; offers `2fa0ccad` (multinomial forcing) and `cf9b750e` (parallel-sequence guard) from fork branch `archive/thinking-suppression-20260821`, to be rebased onto head `863606d7`; states they are not built or tested on that head. Posted on Blair's go. Head `863606d7`, no apaniukov reply since 2026-08-11 at post time. Independent review: v1 FAIL (merge-tree claim, 575/577 attribution, unverified guard), v2 PASS (sha 0777fb1a); the posted v4 differs from v2 by deletions plus Blair's chosen disclosure line "AI assistance disclosure: Yes" (shorter than rule 5), review waived with that reason in the preflight. Read-back equals the approved text modulo the trailing newline. Evidence: scratch_fleet_20261002/genai4139/. Check back for an apaniukov reply; Vikunja #923.
+
+## 2026-10-03: openvino#38526, wangleis review round 2 answered locally (inference, from-file and single-source changes); non-mmap offload mismatch found; nothing pushed or posted
+
+**What arrived (fetched 14:30Z, `scratch_ovms4580/gputest/round2_20261003/pr_38526_*_20261003T143044Z.json`).** One new review,
+5401061843 by wangleis (Wanglei Shen, Intel OpenVINO, Shanghai; `author_association` CONTRIBUTOR; openvino org membership
+returns 404 so team membership is unknown; not a listed owner of `src/frontends/ir` or `src/plugins/intel_gpu` in CODEOWNERS,
+which names teams; his merged PRs are CPU threading), state COMMENTED, 13:40:50Z, body "Here is an architectural review focusing on
+design decoupling, source of truth consistency, and test verification robustness.", with six inline comments at head 8470dd61a6:
+ARCH-1 (4173396687, `input_model.cpp:276`: the rt_info key is an ambient side channel; long term a typed compilation context;
+short term document it as a legacy bridge slated for deprecation with a follow-up ticket), ARCH-2 (4173396690, `:278`: the
+provider path and `m_weights_path` can never diverge, keep one source), TEST-1 (4173396695, `moe_offload.cpp:81`: no inference;
+`ParallelWeightReader` opens the `.bin` lazily; add inference and parity against ratio 0), TEST-2 (4173396698, `:40`: gated on
+HW_MATMUL; add a hardware-independent test, e.g. TEMPLATE weightless import), TEST-3 (4173396703, `:71`: `std::remove` result
+ignored; Windows file sharing; use `removeFile`), TEST-4 (4173396708, `:97`: comment the control as the baseline; add
+`compile_model(xml_path)`, "the common OVMS usage pattern"). Not an approval; praasz (assignee) has not answered the 2026-10-02
+direction question; CI unchanged (23 workflow runs `action_required`, labeler success; `checkruns_head8470dd61a6_*.json`).
+Nothing else on the thread through 18:07Z (reviewer re-fetch).
+
+**Claims checked against source at 8470dd61a6.** ARCH-2 holds (`frontend.cpp:229-265`: every provider built from a file is
+built from `weights_path`). TEST-1 holds (`moe_otd_runtime.hpp:70-77` opens on first `read`; `expert_weight_providers.cpp:93/119`
+call it on an expert miss at inference). TEST-3 holds (`win_file_util.cpp:28-34` opens with `FILE_SHARE_READ | FILE_SHARE_WRITE`,
+`win_mmap_object.cpp:687` adds `FILE_SHARE_DELETE`); `ov::test::utils::removeFile` also ignores the result, `removeIRFiles` uses
+`std::filesystem::remove` without an error code and throws. TEST-4's OVMS claim does not hold: OVMS main `src/modelinstance.cpp:906`
+calls `read_model(file, {}, config)` and `:985` `compile_model(model, device, config)`, not `compile_model(path)` (saved copy
+`ovms_modelinstance_cpp_master_*.cpp`, sha 1400eedace). TEST-2's TEMPLATE shape does not work: the template plugin's `import_model`
+builds its `Configuration` from every property (`plugin.cpp:251`) and `config.cpp:130` throws "Property was not found: MODEL_PTR",
+so the branch reading `__weights_path` from `hint::model` (`plugin.cpp:259-265`) is unreachable from the public API; core's
+`import_compiled_model` swallows import exceptions, so `hint::compiled_blob` falls back to a plain compile and cannot discriminate
+either. Measured, not inferred: the TEMPLATE test was written, built and run once (threw as predicted;
+`diag/foreground_iteration_20261003T164509Z/`), then dropped.
+
+**Changed (local commit 817eea32a8 on `ir-fe-weights-path-rt-info`, parent 8470dd61a6, worktree <build dir>\openvino-wp-master; NOT
+pushed; amended five times during the round as wording was corrected, each time re-measured).** `input_model.cpp`: the key is set from
+`m_weights_path` only, `WeightsProvider::path()` no longer consulted; the comment documents the key as an internal legacy bridge to be
+removed once plugins get the path through an explicit property or compilation context. `moe_offload.cpp`: `InferWithOffloadRatioMatchesResident`
+(four inferences, distinct seeds, shape 1x16x128 f16, `OFFLOAD_RATIO` 50 vs 0, `compare` abs/rel 1e-2; the `ENABLE_MMAP` false case is
+skipped with a comment recording the observation below), `CompileModelFromFileWithOffloadRatio` (`compile_model(xml_path, GPU,
+{OFFLOAD_RATIO, ENABLE_MMAP})`; the flag reaches `read_model` through `IPlugin::compile_model(path)` since `parse_device_config` does not
+strip core properties), the compiled model's `OFFLOAD_RATIO` read back, `removeIRFiles` in `TearDown`, the control commented as the baseline.
+clang-format 18.1.8 clean (`scratch_cf18_venv`). No trailers. Patch `pr_commit_r2_817eea32a8.patch`.
+
+**Measured (Arc 140V, driver 32.0.101.8831; incremental build of the round-1 tree, 268 steps, 642 s, under `watchdog_r2.py`, preflight
+31 pass 0 fail 1 warn; arms differ only in `openvino_ir_frontend.dll`; seven binaries hashed per row; N=3 fresh processes per row;
+`build_counts_r2.py` COUNTS_OK on the final set and refused three planted defects, `negtest/`):**
+
+| row (ov_gpu_func_tests, `smoke_MoEOffload`) | master | PR |
+|---|---|---|
+| G1 CompileModelWithOffloadRatio/mmap=true | 0/3, moe.cpp assert | 3/3 (closing control 3/3) |
+| G2 same, mmap=false (known zero) | 3/3 | 3/3 |
+| G3, G4 AndWeightsPath, mmap true/false (known zero) | 3/3, 3/3 | 3/3, 3/3 |
+| G5 InferWithOffloadRatioMatchesResident/mmap=true | 0/3, assert at the offloaded compile | 3/3, parity within 1e-2 (closing control 3/3) |
+| G6 same, mmap=false | SKIP 3/3 | SKIP 3/3 |
+| G7 CompileModelFromFileWithOffloadRatio/mmap=true | 0/3, moe.cpp assert | 3/3 |
+| G8 same, mmap=false (known zero) | 3/3 | 3/3 |
+| I1 ov_ir_frontend_tests | not run | 78/78 (82 listed, 4 disabled) |
+
+**Finding independent of the PR (`diag/rows_v1_before_skip_20261003/`, `diag/g6_nan_20261003/`).** Before the skip existed, G6 failed
+0/3 on BOTH arms: the `OFFLOAD_RATIO` 50 model's output mismatched the `OFFLOAD_RATIO` 0 model's on all 2048 elements; on the fixed
+arm the four printed elements are `-nan(ind)` on the offloaded side and finite on the resident side; master recorded the same
+2048/2048 signature without printed values. Root cause not investigated (the FileWeightsProvider region descriptor carries the file
+offset, `weights_provider.cpp`, so the offset path is not the obvious suspect). A GitHub search for `OFFLOAD_RATIO` (7 items) and
+"offload NaN mmap" (0) found no report; GitHub only. The test comment, the PR body's Not verified list, the dataset README and a
+dedicated thread comment draft state it as a finding; whether to open a GPU issue is Blair's call (recommended: yes, after the push).
+
+**Row sets kept.** Six full sets were run; the first (test exe without the skip) is the one that shows G6 failing on both arms; sets two
+to five differ from the final only in the test file's comment wording (each amend re-measured so the committed tree equals the
+measured tree); all are under `diag/` with READMEs and on HF.
+
+**Dataset.** `pr38526_gputest_2026-10-03_round2/` on `blairducrayoppat/openvino-arc140v-lunarlake`, final data revision
+aa2d94ffdadf79a2ee67037b9848b7ad7c26b6a4 (1170 files, fetch-back equal; it corrects COLUMNS_README line 2, which had called the
+master rows' worktree status clean although input_model.cpp is checked out from the base there, a v4 review finding), README entry added
+(8f57eb62), re-pointed with each re-measurement (last f6fd9af0), entry wording corrected (7b68c7ab). Published by `publish_r2_hf.py` (allowlist,
+internal-prefix refusal with self-test, planted-bad screen, `delete_patterns` so a re-measurement replaces the folder). Earlier
+revisions a5346e14, df1410a9, 99c89427, a99e7606, 72bf81f3 hold the superseded sets; none carries an internal file (reviewer-verified at
+99c89427 and a99e7606).
+
+**Drafts (round2 folder; posting and the push wait for Blair's go).** Six inline replies `DRAFT_inline_{ARCH1,ARCH2,TEST1,TEST2,TEST3,TEST4}_r5.md`
+(332-397 characters each, one @ in ARCH1 only, each ends with an offer; TEST-2 states the item stays open), thread comment
+`DRAFT_thread_finding_r1.md` (396 characters, the mmap=false finding with the evidence pointer and the offer to open a GPU issue; posted
+last, after the body edit), PR body `DRAFT_PR_body_r14.md` (new tests, round-2 method and rows, Not verified rewritten, aa2d94ff link, R2 link
+kept for the 2026-10-02 rows), commit message `DRAFT_commit_message_r2.txt`. Each carries the recorded disclosure ("Claude Code ...
+drafted this reply; I reviewed and approved it before posting"); none claims rewording. Reviews: round 1 FAIL on three (ARCH1 rule-5a
+phrase; TEST2 no offer; body "82/82"), round 2 FAIL on TEST3 ("both helpers ignore the result" wrong) plus nits, round 3 all PASS with
+nits on the NaN wording (fixed, re-measured), round 4 overtaken by the coordinator's steer while under review (7 of 8 FAIL on the moved SHA alone, TEST2 PASS; it also found the
+COLUMNS_README status sentence), round 5 on the frozen package: all eight PASS except body r13, which failed on the
+COLUMNS_README status sentence (fixed as data revision aa2d94ff, body r14 re-pinned to it, r14 PASS bound to sha256 2bfb6112...). Reviews:
+`REVIEW_inline_*_r5.md`, `REVIEW_thread_finding_r1.md`, `REVIEW_PR_body_r14.md`, `REVIEW_commit_r2_v5.md`; superseded rounds in `void_r1..void_r4`,
+`void_r5_body13`.
+Review v5 hand-back nits, decided: (a) TEST3's "throws if a handle were still open" is Windows-specific: kept, the comment it answers is
+about Windows file sharing; (b) ARCH1's disclosure line says "ran the measurements quoted here" although ARCH1 quotes none: kept under
+the freeze, the line is the same across the seven comments and the measurements are the round's; flagged for Blair, a one-line change
+if he wants it; (c) the skip comment carries hardware, driver, date and run counts in test source: kept, the coordinator asked for the
+observation to be recorded where the skip is; (d) the published folder keeps `preflight_build_r2_*.txt/.json`: kept, allowlisted as the
+gate record. Posting order set in every spec (`_post_order`): push, body edit, thread comment, then the six inline replies.
+Final preflights with the review files in place (`preflight_*_final_*.txt`): every spec refuses only on the unpushed SHA 817eea32a8 or the
+live head 8470dd61a6, which clear after the push; all other check groups pass.
+
+**Not verified.** Inference with offload on a real model; the mmap=false mismatch's cause; current `origin/master` (f766febd1c, 34 commits
+past the base; `merge-tree` clean, not built); CI; Linux, B580, OVMS, GenAI; CPU/NPU plugins; GPU weightless cache and the template plugin
+(its key reader is unreachable); the rest of `ov_gpu_func_tests`; non-MSVC compilers.
+
+**Blair's calls (recommendations in `EXPLAINER_wangleis_round2_for_Blair.md`).** (1) Push 817eea32a8, apply body r14, post the six
+replies, then the thread comment (recommended: yes, in that order; the SHA and head checks of the preflights pass only after the push).
+(2) Post as drafted under the 2026-10-02 exception, or reword. (3) Open a tracking issue for removing the key (ARCH-1's ticket ask;
+recommended: offer only). (4) Open a GPU issue for the non-mmap offload mismatch (recommended: yes, after the push). Heavy lock held
+14:50Z-16:57Z (`scratch_fleet_20260925/locks/heavy.lock/owner.txt`); the five later relink-and-rerun cycles (17:24Z-18:18Z, each
+about a minute of link plus three minutes of GPU rows) ran after the release without re-taking it, a process defect; the lock stayed
+NONE throughout, so nothing else was displaced. Vikunja 1658 updated, due 2026-10-06.
+
+**2026-10-03 (evening), concise package on Blair's direction ("the replies are too verbose, concise is preferred").** Every reply body
+cut to at most 250 characters (facts plus the one offer; three sentences where the offer is the third): `DRAFT_inline_{ARCH1,ARCH2,TEST1,
+TEST2,TEST3,TEST4}_r6.md` (225, 229, 236, 247, 239, 243 characters) and `DRAFT_thread_finding_r6.md` (243); one shared 109-character
+disclosure line on all seven ("AI assistance: Claude Code wrote the code, ran the measurements and drafted this; I reviewed and approved
+it."). PR body `DRAFT_PR_body_r16.md`, 4984 bytes, keeps every measurement, condition and the AI section (checked token by token against
+r14); dropped: prose the diff carries (the removed IR FE tests) and the test-description detail. Commit 817eea32a8 and dataset aa2d94ff
+unchanged. Fresh review (`REVIEW_inline_*_r6.md`, `REVIEW_thread_finding_r6.md`, `REVIEW_commit_r2_v6.md`, hand-back
+`HANDBACK_round2_package_v6_20261003.md`): eight PASS; body r15 FAIL for dropping the IR FE suite's run count; r16 restores it and the
+DX11/DX12 "not compiled" build condition; r16 PASS (`REVIEW_PR_body_r16.md`, bound to sha256 c4010b51...; one nit, author's call: "I did not build or run the tests myself" reads as test-scoped, kept because "that review only" in the same line carries the claim). The verbose set and its PASS reviews are kept under `void_r5/`
+(`void_r6_body15/` for r15). Posting order in every spec: push, body r16, thread comment, six inline replies. Final preflights
+(`preflight_*_final2_*.txt`): every spec refuses only on the unpushed SHA 817eea32a8 or the live head 8470dd61a6, which clear after the push; the review-file check passes on all eight (the gate reads line 2 as the verdict, so the reviewer's `VERDICT: PASS. <notes>` lines were normalised to `VERDICT: PASS` with the notes moved below, bindings unchanged). Blair's open calls now read against the concise set: body r16, replies r6, thread comment r6.
+
+## 2026-10-03 (19:32-19:35Z): openvino#38526 round 2 POSTED on Blair's go; PR 38545 ruled out for the non-mmap mismatch; GPU issue drafted, not posted
+
+**Blair's go (relayed verbatim): "all recommended actions approved. proceed".** Executed in the set order, each gated by its preflight at
+exit 0 against the new head (`preflight_*_postpush_*.txt`), every post read back and byte-compared to the approved file (equal modulo the
+one trailing newline the API adds):
+- `git push fork ir-fe-weights-path-rt-info`: 8470dd61a6 -> 817eea32a8; PR head confirmed 817eea32a8, 3 commits, mergeable (`posted_pr_after_push_20261003T193234Z.json`).
+- PR body r16 (`gh pr edit --body-file`; `live_PR_38526_body_after_r16_edit_*.md`, 4984 vs 4985 bytes).
+- Thread comment (the non-mmap finding) as issue comment 5972752895, https://github.com/openvinotoolkit/openvino/pull/38526#issuecomment-5972752895.
+- Inline replies to wangleis: ARCH-1 4174542342 (to 4173396687), ARCH-2 4174542616 (4173396690), TEST-1 4174542857 (4173396695),
+  TEST-2 4174543097 (4173396698), TEST-3 4174543368 (4173396703), TEST-4 4174543676 (4173396708); `posted_inline_*_r6_readback_*.md`.
+State after: 4 issue comments, 14 review comments, CI 23 runs `action_required` plus the labeler at 817eea32a8 (`workflow_runs_head817eea32a8_*.json`).
+Tracking issue for the key removal: offered in ARCH-1, no action. Nothing else left the machine.
+
+**GPU issue draft (approved in principle, NOT posted: Blair has not read the text).** `DRAFT_issue_gpu_offload_nonmmap_r1.md` against
+openvino's `bug.yml` template failed its fresh review (`void_issue_r1/`): D1 blocking, the OFFLOAD_RATIO search it cites returns Blair's
+own open PR #38545 (wrong offload outputs from a freed slot-id buffer) and the tree under test lacked that fix. Resolved by measurement
+(heavy lock 19:4xZ-19:5xZ): 38545's commit 6970e4a5f3 cherry-picked onto 817eea32a8 on temporary branch `tmp/38545-check` (9ffab9e50f,
+never pushed) with the mmap=false skip removed, GPU plugin and test exe relinked, fixed arm only: G5 mmap=true 3/3 PASS (control), G6
+mmap=false 3/3 FAIL with the same 2048/2048 signature and NaN in the printed values (`diag/exp_38545_20261003/`, hashes in
+`binaries_with_38545.txt`); worktree restored to `ir-fe-weights-path-rt-info` 817eea32a8 and relinked. So the mismatch is not the 38545
+bug. D2 (the FileWeightsProvider-offset parenthetical, contradicted by `shared_buffer.hpp:73-96` on the consumer side) dropped; D3 verb
+fixed; D4 (release notes) not reproduced: `grep -rn OFFLOAD_RATIO docs/` at 88f8c6bf7c returns nothing, the draft now says so; D5 (Blair's
+call): `gh issue create` does not apply the template's `bug`/`support_request` labels. Dataset republished with the experiment at data
+revision 80bdb3924361dbf5ce37308634e4d5f9dd55f728 (1197 files, fetch-back equal; README re-pointed ebdda630). Draft r2
+`DRAFT_issue_gpu_offload_nonmmap_r2.md`, spec `spec_issue_gpu_offload_nonmmap_r2.json`: fresh review PASS (`REVIEW_issue_gpu_offload_nonmmap_r2.md`, bound to sha256 e11e2c13...; hand-back `HANDBACK_issue_gpu_offload_nonmmap_r2.md`), final preflight exit 0. Recommended to Blair:
+read the text, then post it with the template title "[Bug]: [GPU] MoE OFFLOAD_RATIO output is NaN when the IR was read without mmap".
+
+**Next.** Answer any wangleis or praasz reply within two days; CI approval still needs a maintainer; Vikunja 1658 updated (due 2026-10-06 12:00 UTC).
+
+## 2026-10-03 22:50Z to 2026-10-04 00:20Z: GPU non-mmap offload issue draft, second review, print-all measurement, r3-r5; nothing posted
+
+**Second independent review of r2** (top-level session after /clear, `REVIEW_issue_gpu_offload_nonmmap_r2_second_20261003.md`): PASS on
+the body bytes; D1 outside the bytes: the spec-note title "output is NaN" rested on 4 printed elements of 2048. Blair: "either run the
+mmap=false unit once more with enough elements printed to cover all 2048, or change the title to match the body." Measurement chosen.
+
+**Print-all run** (`run_g6_printall.py`, 23:32-23:34Z, heavy.lock taken and released, nothing else heavy running): moe_offload.cpp swapped
+to its 2256bc9a2d version (= 817eea32a8 minus the 7-line skip, `git diff --stat` 1 file 7 deletions), `ov_gpu_func_tests` relinked, the
+mmap=false unit run 3 times as fresh processes with `OV_TEST_MAX_DIFFS_TO_PRINT=-1` (negative = print every mismatch, ov_tensor_utils.cpp:488-491),
+test file restored from HEAD and relinked, worktree clean at 817eea32a8 after. Result: every run Mismatch [2048/2048] Print [2048/2048],
+2048 distinct coordinates, Actual `-nan(ind)` on all 2048, Expected finite on all 2048 (re-derived by grep outside the harness; detector
+counts 4 on the 4-element log and 0 on a synthetic finite line). Driver 32.0.101.8831; IR FE DLL 9d4a32aa (PR build), GPU plugin c8cb10e7
+(restore relink at 817eea32a8). `diag/g6_nan_all2048_20261003/` (README, STATUS, identity, results, rep1-3 logs + gtest.xml).
+Not measured: master or the 38545 tree with all elements printed.
+
+**Dataset:** republished three times, `delete_patterns` replace, 1213 files, fetch-back equal each time: 1985be8c (the run), 6a0ee1b2 (two
+README fixes from the r3 review: rows_v1 README relates 2256bc9a2d to 817eea32a8; all2048 README names both GPU-plugin hashes), 414cee00
+(all2048 README not-measured wording corrected: the 4-element print was the fixed arm, master printed none). Hub README re-pointed each time
+(last 5346aba6). `publish_r2_hf.py` now stages `run_g6_printall*`.
+
+**Drafts and reviews** (each a fresh subagent; each PASS/FAIL bound to the bytes): r3 (all-2048 sentence, tolerance stated as abs 1e-2 plus
+rel 1e-2, fenced block from rep1, step 3 env -1, Not-verified names master/38545 not printed) PASS with three nits (search clause unscoped;
+"the #38545 run" is a seventh process, not one of the three rows; "not printed there" vs 4 printed). r4 carried the nits and revision
+414cee00: FAIL on D1, present since r2: "none reporting a non-mmap mismatch" was false for #38526 itself (body r16 Not-verified item and
+comment 5972752895). r5 reworded that clause (#38526 mentions it, comment link, "where I first reported it and offered this issue"): PASS,
+preflight exit 0 (`preflight_spec_issue_gpu_offload_nonmmap_r5_final_*.txt`). r5 nit left as drafted: the body r16 edit (19:32:30Z) carried
+the report a minute before the comment (19:33:39Z); "where I first reported it" is true of the PR, strictly not of the comment. Dataset gap
+left: `exp_38545/print4/` has no binary-hash record of its own (provenance: timing between the rows and the restore, binaries_with_38545.txt).
+
+**Awaiting Blair:** read `DRAFT_issue_gpu_offload_nonmmap_r5.md`; posting route (web form applies the template's labels and prefix;
+`gh issue create --body-file` does not); the draft states no implementation intent. Title: "[Bug]: [GPU] MoE OFFLOAD_RATIO output is NaN
+when the IR was read without mmap". Explainer: `EXPLAINER_gpu_issue_r5_for_Blair.md`. Thread state at 00:07Z: no activity on #38526 since 19:34Z.
+
+## 2026-10-04 00:20-01:10Z: GPU non-mmap offload issue POSTED as openvinotoolkit/openvino#38584 (r7, web form, labels applied)
+
+**Blair's direction.** 00:2xZ: second review of r5 (`REVIEW_issue_gpu_offload_nonmmap_r5_second_20261004.md`, PASS; O1: no rule-4 offer; N4: no
+Windows build) handed over. r6 added "I can test a candidate fix on this Arc 140V." and "Windows 11 (10.0.26200)": PASS. Blair: "i feel like we
+should offer to work on the fix, no?" Assessment given (possible; hours-to-a-day root-cause; normal etiquette; two of our PRs already open in
+the subsystem, #38545 unreviewed; Intel #36891, 31 commits, touches moe.cpp and transformations_pipeline.cpp). r7 made the offer conditional:
+"I can investigate the cause and propose a fix, or test a candidate fix on this Arc 140V; which would you prefer?" PASS (`REVIEW_issue_gpu_offload_nonmmap_r7.md`,
+sha256 2339ff5b). Blair: "post it via the web form once r7 passes so it'll have the [BUG] prefix".
+
+**Posted.** Post-time preflight exit 0 (`preflight_spec_issue_gpu_offload_nonmmap_r7_posttime_*.txt`). Chrome, signed in as blairducrayoppat by
+Blair; `issues/new?template=bug.yml`; fields filled from `form_fields_r7.json` (the disclosure line, which the form cannot place after the
+checklist, went at the end of the Issue description); checkboxes needed real clicks (form_input did not register); created 01:04:42Z as
+**#38584**, title "[Bug]: [GPU] MoE OFFLOAD_RATIO output is NaN when the IR was read without mmap", labels `bug`, `support_request`.
+As-form body differed from r7 in two places (Framework "None" vs "_No response_"; disclosure position): `posted_issue_38584_body_asform_*.md`.
+Body then set to the approved r7 bytes with `gh issue edit --body-file`; read-back equals the approved file exactly, 5068 bytes
+(`posted_issue_38584_final_*.json`, `posted_issue_38584_body_readback_*.md`). URL: https://github.com/openvinotoolkit/openvino/issues/38584.
+GitHub's form flagged #37737 (ratio-100, ours) as a potential duplicate; different defect.
+
+**Not done.** No link-back comment on #38526 (the issue links the offering comment 5972752895; a comment the other way is a new external post,
+not approved). Root-cause work: none until a maintainer answers the offer; while #38545 is unreviewed, follow up with an issue comment, not a PR.
+
+**Next.** Watch #38584 for a maintainer's answer to the offer (reply within ~2 days); #38526 wangleis/praasz replies and CI approval; Vikunja 1658
+updated (due 2026-10-06 12:00 UTC). Explainer: `EXPLAINER_gpu_issue_r5_for_Blair.md` superseded by `EXPLAINER_gpu_issue_posted_38584_for_Blair.md`.
+
+## 2026-10-06: openvino#38526, internal Jenkins run triaged; failure not attributable to the PR from available evidence; nothing posted
+
+- p-durandin commented `build_jenkins` (2026-10-05 09:45Z). Jenkins built the merge commit with master. All GitHub Actions checks passed. Every Jenkins sub-job passed except `npu_trigger_windows_vs2022_release` (failure, 11:16Z; job 23689), which set aggregate `ci/jenkins` to failure. `ie_tests_win_gpu_windows_vs2022_release` passed. Jenkins host is Intel-internal (curl: no connection), so the failing test name is unknown.
+- Baseline for the same job: latest status on heads of PRs updated since 2026-09-28 (150 PRs scanned): 12 failures / 58 runs; 6/21 on 2026-10-05. Failing PRs include diffs that cannot execute in NPU tests: #38596 and #38597 (npm bumps), #38511 (pip bump), #38494 (Python stub files). Evidence: `scratch_ovms4580/jenkins_20261006/npu_win_baseline_20261006.tsv`, `npu_win_rows.txt`, `npu_win_failing_prs_files.txt`.
+- Code trace at 817eea32a8: non-test readers of `__weights_path` are `intel_gpu/src/runtime/execution_config.cpp:49`, `template/src/plugin.cpp:261`, and `core/src/xml_util/xml_serialize_util.cpp:1179` (skips the key). The NPU plugin reads model-level rt_info only for `version` (`intel_npu/src/compiler_adapter/src/model_serializer.cpp:222`). The key was set on mmap reads until #35457 (merged 2026-08-24).
+- Not verified: the failing NPU test; NPU tests on this machine (no NPU func-test build exists at the PR head).
+- Decision: no post (maintainers can read the log; we cannot). Open blockers are praasz's design question and approval. If a maintainer ties the failure to the PR, build the NPU plugin and run `ov_npu_func_tests` at the PR head vs. its base on the NPU 4000.
+
+#### 2026-10-06 — genai `#4392`: stale-bot warning; PR auto-closes at the 2026-10-12 00:00 UTC cron unless there is activity. NOTHING POSTED.
+
+**Trigger:** `github-actions[bot]` comment `5985959873` (2026-10-05T00:16:57Z), label `Stale`.
+`.github/workflows/stale.yml` at master `7a797268`: weekly cron Monday 00:00 UTC, 14 days to stale,
+7 more to close, exemption label `keep-open`. The same run closed MaxxxDong's `#4391`.
+
+**Live state (gh, 2026-10-06):** OPEN, head `e6fced66` unmoved since 2026-09-04, 0 reviews of 8
+requested, last human comment is ours (`5576244697`, 2026-09-07); MaxxxDong silent since
+2026-09-04. `git merge-tree` of `e6fced66` against master `7a797268` conflicts in
+`continuous_batching/pipeline_base.cpp` and `visual_language/vlm_utils.hpp`. Master does not
+contain the fix: no `get_prompt_token_ids`, and the unguarded `if (num_prompt_tokens_processed == 0)`
+is at `pipeline_impl.cpp:1154`. Six master commits since the PR head touch its files (#4427, #3798,
+#4300, #4447, #4422, #4581). The echo crash was measured at merge base `c9fff70b` only; it has not
+been measured at `7a797268`.
+
+Vikunja #1524 had been marked done 2026-09-29 with no recorded reason; reopened, due 2026-10-09.
+Decision put to Blair: let it close / re-run the crash reproducer on current master and post a short
+result to MaxxxDong (recommended) / offer to carry the fix.
+
+## 2026-10-06: optimum-intel#2037 answered by @sgonorov; thank-you posted, issue closed as answered; follow-on watch opened; pagefile reverted
+
+@sgonorov replied 2026-10-06T16:17:47Z (comment 6020550361): Intel's int4 AutoRound checkpoint cannot be exported (optimum-intel export handles only gptq/awq/bitnet/compressed-tensors; the OV PyTorch frontend `patch_quantized` only knows gptq), no timeline, treat as a feature request; the BF16 `Qwen/Qwen3-Omni-30B-A3B-Instruct` route needs roughly 128 GB RAM; a pre-converted checkpoint is decided outside the repo and he will pass the request on. Blair's decision: thank him, track AutoRound support as a feature request on our side, do not pursue the BF16 route, close.
+
+Posted 2026-10-06T17:05:41Z, comment 6021369957 (body `scratch_omni_export_20260929/reply_2037_20261006/DRAFT_reply_2037.md`, sha256 574e8ccd...). Independent review PASS (`REVIEW_reply_2037.md`, same folder; nits: "track on my side" phrasing, "post the numbers here" on a closed issue, both accepted as-is). Preflight exit 0 (`preflight_reply_2037_prepost.txt`). Read-back equal to the approved bytes apart from the trailing newline (`readback_6021369957.md`). Issue closed 17:05:48Z, `state_reason` completed (`close_readback.txt`).
+
+Vikunja 1459 completed; new watch 1696 (AutoRound export support, check-back 2027-01-06) carries the test offer. pagefile setting reverted from 48 GiB to 24 GiB on Blair's instruction (`scratch_omni_export_20260929/evidence/pagefile_revert_20261006.txt`); takes effect at the next restart, not yet observed in effect.
+
+## 2026-10-06 (later): optimum-intel#2052 OPENED: feature request for AutoRound checkpoint export, demand-only, open to anyone
+
+On Blair's go, filed https://github.com/huggingface/optimum-intel/issues/2052 (2026-10-06T17:23:02Z), the feature request #2037's thank-you said we would track. Blair's decisions: demand-only; not implementing (backlog), explicitly left open for anyone to pick up; he would use the feature. Body cites @sgonorov's #2037 answer, three Intel int4 AutoRound checkpoints (Qwen3-8B, Qwen3.5-4B, gemma-4-12B-it; each config `quant_method: "auto-round"`, `packing_format: "auto_round:auto_gptq"`, read 2026-10-06, `check_r3_20261006.txt`), and offers Lunar Lake CPU/GPU testing of any branch. What I checked at main `5770b28`: `__main__.py` L420 method list; zero AutoRound mentions in named docs/tests; no open duplicate in optimum-intel, openvino, nncf, openvino.genai; no template/CONTRIBUTING/AI policy/known-issues page.
+
+Review history (`scratch_omni_export_20260929/fr_autoround_20261006/`): r1 drafted; r2 changed line 5 at Blair's request ("I don't plan to implement this" read as lack of interest; "unable due to system constraints" rejected as untrue, since development can use a small AutoRound model); r2 review FAIL (`REVIEW_fr_autoround.md`: incomplete 3b line, Qwen3-Omni memory argument repeated the maintainer's own point, "as soon as it lands" overclaimed, redundant sentence); r3 review PASS (`REVIEW_fr_autoround_r3.md`, sha256 0a41c786...). Preflight exit 0 with duplicate searches widened to five (`preflight_fr_autoround_r3_prepost.txt`); main re-confirmed `5770b28` at post time; read-back equal apart from the trailing newline (`readback_2052.md`); #2037 timeline shows the cross-reference. Vikunja 1696 retitled to watch #2052, check-back 2026-10-20.
+
+## 2026-10-13: openvino#38545 triage: Intel merged master into the PR branch and requested two reviewers; nothing to answer, nothing posted
+
+Blair reported Intel activity on https://github.com/openvinotoolkit/openvino/pull/38545. State read via `gh api` at ~2026-10-13 morning UTC.
+
+- **What happened:** peterchen-intel (Chen Peter, Intel) pushed merge commit 7202dd5351 "Merge branch 'master' into
+  gpu-moe-offload-slot-buffer-lifetime" to our fork branch at 08:20:03Z (author peterchen-intel, committed via the
+  web UI, parents 6970e4a5f3 + master b54ca21efb; 137 commits ahead of our commit, no conflict), then requested reviews
+  from zaixing-wang (08:20:27Z) and yuanxion (08:20:34Z).
+- **Who they are:** zaixing-wang authored #36202 "[GPU] Offload MoE expert weights to disk", the feature the PR fixes,
+  and #36781/#37800 in the same code. yuanxion has reviewed MoE offload PRs (#36891) and authored the open #38663
+  ("Support OFFLOAD_RATIO=100 ...", 8 files, none of ours).
+- **Still:** 0 reviews, 0 inline comments, one issue comment (p-durandin `build_jenkins`, 2026-10-02). No question to
+  Blair. PR files unchanged: our two files only (+11/-7, +59/-1). None of the 137 master commits touches either file or
+  anything under `intel_gpu` with "moe" in the path; the MoE-related changes are in common transformations
+  (`moe_op_fusion.cpp/.hpp` and its test).
+- **CI on 7202dd5351:** 23 GHA workflow runs created 08:20Z, all `action_required` (awaiting a maintainer approval
+  click); Labeler, triage and Label External PR succeeded; no Jenkins status posted yet.
+- **Local consequence:** our branch (`<build dir>/openvino-37736`, 6970e4a5f3) is now one merge behind the fork. Any
+  later push must start from the fetched 7202dd5351; a force-push would erase the maintainer's merge.
+- **Decision:** no reply, no push, no hardware re-run. A comment fails the value test (nothing asked); a rebase is
+  moot. A re-run on the merged head becomes worth doing only if the GPU unit jobs fail on it.
+- **Vikunja:** 1659 updated, check-back 2026-10-16.
+
+**Not verified.** Jenkins results on the new head (none yet); whether the reviewers have started.
+
+## 2026-10-13: openvino#38526, praasz review of 2026-10-12 found unanswered; independent live-state review FAIL; nothing posted
+
+- **What happened (gh api, 2026-10-13):** praasz review 5490281856 (COMMENTED, 2026-10-12T11:47:22Z) with inline 4247651948 on `input_model.cpp:210` at 817eea32a8: "This member should not be added it was replaced by weight provider". praasz then assigned barnasm1 (#35457's author) at 11:47:38Z. No reply from us.
+- **Checked:** #35457's diff removed exactly that `m_weights_path` member and moved the key's source to `WeightsProvider::path()`; the PR re-adds it. The comment answers our 2026-10-02 question (5961590035), which named the provider route; wangleis's ARCH-2 listed the same route as its second option. Master `6b066dd397` has no commits since 2026-09-29 under `src/frontends/ir/src` or `src/core/xml_util`. `openvino_xml_util` is static and linked into the IR frontend, intel_cpu and the intel_npu compiler adapter. GitHub Actions at head: 24/24 success since 2026-10-05; the body's "23 runs awaiting approval" line is stale.
+- **Review:** `scratch_ovms4580/review_live_pr_20261013/REVIEW_live_PR_38526_body_20261013.md` (FAIL, bound to live body sha256 c4010b51...). Hand-back: `HANDBACK_live_PR_38526_body_20261013.md`, same folder.
+- **Blair's decisions, open:** route (recommended: rework on the provider route, then reply; or ask praasz first; or the no-restore reading), who writes the reply (his own words by default, CLAUDE.md 4a), timing (about-2-days target around 2026-10-14).
+
+**Not verified.** No build or run; the body's table rows and dataset links were not re-read; #38650's files were not read.
+
+## 2026-10-13: genai#4139 check-back; two independent reviews; D1 false speculative-decoding claim; Blair decides in-place edits; nothing posted yet
+
+**Thread since 10-02 (gh api):** 10-06 apaniukov requested a Copilot re-review (review 5427492823; 3 inline comments on `py_llm_pipeline.cpp:77`, `py_vlm_pipeline.cpp:222`, `generation_config.cpp:328`, none on Blair's files). 10-12 apaniukov assigned pavel-esir and unassigned himself. 10-13 review 5498359126 by Somay-kousis (`author_association` NONE, no @-mention): three findings on `ThinkingBudgetTransform` (tree-search `verify_draft_tree` applies per depth at `sampler.cpp:1287` but registers only at commit `:1367/:1378`; per-block budget re-arm at `logit_transformers.hpp:641-645`; unbounded reverse prompt scan `:559-569`), all structurally accurate at head `863606d7`; their harness not reproduced here. Findings 2 and 3 would change behaviour Blair's tests pin (`ForcedCloseThenNewThinkBlockRearms`, `LastThinkTokenInPromptWins`). No apaniukov reply to our 10-02 question. PR OPEN, `mergeable_state` dirty, master 52 ahead, CI never run (6 `action_required`). Nothing addressed to us; no comment owed.
+
+**Reviews.** First (session oss-42, `scratch_review_genai4139_20261013/`, commit e83067f): FAIL on the standing work. D1: Blair's swap commit 3b67c9603c (message, code comment `logit_transformers.hpp:603-606`, test comment `logit_filtering.cpp:766-769`) and our comments 5369318698 ("so multi-token acceptance from speculative decoding is handled") and 5403120696 ("multi-token acceptance under speculative decoding included") claim speculative decoding feeds `accept_tokens()` batches. False at head and at bases a3b947c5, 2b2e1118, 1d29a3ae: the only production caller is `register_new_generated_token`, `accept_tokens({new_token_id})`, one id per call. D2: fork commits 2fa0ccad, cf9b750e, b7fed80c, 9750f3ce carry `Co-Authored-By: Claude Fable 5` and `Claude-Session` trailers (the 09-30 audit's "forks without a PR" gap). Second review (this session, `scratch_review_genai4139_20261013_r2/`, commit 315cab3): PASS on the first; two evidence-list corrections, conclusions unchanged: `speculative_decoding/continuous_batching/pipeline_impl.cpp:277` and `:328` also register one id per call; base 1d29a3ae has the same single caller.
+
+**Retraction (pending post).** Wrong wording, to be struck through in place: "so multi-token acceptance from speculative decoding is handled" (5369318698) and "(multi-token acceptance under speculative decoding included)" (5403120696). Corrected statement: at the PR head and at the base each comment was written against, the only production caller of `accept_tokens()` is `register_new_generated_token`, one token id per call on every decoding path, speculative decoding included; the loop adds no speculative-decoding coverage. The code and test comments and the commit message are corrected only with any future push to the branch, which must also strip the trailers.
+
+**Blair's decision (2026-10-13):** in-place edits of both comments, dated edit note at the top, wrong phrase struck and left visible. Drafts `scratch_fleet_20261013/genai4139_d1_correction/EDIT_<id>_v1.md` (sha256 311e41cb… and b129082b…), built by exact replacement from the live bodies fetched today (sha256 62000cd3… and 511a4d7f…). Independent review by a fresh subagent and the preflight run before Blair's read-back; posting needs his go on the text. Vikunja #923: comment added; title/description rewrite after the edits. Gap recorded: the preflight's leak check reads only the body, not cited commits' messages.
+
+### 2026-10-13 (12:29-12:30Z): genai#4139 D1 correction POSTED on Blair's go: comments 5369318698 and 5403120696 edited in place
+
+Both edits reviewed PASS by a fresh subagent (`REVIEW_EDIT_5369318698_v1.md`, `REVIEW_EDIT_5403120696_v1.md`, bound to sha256 311e41cb… and b129082b…), preflight exit 0 for each, posted by `scratch_fleet_20261013/genai4139_d1_correction/post_edits_v1.py` (status `post_edits_v1_STATUS.txt`): identity blairducrayoppat, live bodies re-fetched and byte-equal to the morning fetch (62000cd3…, 511a4d7f…), PATCH from the approved file, fetched back byte-EQUAL (18421 and 4901 bytes). Each comment now opens with a dated edit note and has the one wrong phrase struck through, left visible: https://github.com/openvinotoolkit/openvino.genai/pull/4139#issuecomment-5369318698 and #issuecomment-5403120696. No new comment, no notification. Still standing in the PR head: the same claim in the code comment, test comment and commit 3b67c9603c message; corrected only with a future push (needs a rebase that strips the session trailers, a build at head, and its own go). Reviewer's spec note applied: inert `forbid_patterns` entry dropped before posting. Next check-back on any reply from pavel-esir, PlanteAmigor or apaniukov.
+
+## 2026-10-13 (afternoon): openvino#38526 round 3 on Blair's decision: the weights provider carries the path; built, measured, dataset published, drafts in review; nothing pushed or posted
+
+- **Decision (Blair, 2026-10-13):** rework on the provider route, answering praasz's 2026-10-12 inline 4247651948 ("This member should not be added it was replaced by weight provider"). Taken by the session that wrote the second-line review of the live-state review (`scratch_ovms4580/review_live_pr_20261013/REVIEW_REVIEW_live_PR_38526_body_20261013.md`: FAIL on that review's text, two defects: check-run count was page one of 179, D2 half stale after b907409; its FAIL on the PR stood).
+- **Code (local commit a29216af59 on `ir-fe-weights-path-rt-info`, parent 817eea32a8, worktree <build dir>\openvino-wp-master; NOT pushed; applied by `round3_20261013/apply_code_changes_r3.py`, clang-format 18.1.8 clean).** `weights_provider.hpp/.cpp`: `BufferWeightsProvider(weights, origin_path = {})` and `path()` override returning it. `frontend.cpp`: `make_buffer_weights_provider(weights, weights_path)` on the mmap branch and the ifstream branch; the user-supplied buffer (`:213-214`) gets no path. `input_model.cpp`: base content (provider read, unnamed public-constructor parameter) plus the ARCH-1 legacy-bridge comment, last line now "The provider carries the path of the file it was built from". New `src/core/tests/xml_util/weights_provider_test.cpp` (three tests on `path()`) + `sources.cmake` entry. Link scope in this tree: `openvino_xml_util` (STATIC) goes only into `openvino_ir_frontend.dll` and `ov_core_unit_tests.exe` (build.ninja); CPU deserializer (`deserializer.hpp:50`) keeps compiling via the default argument, not compiled here.
+- **Build.** Incremental under `watchdog_r3.py` (heavy.lock held 12:22:48Z-12:27:29Z as ovms4580-praasz-r3): 36 ninja steps, 75 s, min available 7.27 GiB, peak tree private 3.62 GiB; ninja also relinked the GPU, AUTO and template plugin DLLs (the plugin version TU embeds the commit hash). The watchdog's first run marked the finished build ABORT because it still looked for the round-2 success marker (`STATUS_build_r3_20261013T122254Z_marker-mismatch-build-ok.txt`, script_out R3_BUILD_TARGETS_OK / R3_CORETEST_OBJ_OK); fixed and re-run as a 5 s no-op (`STATUS_build_r3_20261013T122447Z.txt`, R3_BUILD_COMPLETE). The new test's object compiled (`logs/build_coretest_obj_r3_*.log`); `ov_core_unit_tests` (~1300 TUs, never built in this tree) was not linked or run.
+- **Measured (Arc 140V, driver 32.0.101.8831; round-3 harness derived from round 2 by `gen_r3_harness.py` with asserted replacements; arms = the four files at base 51c4794bff vs a29216af59, swapped by `set_arm_r3.py`; the six other binaries hash identically in all 55 rows, only `openvino_ir_frontend.dll` differs; N=3 fresh processes per row; `build_counts_r3.py` COUNTS_OK, `negtest_r3.py` NEGTEST_OK on three planted defects):** identical outcomes to round 2: G1/G5/G7 master 0/3 with the moe.cpp assert, fixed 3/3, fixed_close (G1, G5) 3/3; known-zero G2/G3/G4/G8 3/3 both arms; G6 SKIP 3/3 both arms (#38584); I1 82 listed, 4 disabled, 78 ran, 0 failures. Rows ran 12:25:08Z-12:26:55Z.
+- **Dataset.** `pr38526_gputest_2026-10-13_round3/` on HF `blairducrayoppat/openvino-arc140v-lunarlake`, data revision e1a41c0fdf6061b61cd6ff6d99c7845a5d89aa41 (206 files, fetch-back equal, planted-bad screen refused, real screen clean), README entry added (c73cc8a7, fetch-back equal). `COLUMNS_README_r3.txt` generated from the rows.
+- **Drafts (round-3 folder; nothing posted):** `DRAFT_PR_body_r17.md` (Fix bullet, 2026-10-13 rows paragraph and link, model rows marked as first-commit and not re-run, CI line fixed, Not-verified rewritten incl. `ov_core_unit_tests`, the rework offer removed), `DRAFT_inline_praasz_r1.md` (373 chars + disclosure, offers to squash), `DRAFT_inline_ARCH2_followup_r1.md` (384 chars + disclosure, withdraws the 2026-10-03 offer to drop `path()`). Specs `spec_*.json`; pre-review preflights refuse only on the missing review file and the unpushed SHA a29216af59 / head 817eea32a8. Fresh independent review dispatched (REVIEW_PR_body_r17 / REVIEW_inline_praasz_r1 / REVIEW_inline_ARCH2_followup_r1 + HANDBACK_round3_package_20261013). Explainer: `EXPLAINER_round3_for_Blair.md`. Vikunja 1658 updated (due 2026-10-14 12:00 UTC).
+- **Not verified.** Offload on a real model with the provider change (model rows are from the first commit); CPU and NPU plugins (not built); `ov_core_unit_tests`; current master (6b066dd397, no commit touches the four files, not built); Linux, B580/OVMS; CI at a29216af59.
+- **Blair's calls:** go/hold on push a29216af59 + body r17 + praasz reply + wangleis follow-up (that order), after the reviews pass; who writes the two replies (his own words by default, CLAUDE.md 4a).
+- **Addendum (first review, then amend).** Fresh review of the a29216af59 package: body r17 PASS; both inline drafts FAIL on their closing offers (praasz reply said "the three commits", the PR will show four; the wangleis reply offered a split while the praasz reply offered a squash). Non-blocking R1-R4 (`HANDBACK_round3_package_20261013.md`). Taken: R3 (base-class doc of `WeightsProvider::path()` still said a path comes only from a file-backed provider) as a doc-only amend, commit now **dcf8fc87d4** (same message, still unpushed); R1 (body item split). Both replies now end "I can squash to one commit if you prefer." All 55 rows re-measured at dcf8fc87d4 (a29216af59 rows kept under `superseded_a29216af59/`), COUNTS_OK, NEGTEST_OK, outcomes unchanged; dataset re-published, data revision **c5bbba591c2c6052895184bf8c0a99ec37d351b4** (264 files, fetch-back equal), README re-pointed (30d46e67). Drafts r18 / praasz r2 (369 chars) / ARCH2 r2 (363 chars), specs updated, preflights refuse only on the missing review and the unpushed SHA. Second fresh review dispatched.
+- **Second review (fresh, bound to the new bytes): body r18 PASS, praasz r2 PASS, ARCH2 follow-up r2 PASS, no defects** (`HANDBACK_round3_package_v2_20261013.md`; reviewer verified dcf8fc87d4 differs from a29216af59 by the two doc lines only, rows, dataset, thread unchanged since 2026-10-12T11:47:22Z; openvino.dll was relinked by the header edit and hashes identically in every row). Post-review preflights refuse only on the unpushed dcf8fc87d4. **Waiting on Blair:** go/hold on push dcf8fc87d4, body r18 edit, praasz reply, wangleis follow-up (that order); who writes the two replies.
+- **Real-model rows at dcf8fc87d4 (Blair: "don't skip it"; he closed the browser to free memory).** Same plan as 2026-09-30 (`plan_model_r3.csv`), both arms, Qwen3-30B-A3B-int4-ov read_model + compile_model on GPU at ratios 0/1/30/99/100 with and without WEIGHTS_PATH, qwen3-1.7b-ov non-mmap probe; runner `runner_model_r3.py` (derived from `scratch_ovms4580/fixbuild/runner_build.py`, adds build identity). First attempt failed every unit in 0.5 s: the `_pyopenvino` binding dated 2026-09-30 refused the relinked runtime (version-string check); kept under `diag/modelrows_pyd_version_mismatch_20261013/`, binding rebuilt (`build_pyopenvino_r3.cmd`, 3 ninja steps; a first launch through `cmd /c` with a relative script name opened an interactive prompt and was killed). Results (`build_counts_model_r3.py` COUNTS_OK, `negtest_model_r3.py` NEGTEST_OK): master key absent 0/3 with mmap, present 3/3 without; compile ratio 30 / 1 / 99 fail 0/3 with the moe.cpp assert, ratio 0 / 100 and +WEIGHTS_PATH 3/3; branch: key present 3/3, every compile row 3/3, closing A3 3/3, WEIGHTS_PATH read back set on every offload row. One envelope event: fixed S0 rep1 KILLED_LOWMEM at 2.92 GiB available (16.5 GiB private, 17.5 GiB at launch), no row written, rep4 replaced it. Dataset re-published, data revision **def13c4168145b0c4709f97c6a155f56fe4ffb9c** (326 files), README re-pointed (0a228097). Body r19 (model rows paragraph at this commit, Not-verified now "offload inference on a real model"); the two replies are unchanged and their reviews still bind. Heavy lock held 13:10:09Z-13:31:59Z.
+- **Body r19 review FAIL (one defect, verified): the def13c41 revision carried none of the model-row files** (the publisher's allowlist had no entry for them; the staged MANIFEST confirmed zero). Allowlist extended, re-published as data revision **4c58f93c3101390e39a1b67176e78dda7a5fefdf** (584 files, fetch-back equal), README re-pointed (056f9c3e). Body r20 = r19 with that revision; in fresh review. Replies unchanged.
+- **Body r20 review PASS; whole package PASS** (body r20, praasz r2, ARCH2 follow-up r2; reviewer confirmed HF 4c58f93c holds every file the column README names). Post-review preflights refuse only on the unpushed dcf8fc87d4. **Waiting on Blair:** go/hold (push, body r20, praasz reply, wangleis follow-up, in that order); who writes the two replies.
+- **Blair's go 2026-10-13 ("go. post the reviewed drafts."): everything posted.** (1) dcf8fc87d4 pushed to the fork branch (fast-forward 817eea32a8..dcf8fc87d4, `push_dcf8fc87d4_20261013.txt`); PR head read back as dcf8fc87d4. (2) Body r20 preflight exit 0 at the new head (`preflight_PR_body_r20_at_dcf8fc87d4_20261013.txt`), previous body saved (`PR_body_before_r20_edit_20261013.md`, 4985 bytes), edited via `gh pr edit --body-file`, read-back equals the approved 5423 bytes plus GitHub's one trailing newline. (3) praasz reply preflight exit 0; posted as inline 4260206372 on 4247651948 via `gh api --input payload_praasz_r2_20261013.json`; read-back equal. (4) wangleis ARCH-2 follow-up preflight exit 0; posted as inline 4260207009 on 4173396690; read-back equal. Blair chose to post the reviewed drafts rather than write the replies himself (second 4a exception after 2026-10-02). Next: watch for praasz / barnasm1 / wangleis replies and CI at dcf8fc87d4; squash on request. Vikunja 1658 updated, check-back 2026-10-15.
+
+## 2026-10-14: openvino#38545 yuanxion review (CHANGES_REQUESTED): micro-GEMM prefill offload test written; build blocked on host memory; nothing pushed or posted
+
+- **Thread (gh api ~17:00Z):** review 5520632264 by yuanxion, CHANGES_REQUESTED, 15:44:32Z on 7202dd5351. It asks for an offload (OTD) case with seq_len > 32 and micro-GEMM prefill explicitly enabled, output verified, so the `on_before_prefill` change is covered. No inline comments, no other new comments. No scope question for Blair.
+- **Code (local, unpushed):** worktree <build dir>/openvino-37736 fast-forwarded to 7202dd5351, with GPU submodules updated to the merge's pointers. Commit **232b51e010** adds `smoke_prefill_micro_gemm_offload` to `moe_3gemm_gpu_test.cpp`: 40 tokens, u4, micro-GEMM on and grouped GEMM off (grouped defaults to true and overrides micro-GEMM, `options.inl:83`, impl `:1025-1029`), 4 of 8 experts resident, Xe2+ only. The routed-to-4 case asserts the slot-id buffer survives `execute()`; the unrestricted case is meant to cover fallback (unverified).
+- **Build blocked:** the ov_gpu_unit_tests build (1203 ninja steps after the merge) was killed twice by the watchdog's 1.5 GiB available-memory floor: -j3 at step 55 (1.26 GiB), then -j2 during cmake's glob check (0.84 GiB). Host: kernel pools ~10.6 GB, vmmem 4.1 GB, Windows reboot staged. Reboot put to Blair by the lead.
+- **Prepared:** 5-arm build/stage script, 48-row plan with known-zero controls, row runner, and an analyzer tested on synthetic good rows (OK) and 9 planted-bad files (all refused). Templates for the reply and body edit only. Resume state: `scratch_fleet_20261014/ov38545/STATE_ov38545.md`.
+
+**Not verified.** Everything about the new cases (compile, pass/fail by arm, fallback). No hardware run this round.
+
+### 2026-10-14 (evening): openvino#38545 round 2 built and measured; dataset published; reply and body drafts ready for review; nothing pushed or posted
+
+- **Build-memory cause:** the earlier LOWMEM kills were the openvino.dll link with `/DEBUG` (`link.exe` working set 9.75 GB, private 3.79; available 11.31 -> 1.49 GiB in 16 s) plus the onednn_gpu ExternalProject's nested build running 10 `cl.exe`, ignoring the outer `-j`. The glob-check line was only ninja's last log line. Fixed with `ENABLE_PDB_IN_RELEASE=OFF` and `CMAKE_BUILD_PARALLEL_LEVEL=2`; floor kept at 1.5 GiB. Full build 2396 steps in 5754 s, min available 6.19 GiB. Diagnosis logs: `scratch_fleet_20261014/ov38545/build/diag/`.
+- **Arms (one tree, same build dir):** fixed = 232b51e010; master = the same, with `moe_3gemm_swiglu_opt.cpp` from b54ca21efb; fixed_dup = the fixed exe again (known-zero); two diag arms with a usm_host print. Arc 140V, driver 32.0.101.8831, 48 rows, N=3, 19:06:56Z-19:13:28Z, heavy.lock released 19:13:36Z.
+- **Results:** new case /0 (routing fits the 4 slots) fixed PASS 3/3, master FAIL 3/3 on the buffer check (843408 vs 843728, the 320-byte slot buffer). The assertion stops the test before the output comparison, so master's output is not compared. Case /1 (unrestricted) PASS 3/3 both arms; diag shows 0 bytes of slot buffer, i.e. fallback. `smoke_batched_gemv_offload` reproduced: master /0 and /1 fail. `moe*:*moe*` 191/192 in 9/9 fixed runs and 188/192 in 3/3 master runs; the shared failure is `smoke/.../10` (tolerance). Analyzer `ANALYSIS_OK`; known-zero same-exe controls identical; closing control equals opening.
+- **Dataset:** HF `pr38545_unit_2026-10-14_round2/`, data revision 9733daa5287cc1da2e27535a0a185101dabbbe33 (196 files, fetch-back equal, planted-bad refused, real screen clean); README entry commit 7320d10e (fetch-back equal).
+- **Drafts:** `drafts/DRAFT_reply_yuanxion_r1.md` (sha256 bf1e776e…), `drafts/DRAFT_PR_body_r2.md` (b875715b…), specs alongside. Pre-review preflights refuse only on the missing reviews and the unpushed 232b51e010. Independent review dispatch is the coordinator's job. Blair's calls: go/hold on push, body edit and reply, in that order; who writes the reply (default: his own words).
+
+**Not verified.** Pre-Xe2 skip path, Linux, discrete GPUs, SIGMOID_BIAS on the new path, buffer reuse across repeated `execute()` calls on the micro-GEMM path, CI at 232b51e010.
+- **Review FAIL on both drafts (2026-10-14, `drafts/HANDBACK_ov38545_round2_20261014.md`; code 232b51e010 found no defect):**
+  - D1: "from master" did not name the revision run. The comparison used `moe_3gemm_swiglu_opt.cpp` at b54ca21efb, and master changed that file in 7d81aad55a (#37255, 2026-10-14T07:08Z; +6 lines, `supports_replay()`; 232b51e010 merges cleanly with current master).
+  - D2: the body's 2026-10-01 "What I checked" line said the unit tests were not repeated on newer master.
+  - Fixed: reply r2 (f3305796…) and body r3 (d7c47a53…, rebuilt from the re-fetched live body, which was byte-equal). The 2026-10-01 test bullet now names 846954b7ed. Specs r2/r3; pre-review preflights refuse only on the missing reviews and the unpushed SHA.
+  - The same ambiguity in the published HF README entry was corrected in place (commit 20c84843…, fetch-back equal), and REPORT_ov38545.md was corrected with the wrong sentence struck and kept visible.
+  - Fresh review requested.
+
+### 2026-10-14 (~20:45Z): openvino#38545 round 3: two-execute reuse case added (Blair asked why we offered it instead of doing it); nothing pushed or posted
+
+- **Code:** local commit d93e4d5cb8 on 232b51e010 adds case /2 of `smoke_prefill_micro_gemm_offload`: the routed-to-4 case run twice on new same-size inputs. After each call it checks the buffer is still allocated and compares the output; after call 2 it checks host USM did not grow. The first version, 66ab476e, counted the second call's own input tensors (host USM on an iGPU: +21120 bytes, failed on the fix); it was amended, and its rows are kept in `run3/iter_v1_inputs_counted/`.
+- **Rows (Arc 140V, driver 32.0.101.8831, 48 rows, N=3, 20:25:36Z-20:32:40Z, heavy.lock 20:17:30Z-20:32:46Z):**
+  - Case /2: fix 3/3 PASS; b54ca21efb impl 3/3 FAIL at the first call's buffer check, so no second call runs.
+  - Diag: host USM peak unchanged by call 2, so no same-size reallocation.
+  - `moe*:*moe*`: 192/193 fix vs 188/193 b54ca21efb (shared /10 tolerance).
+  - ANALYSIS_OK; 7 planted-bad copies refused.
+- **Limit stated in both drafts:** functional reuse on an in-order queue, not proof that no race exists. The grow branch was not tested (static-shape topology).
+- **Dataset:** HF revision 12314f9c845bc866dc76fcb25517f81643f3c154 (392 files); README commit 5784c18b.
+- **Drafts (teachback):** DRAFT_reply_teachback_v3.md (729562e4…) / PASTE_reply_v3.md (bc1d5f65…, 108 words without the disclosure line, above the calibration band); DRAFT_PR_body_r5.md (6b1eabd6…, fixes both r4 disclosure defects). Specs written; pre-review preflights refuse only on missing reviews and the unpushed commits. Fresh review is the coordinator's.
+
+### 2026-10-14 (late): openvino#38545 reviewed package ready; waiting on Blair's teachback read and go; nothing pushed or posted
+
+- **Reviews:** body r5 PASS (c93d1d36…); reply v6 PASS (9f4e80b8…) after five failed versions. Defects per version are in teachback/HANDBACK_*.md; the last two were offers: SIGMOID_BIAS rested on a routing restriction that is not bias-proof, and squash is worthless because openvino squash-merges.
+- **v6 offer:** a re-run on the Arc 140V at a commit the maintainers name. Value basis (reviewer's check of the visible workflows): no GitHub-visible precommit job runs these cases on Xe2. The UHD 770 job skips them, the B50 job filters to fully_connected/convolution, and the dGPU job is disabled.
+- **Next, on Blair's go:** push 232b51e010 + d93e4d5cb8 (fast-forward), re-run both preflights at the pushed head, body edit, reply, fetch-back byte-diff each.
+
+## 2026-10-14 (night): openvino#38545 posted on Blair's go: two test commits pushed, body r5, Blair's own reply 6178845024
+
+- **Process (Blair's instruction "let's make it so we are following OpenVINO's guidelines").** openvino `AI_USAGE_POLICY.md` read in full at master 721ad7a798 (`scratch_fleet_20261014/ov38545/teachback/AI_USAGE_POLICY_at_master.md`): disclosure in the PR description in the three-field format; no AI-generated responses in place of human review communication. Met by the teachback route: annotated draft with `{{notes}}`, Blair read it, made one edit himself, and posted the reply from his own browser.
+- **Reply versions and reviews (all fresh agents, upstream-review skill):** v1 FAIL (Blair's own review: hedged "If useful" offer, driver missing); v2 PASS; then Blair asked "why aren't we adding a case with two execute() calls ... now?" so case /2 was built and measured (d93e4d5cb8); v3 FAIL (driver and "on the buffer check" regressed, "shows X, not Y", 108 words); v4 FAIL (SIGMOID_BIAS offer: `restrict_routing` does not hold under the ±0.5 bias); v5 FAIL (squash offer: openvino squash-merges every PR); v6 PASS (re-run offer; no GitHub-visible precommit job runs these cases on Xe2); v7 = Blair's edit "Happy to re-run them at any commit you name." + "which I edited", PASS. Body r4 FAIL (validation line claimed Blair reviewed "the change" and "the test results"), r5 PASS ("I reviewed and approved the drafted output before posting").
+- **Posted (Blair: "i read the draft and i am satisfied. go").** (1) `git push fork d93e4d5cb8:gpu-moe-offload-slot-buffer-lifetime`, fast-forward 7202dd5351..d93e4d5cb8 (`teachback/push_d93e4d5cb8_20261014.txt`), PR head read back. (2) Preflights exit 0 at the pushed head for body r5 and reply v7. (3) Body edited via `gh pr edit --body-file`; read-back byte-equal to c93d1d36 (8264 bytes); previous body saved. (4) Blair previewed (screenshot reviewed: mentions, commit autolinks, rows link correct) and posted issue comment **6178845024** at 21:25:16Z. Read-back equals approved v7 bytes after CRLF->LF; the browser textarea sends CRLF (936 vs 931 bytes, 5 line breaks).
+- **Data:** HF `pr38545_unit_2026-10-14_round2/`, revision 12314f9c845bc866dc76fcb25517f81643f3c154 (round-2 and round-3 rows). Cases /0 and /2: fixed PASS 3/3, b54ca21efb's file FAIL 3/3 on the first call's buffer check; case /1 PASS both; moe*:*moe* 192/193 vs 188/193; one pre-existing tolerance failure (`moe_accuracy_test_random/10`) in every arm.
+- **Not verified:** GPUs older than Xe2, other drivers, Linux, discrete GPUs; absence of a race on buffer reuse (functional reuse on an in-order queue only); CI at d93e4d5cb8.
+- **Coordination note:** ov38526 agent stopped by the coordinator at 20:16Z (it held heavy.lock in a memory-wait loop for 30B rows that need a reboot); its work is committed locally at 0cd25b7a4e in <build dir>/openvino-wp-master, resumes after Blair's reboot.
+- **Vikunja 1659** updated, check-back 2026-10-16.
+
+## 2026-10-14 (post-reboot, ~22:00-23:50Z): openvino#38526 round 4 complete on disk; local 72468e99ae unpushed; eight drafts PASS; waiting on Blair; nothing pushed or posted
+
+- **Code.** Local 0cd25b7a4e (unused InputModel path parameter dropped; skips into `skip_tests_config.cpp` linked to #38584; offload comparison 1e-2 -> 1e-3) went through three independent commit reviews: FAIL (comment named a micro-GEMM-only hook; "one f16 ulp" unsupported), FAIL (at 16 tokens dispatch is `exec_batched_gemv`, threshold 32), PASS; three amends, final **72468e99ae** (comment and message only; only `ov_gpu_func_tests.exe` relinked). Blair ruled the third review final and started the rows (22:38Z). Worktree `<build dir>/openvino-wp-master` clean at 72468e99ae, no attribution trailer.
+- **Measured at 72468e99ae (Arc 140V, driver 32.0.101.8831, N=3; `counts_r4_20261014T224709Z.txt` COUNTS_OK, `counts_model_r4_20261014T225441Z_v2.txt` COUNTS_OK, negtests 4/4 and 5/5 refused).** GPU rows unchanged from round 3: G1/G5/G7 master 0/3 (moe.cpp assert), fixed 3/3, fixed_close 3/3; known-zero G2/G3/G4/G8 3/3 both arms; G6 SKIP both arms; I1 78 ran 0 failures; C1 3/3. Model rows (private bytes after the call, Qwen3-30B-A3B-int4-ov .bin 15.19 GiB): M1 mmap read 0.311 GiB, M1c closing control 0.311-0.312 (resolution 0.001 GiB), M2 FileWeightsProvider read 15.51 GiB (10.3-11.8 s), M6 mmap read + GPU compile ratio 30 11.49 GiB, M5 file read + compile 26.66-26.69 GiB private with working set 16.66 GiB (peak 17.01), min available 5.45 GiB, no kill; 1.7B: M3 0.27 GiB, M4 3.47 GiB. M2/M5/M1c launched after a six-minute GATE_BLOCKED at 19.7-19.8 GiB available (gate 20) when available rose to 21.8 GiB on its own; coordinator had already ruled the 3 GiB kill floor the envelope. A counts-script defect (unit exiting without a probe row was invisible) was fixed before publishing; `_v2` counts are the binding ones. Fallback-counter diag (`diag/fallback_counter_20261014T232600Z/`): OTD perf counters compiled out (ENABLE_DEBUG_CAPS OFF), 0 lines; the fallback is stated from source in every text.
+- **Dataset.** `pr38526_gputest_2026-10-14_round4/`, data revision **fa13391fa176344c8816f757b07f0b4bd29a7627** (672 files, fetch-back equal), README 4941138f. Every file the column README names is present (`check_readme_files_r4.py`, self-tested on a planted miss).
+- **Drafts (round4/drafts/, teachback form, reviews bound to bytes, all PASS):** replies codehygiene r3, testhygiene r2, testrigor r7, testcoverage r3, archadvisory r4 (`#NNNNN` placeholder for the follow-up issue), barnasm1 r6; PR body r22; new issue `PASTE_issue_offload_file_identity_r4.md` (wangleis asked for a tracking issue; track A, no implementation intent). Review history in `reviews/HANDBACK_package_r4*.md`. Post-review preflights exit 0 except the three replies naming unpushed 72468e99ae. Gate fix: `scripts/preflight_external_post.py` bound the last `Verdict:` line in a review's header window, so reviewer prose overrode `VERDICT: PASS`; first occurrence now binds, `--self-test` PASS.
+- **Not verified.** CI at 72468e99ae; current master; Linux/B580/OVMS; CPU/NPU; offload inference on a real model; mmap=false inference (#38584); file replacement under a running offloaded model. `ov_version` on Python rows names the PR head dcf8fc87d4 (configure-time stamp); identity is the binary hashes.
+- **Also found, not drafted:** `OFFLOAD_RATIO` 75 on the test model crashes 0xc0000005 3/3 at dcf8fc87d4 plus the modified files (`diag/crash_ratio75_20261014/`).
+- **Session notes.** The agent and its package reviewer were stopped by accident at ~23:02Z; resumed from transcript at 23:05Z with no loss on disk.
+- **Waiting on Blair:** go/hold on push 72468e99ae + body r22; file the follow-up issue or not (recommended: file, then fill `#NNNNN`, re-hash, fresh review); read the six teachback drafts, send edits, post the replies himself; separate ratio-75 bug report or not. Report: `scratch_fleet_20261014/ov38526/round4/REPORT_ov38526_round4.md`.
+
+## 2026-10-15 (~00:30Z): openvino#38526 round 4 retrospective: 27 review files for one round; cause and the seven process rules adopted
+
+- **Count.** `scratch_fleet_20261014/ov38526/round4/reviews/` holds 27 `REVIEW_*.md` files for one round (commit x4, body r21-r26, issue r1-r6, six replies at 1-2 versions each, the report once; more invocations than files where a version was overwritten). Each was a fresh agent re-reading source. The reviews found real defects nearly every time, so the count is a symptom: drafts reached review carrying errors that cheaper checks should have caught, and each fix widened the review surface.
+- **Where the cycles went.** (1) Claims drafted before they were traced: the commit comment was rewritten three times for a dispatch path nobody had traced with file:line first; the memory figure entered a reply as "private" before the counter was named, and naming it later (coordinator question after the package review had passed) forced barnasm1 r6 to r9 and body r22 to r24. The facts-pack rule was applied to measurements, not to prose about code paths or counters. (2) Mechanical defects sent to a human-grade reviewer: word band (91, 92 words), the "if useful" hedge (rule 5a), the `#NNNNN` placeholder, a "working set" label on a peak figure. (3) One fix per review instead of one review per batch: commit FAIL, fix, FAIL, fix, PASS, confirm; issue r1 to r6. (4) The PR body was coupled to every reply and dataset change: r21 to r26, six reviews, mostly carried-over wording. (5) Scope added mid-round: the follow-up issue and the ratio-75 crash joined the package with their own chains; the ratio-75 diag had no preserved harness and was redone. (6) Ordering: the coordinator's counter question came after the package review, not before dispatch; the preflight verdict-line bug and the accidental stop cost one cycle each.
+- **Rules adopted (Blair brought the retrospective to the coordinator 2026-10-15; no veto):** 1. Facts pack frozen and independently checked before any draft; every code-path or counter claim carries file:line or the column name; drafts cite the pack only; one review of the facts, then drafts need wording review, not source review. 2. Preflight refuses mechanical defects before a reviewer is spawned: word band, the rule 5a phrase list, placeholders, counter labels against the column README, SHAs (word band, verdict-line binding and `#NNNNN` landed this round; the rest follow). 3. One re-review per batch of fixes, never per defect; unchanged documents are not re-reviewed. 4. The PR body is frozen until every reply is final, then revised once. 5. New findings during a round become separate work items with their own package. 6. Cap of two review cycles per artifact; a third FAIL means the approach is wrong and goes to Blair as a decision. 7. Coordinator spot-checks run before the package review is dispatched, not after it passes.
+- Recorded as memory `review-cycles-facts-first` and as CLAUDE.md engagement rule 4d (rule only, dated pointer here).
+- **2026-10-15 condition note (openvino#38526 round 4):** Blair's browser was open during the ratio-75 re-reproduction (`diag/ratio75_20261015T001711Z/`); the harness recorded no memory column. Crash lands on the same step 3/3 in that run and in `diag/crash_ratio75_20261014/`, consistent with the source mechanism, not pressure. Not re-run; a filing package (decision 4) re-runs it with memory columns and desktop state recorded.
+
+## 2026-10-15 (00:53Z): openvino#38864 OPENED by Blair: GPU MoE offload, check the weights file is the one the model was read from (follow-up wangleis asked for on #38526)
+
+- Blair posted the reviewed issue draft r6 (`round4/drafts/PASTE_issue_offload_file_identity_r6.md`, review 43b11339) through the feature_request web form at 2026-10-15T00:53:50Z; labels enhancement, feature. Body fetched back via `gh api` and saved as `ISSUE_38864_as_posted_20261015.md`. Diff against r6: form section headers added, disclosure line moved into the Request Description, and Blair changed the tool name "Claude Code" to "AI" in the disclosure. All other text byte-equal. Track A: no implementation intent stated; fix is inside the vendor GPU plugin.
+- ARCH-ADVISORY reply r5 = r4 with `#NNNNN` -> `#38864` (spec bbf984d6); fresh independent review dispatched; postable only after PASS. The other five replies are unchanged.
+- **2026-10-15 (~01:10Z) openvino#38526 testcoverage reply on Blair's edit:** r3 had praasz 4165019160 as asking "that no test check the mechanism at all"; his words are that the GPU test "should not check how is done". r4 restated it (review FAIL, one clarity defect: dangling "that"), r5 fixed it (PASS, e15cb49c; 89 words; disclosure "which I edited"); post-review preflight exit 0. Two cycles, at the cap. Package v10.
+
+## 2026-10-15 (~01:15Z): openvino#38663 package OPENED on Blair's direction (decision 4 of #38526 round 4): run Intel's ratio-100 fix on Arc 140V before it merges
+
+- Blair's direction: the master ratio-75 crash is not a standalone issue yet. PR #38663 (yuanxion, head fa44e34bf9, fixes our #37737 [correction 2026-10-26: inferred, not stated; GitHub has no link between #38663 and #37737, the match is the PR's ticket CVS-195660 and "Ref. 195660" on #37737, comment 5820635161]) says ratio 100 keeps the top-k slots routing needs; a 2026-10-14 commit (84a1584990) may reduce that to 1 slot, the state that crashes master at ratio 75 on the test model. That reading is a lead from source, not a measurement, so it is not posted. Plan: build #38663 head, run ratio 100 on the test model and Qwen3-30B-A3B-int4-ov (PR head vs merge-base, N=3, memory columns, known-zero control, desktop state recorded), publish; comment on #38663 only if it crashes; the master crash becomes an issue only if Qwen3-30B at ratio >= 94 crashes too.
+- Own package per CLAUDE.md 4d: `scratch_fleet_20261015/ov38663/`, Vikunja 1776 (check-back 2026-10-17), agent ov38663-r1 briefed with facts pack first, one preflight-screened review, two-cycle cap. Nothing pushed or posted.
+- **2026-10-15 (~01:20Z) openvino#38663 package STOPPED on Blair's instruction ("not until later").** Agent stopped at the thread-fetch stage: only `scratch_fleet_20261015/ov38663/pr38663_view_20261015T010925Z.json` written; no worktree, no build, no run, heavy.lock never taken, no build process left. Package stays open as Vikunja 1776 for when Blair says go.
+
+## 2026-10-15 (01:12-01:14Z): openvino#38526 round 4 POSTED on Blair's go ("move forward with the actions, the push, the body r26, and the reviewed replies")
+
+- Thread re-checked before acting: head dcf8fc87d4, nothing after barnasm1 4269533606. (1) 72468e99ae pushed to the fork branch (fast-forward dcf8fc87d4..72468e99ae, `round4/post/push_72468e99ae_20261015.txt`); PR head read back 72468e99ae. (2) Body r26 preflight exit 0 at the new head; previous body saved (`PR_body_before_r26_edit_20261015.md`, 5424 bytes); edited via `gh pr edit --body-file`; read-back equals the approved 6563 bytes plus GitHub's trailing newline. (3) Six reply specs had `data_head_sha` dcf8fc87d4 (the live head at drafting); set to 72468e99ae, the commit every round-4 row was measured at, draft bytes untouched; all six preflights exit 0 at the pushed head. (4) Replies posted via `gh api --input` payloads, each read back byte-equal: codehygiene r3 -> 4277969904 (on 4267587148), testhygiene r2 -> 4277970268 (on 4267582168), testrigor r7 -> 4277970635 (on 4267582444), testcoverage r5 -> 4277971028 (on 4267581808), archadvisory r5 -> 4277971418 (on 4267581458), barnasm1 r9 -> 4277971811 (thread root 4247651948, barnasm1's 4269533606 is in that thread), 01:13:36Z-01:13:57Z.
+- Blair chose to have the reviewed replies posted rather than post them himself (third 4a exception, after 2026-10-02 and 2026-10-13); he had edited testcoverage (r4/r5) before the go.
+- Next: watch for wangleis / barnasm1 / praasz replies and CI at 72468e99ae; #38864 watch (Vikunja 1775); #38663 package deferred (Vikunja 1776).
+
+## 2026-10-15: openvino#38545 CI red at d93e4d5cb8 is the upstream whowhatbench API break, not the PR; nothing pushed or posted
+
+- Run 38639627197 (Linux Ubuntu 24.04, Python 3.12), job 116289373984 "LLM accuracy iGPU tests": all 4 cases of `tests/llm/accuracy_conformance.py` (TinyLlama-1.1B and Qwen2-0.5B, INT8/INT4, GPU) failed with `TypeError: genai_gen_text() got multiple values for argument 'generation_config_extra'`, raised inside whowhatbench `text_evaluator.py:236` before any inference ran. `ci/gha_overall_status_ubuntu_24` failed only as the aggregate of that job. Log: `scratch_fleet_20261014/ov38545/ci_20261015/run38639627197_job116289373984_failed.log`.
+- Same TypeError (8 lines each) in three unrelated runs the same morning: PR run 38732861630 (sdpa_oob_fix) job 116434710682, merge-queue run 38732759640 job 116444001906, PR run 38731332026 job 116432264407 (logs in the same folder).
+- Cause: openvino.genai #4450 (e2a22f9ebf, 2026-10-14T16:00Z) changed the TextEvaluator API; openvino #38872 (732b0665f4, merged 2026-10-15T12:58Z) fixed the conformance test. Our job ran 06:52-07:13Z, before that fix. Merge-queue run 38738782338 (pr-38853, 12:58Z) passed the same job.
+- The PR diff touches only `moe_3gemm_swiglu_opt.cpp` and `moe_3gemm_gpu_test.cpp`; branch is 32 commits behind master. A re-run of the failed job reuses the old merge commit and would not pick up #38872 (not tested); an update from master would.
+- Decision left to Blair: leave as is (recommended; the merge queue re-tests against current master) vs. push a master merge to turn CI green.
+
+## 2026-10-15 (evening): openvino#38545 round 4 (yuanxion inline 4285166154): batched GEMV two-call case built, measured, published; drafts in review; nothing pushed or posted
+
+- **Thread (gh api ~21:20Z):** review 5535894777 by yuanxion, COMMENTED, 15:48:01Z on d93e4d5cb8, body empty; inline 4285166154 asks that one of the 2-token `smoke_batched_gemv_offload` cases run twice with new inputs, checking both outputs and slot-ID buffer retention/reuse. No other new comment. reviewDecision still CHANGES_REQUESTED from 5520632264.
+- **Code (local, unpushed):** **dffff39083** on d93e4d5cb8 adds case /3, `Moe3GemmTestParams{2, true, 256, 256, 8, 2, 256, false, 4, false, 0, 2}` (2 tokens, u4, 4 of 8 resident, two `execute()` calls), +4/-2 in `moe_3gemm_gpu_test.cpp` only; the two-call test body is d93e4d5cb8's. Author Blair, no trailers.
+- **Rows (Arc 140V, driver 32.0.101.8831, 48 rows, N=3, starts 21:43:27Z-22:28:41Z; heavy.lock 21:23:01Z-22:29:46Z as ov38545-yuanxion-r4).** Case /3: fix PASS 3/3; b54ca21efb impl FAIL 3/3 at execute() #1 on the buffer check (804944 vs 804960). Diag: host USM growth 16 B and peak 804960 after both calls (fix); b54ca21efb growth 0 with the same peak. Case /1 and prefill case /2 reproduce round 2/3. `moe*:*moe*` 194 tests: 193/194 fix (9 runs incl. known-zero dup and closing control), 188/194 b54ca21efb; shared failure `smoke/.../10`. ANALYSIS_OK; 8 planted-bad copies refused.
+- **Conditions:** coordination with another session on this machine: builds and rows on cores 3-7 at BelowNormal, no visible windows, port range untouched. Machine saturated ~21:45-22:25Z (InventorySvc, Task Scheduler, antivirus, another session's pytest): MOE_ALL wall 42 -> 861 s; row 006 killed at 300 s (kept in `run4/rows/killed_rows_r4.csv`), limit raised to 900 s, re-run. Arm builds 415 s (first), ~85 s each after. Outcomes are pass/fail; wall not analysed.
+- **Dataset:** HF `pr38545_unit_2026-10-15_round4/`, revision **785e2f438e62465c829ed15a339fff9f4f99d4a1** (175 files, fetch-back equal; screen caught the private project name in a harness comment, reworded comment-only, pre-edit hashes in `run4/harness_sha256_before_comment_edit_20261015.txt`). Card: #38545 section only, uploaded with `parent_commit` guard, commit e7fc451f (fetch-back equal). The other session's `scripts/hf_publish.py preflight` (private-project repo) refuses this folder by its schema rules (.py/.out files, CSV columns); its identity-class hits were the `LOCK_TOKEN` label only (`publish/private_project_hf_preflight_r4_20261015.txt`).
+- **Drafts:** `run4/teachback/` facts pack, reply r4 v1 (82 words + disclosure; teachback form strips byte-equal), PR body r6 (two changes: case /3 bullet, 193/194 at dffff39083). Review: reply PASS (ef94cf19); body r6 FAIL (line 4 "two 2-token cases" and the line-29 dated note made stale by this round; facts pack F1 named the wrong instantiation), fixed in body r7 (4c9d3748), re-review PASS (two cycles). Post-review preflights refuse only on the unpushed dffff39083 and the head it implies.
+- **Not verified:** other GPUs/drivers, Linux, discrete GPUs; CI at dffff39083; absence of a race (on the batched GEMV path `stream.finish()` precedes the write, impl :769).
+- **Next, on Blair's go:** push dffff39083 (fast-forward of d93e4d5cb8), preflights at the pushed head, body r6 edit, Blair posts the reply on the inline thread.
+- **2026-10-15 (~22:5xZ) POSTED part on Blair's go ("go").** Thread re-checked (head d93e4d5cb8, no new comments or reviews). (1) `git push fork dffff39083:gpu-moe-offload-slot-buffer-lifetime`, fast-forward d93e4d5cb8..dffff39083 (`run4/post/push_dffff39083_20261015.txt`); PR head read back dffff39083. (2) Preflights exit 0 at the pushed head for body r7 and reply r4 v1. (3) Body edited via `gh pr edit --body-file`; live body was unchanged from the 2026-10-15 fetch (saved `run4/post/PR_body_before_r7_edit_20261015.md`); read-back equals r7 (8831 bytes) plus GitHub's trailing newline. (4) Reply: Blair posts `run4/teachback/PASTE_reply_r4_v1.md` himself on inline thread 4285166154; read-back pending.
+- **2026-10-15 22:47:25Z reply posted by Blair** from his browser on inline thread 4285166154: review comment **4289045690** (in_reply_to 4285166154). Read-back equals approved `PASTE_reply_r4_v1.md` (ef94cf19) after CRLF->LF (843 vs 840 bytes, 3 line breaks). Evidence `run4/post/posted_reply_4289045690*.{json,md}`. Next: yuanxion re-review; CI at dffff39083 (workflows may need maintainer approval). Vikunja 1659 check-back 2026-10-16.
+
+## 2026-10-15 (evening): ticket sweep of project 11 overdue check-backs; genai#4091 left open on Blair's decision; nothing posted
+
+- **genai#4091:** Wovchena comment 5906007992 (2026-09-30T07:05:28Z), "The architecture review hasn't happened yet. @wangleis is assigned to explore this topic.", answered Blair's 2026-09-29 question; not logged until now. Blair's close-by-2026-10-13 condition is void; Blair: "we'll leave it open." Nothing posted. Vikunja 710 updated, check-back 2026-10-29.
+- **genai#4392:** closed by the stale bot 2026-10-12T00:18:53Z, not merged (`state_reason` null on the PR). Recommendation to Blair: leave closed; his decision pending (Vikunja 1524).
+- **model_server#4428:** lusoris 2026-10-09T23:56Z production-run report addressed to mzegla; nothing asked of us.
+- **No reply since our last comment (gh, 2026-10-15 ~23:15Z):** genai#4267, optimum-intel#1964, optimum-intel PR #1969, genai#4425, openvino PR #36891, npu_compiler PR #302, openvino#37736. openvino#37737's last comment is diego-villalobos's `Ref. 195660` (already logged).
+- **Correction (same evening):** the "no reply since our last comment" line above was built from issue comments only. On openvino PR #36891, yuanxion posted review-comment replies (2026-09-28, 2026-10-03), all to Copilot's review comments, and force-pushed on 2026-09-27 and 2026-10-08 (head ac585b176f). Nothing there is addressed to us. optimum-intel PR #1969 and npu_compiler PR #302: no reviews or review comments since our nudges.
+- **Check-back dates moved** by `scripts/roll_vikunja_checkbacks_20261015.py`, which reads each task, posts it back with only the due date changed, and re-reads it to verify. All 15 tasks verified OK (`scratch_triage_20261015/rollforward_20261015.txt`): 1446, 1460, 1464, 1525, 1527, 1530, 1453, 1461, 1660, 1100, 1462, 1473, 741, 1609 -> 2026-10-29; 1524 -> 2026-10-17. Comments were added to 1530 and 1524.
+
+## 2026-10-20: check of openvino#38545, #38526, #36891 (Blair: "what, if any, updates we owe"); #38545 test defect found, fixed locally at 681a09c800, not pushed; nothing posted
+
+Live state read via `gh api` at 15:46Z (`scratch_triage_20261020/live/*_20261020T154643Z.json`).
+
+- **#38545:** yuanxion APPROVED 2026-10-16T08:08:40Z at dffff39083 ("LGTM."); zaixing-wang's requested review still pending. p-durandin `build_jenkins` 2026-10-19T10:48Z. All 23 GHA workflows at dffff39083 succeeded. Jenkins on the merge commit: `ie_tests_cldnn_unit_dg2_ubuntu22_release` failure (14:12Z), `layer_ubuntu22_release` failure (12:13Z), `ci/jenkins` failure; the DG2 job also failed on the PR's first Jenkins run (6970e4a5f3, 2026-10-02). Nothing addressed to us.
+- **Baseline** (`jenkins_baseline.py`, 400 PRs updated since 10-12, latest status per head; `live/jenkins_baseline_since20261012_20261020.tsv`): DG2 job 17 failures / 155 completed, including PRs whose file lists cannot reach GPU unit tests (#38768 requirements/pyproject only, #38873 `tests/llm` only, #38890 PyTorch FE and its Python bindings); 10-19/20 window 6/52. Layer job 4/194, three on ONNX FE PRs; ours is the only failure in its window (neighbours #38983 12:11Z and #38980 12:36Z passed).
+- **Public CI does not exercise our cases.** The GHA iGPU unit runner is UHD Graphics 770 (0x4680, Xe-LP, no DPAS), so the offload cases are expected to skip at `supports_immad`; the result artifact has no skip category. The DG2 Jenkins job is the only CI with DPAS hardware. The 2026-10-02 "ran and passed" claim is struck in place.
+- **Defect in our test:** every offload case writes, reads and deletes one fixed file, `temp_directory_path()/moe_3gemm_otd_weights.bin` (since 6970e4a5f3). gtest_parallel runs the seven cases concurrently in CI (job 118028746661: all seven finished within 0.67 s of each other, each taking 1.3-1.6 s). Arc 140V, driver 32.0.101.8831, PR head build r4-fixed4 (exe bb22cb56...), cores 3-7 BelowNormal, another session's pytest running, 13-16 GiB available:
+  - run_20261020 (15:56-15:58Z, heavy.lock not taken; 83 processes): one-at-a-time 0/42 fail; the 4 GEMV cases concurrently 17/20 fail (5 groups); all 7 concurrently 19/21 fail (3 groups). Failure messages: "Cannot open file" (16), `plan.src_offset <= weight_file_size` (8), output mismatch (8), `ofs.is_open()` false (3), "Failed to read enough bytes" (1).
+  - Fix 681a09c800 (local, on dffff39083, author Blair, no trailers): file named with `ov::test::utils::generateTestFilePrefix()` (+3/-1, `moe_3gemm_gpu_test.cpp` only; clang-format 18.1.8 clean on changed lines, known-bad copy flagged). Build 532 s, min available 8.78 GiB, link.exe peak WS 6.20 GiB; openvino.dll hash identical to r4-fixed4. Staged r5-tmpfix (exe 6d43b9de...).
+  - verify_20261020 (16:10-16:17Z, heavy.lock held, 130 processes, alternating arms): fix one-at-a-time 0/42 (3 opening, 3 closing groups), 4 concurrent 0/20, 7 concurrent 0/21; PR head 4 concurrent 6/20, 7 concurrent 17/21. `moe*:*moe*` single process: 193/194 both builds x3, the failure is the pre-existing `smoke/.../10` in every row (known-zero pair: the fix cannot reach non-offload cases).
+- **#38526:** no reviews or comments since our six replies (2026-10-15 01:13Z). The 23 GHA workflows at 72468e99ae are `action_required` (no maintainer approval since 10-15). Its tests use `generateTestFilePrefix()`; no fixed temp path in the diff. Nothing owed.
+  - **Correction 2026-10-26 (coordinator, overnight triage):** the `action_required` statement above was wrong from 2026-10-21 on: the 24 workflow runs at 72468e99ae were approved and executed on 2026-10-21 (run attempt 2): 23 success, 1 failure (run 38664341078: the two LLM-accuracy jobs, `TypeError: genai_gen_text() got an unexpected keyword argument 'context'`, on merge commit ec9c016bc4 = master of 2026-10-14T21:15Z, before openvino#38872). Our diff touches no tests/llm file. Evidence: `scratch_triage_20261026/ci38526/FINDING_38526_red_ci_20261026.md`; Vikunja 1823.
+- **#36891:** force-pushed 2026-10-20T14:42Z, head 3e2cb9c32b, rebased on master 7ba6235f19. The PR's own changed lines equal those at ac585b176f except a test-file conflict resolution (`properties_tests.cpp`, `execution_config_test.cpp`). `inertness_check_3e2cb9c32b.py` over all 31 recorded decision lines: 0 differ (26/0/0 unchanged); self-test reports both planted divergences (raw 82 > 75 now 0; budget_for_moe <= 0 now 0). mfhansen requested and removed. Nothing addressed to us; nothing owed.
+- **Not verified:** that the internal DG2 job runs cases as parallel processes; which test it reports failing; Linux behaviour of the race (Windows only); the cause of the layer job failure (our diff touches only the GPU MoE kernel and its unit test).
+- **Decision for Blair:** push 681a09c800 (fast-forward of dffff39083) with a short PR comment (recommended), push only, or hold. Evidence: `scratch_triage_20261020/` (live captures, baseline, CI log and artifact, harnesses, rows, logs, IDENTITY_r5-tmpfix.txt, build status).
+
+## 2026-10-23: openvino#38545 Intel request (peterchen-intel 09:15Z: fix `smoke_batched_gemv_offload/...moe_accuracy_test_random`); series rebased on master e1ff0cdbce, built and verified on Arc 140V; not pushed, nothing posted
+
+- **Ask:** peterchen-intel, issue comment 6361587692 (2026-10-23T09:15:22Z), after rebuilding the internal DG2 unit job (6315803663, 10-21). PR `mergeable: CONFLICTING`; yuanxion APPROVED at dffff39083.
+- **Rebase:** one conflict, `moe_3gemm_gpu_test.cpp` (upstream added `smoke_batched_gemv_hidden_not_multiple_of_1024` at the same spot, a909b8e4cf); both blocks kept. 5 commits, tip d723d3ee7e, local branch `gpu-moe-offload-slot-buffer-lifetime-rebased-20261023`; diff vs master 2 files, +148/-18. Needed `git submodule update --init` for `intel_gpu/thirdparty/TernOCL` (new upstream) and onednn_gpu (5c7ea65ad6).
+- **Builds** (`ov_gpu_unit_tests`, Release, ENABLE_PDB_IN_RELEASE=OFF, -j2, cores 3-7 BelowNormal; watchdog markers OV38545_REBASE_BUILD_COMPLETE_20261023): OLD = b0db4250e2 (rebased PR head, no temp-file fix) 1613 steps, 4120 s, min avail 13.15 GiB; NEW = d723d3ee7e, 25 s incremental. Identity: `ov38545_rebase/IDENTITY_r6-notmpfix.txt` (exe 5b70d4dc...) and `IDENTITY_r6-tmpfix.txt` (exe d9021a59...). Worktree `git diff HEAD -- src` is nonempty in both (CPU-plugin submodule pointers only, same hash both arms).
+- **Rows** (`ov38545_rebase/verify_20261023/rows_verify.csv`, 130 processes, run 11:21-11:28Z, heavy.lock held as ov38545-rebase-verify-20261023, other sessions' load not recorded): processes with nonzero rc, one case per process:
+  - NEW one at a time (3 opening + 3 closing groups of 7): 0/42. NEW 4 concurrent x5: 0/20. NEW 7 concurrent x3: 0/21.
+  - OLD 4 concurrent x5: 19/20. OLD 7 concurrent x3: 17/21. (10-20 on the pre-rebase head: 6/20 and 17/21; the 4-concurrent rate differs between days.)
+  - `moe*:*moe*` single process, 200 tests, x3 per arm: 199/200 both, failing `smoke/.../10` in all 6 (known-zero pair: the fix cannot reach non-offload cases). That failure was not run on plain master in this session.
+  - Failure messages in OLD rows: Cannot open file, `plan.src_offset <= weight_file_size`, `ofs.is_open()`, output mismatch (test file lines 626/710/712).
+- **Not verified:** that the internal DG2 job's failing case is this race (DG2 hardware not available here); Linux; DG2 itself.
+- **Decision for Blair:** push d723d3ee7e over the PR branch (non-fast-forward: needs `--force-with-lease=gpu-moe-offload-slot-buffer-lifetime:dffff39083`) plus a short reply to peterchen-intel (preflight + independent review first). Lock released.
+
+## 2026-10-23 (later): openvino#38545 rebased series force-pushed; reply to peterchen-intel reviewed, awaiting Blair to post
+
+- **Pushed:** `--force-with-lease` from dffff39083 to d723d3ee7e (tip, on master e1ff0cdbce); read back `headRefOid` d723d3ee7e, `mergeable` MERGEABLE, `reviewDecision` APPROVED. yuanxion's review 5544780357 is on dffff39083, not the new head; whether it still counts is not known. Commits carry no attribution lines.
+- **Dataset:** HF `pr38545_unit_2026-10-23_round5/`, revision 5a5686f2c8a2dd2f85e64d492b60962315ad089e, 292 files, fetch-back equal. Rows have no driver column; 32.0.101.8831 was read back once 13 minutes after the run.
+- **Reply:** `scratch_triage_20261023/ov38545_reply/DRAFT_reply_r5_v1.md` sha256 6cd4c36a79aa...f16f73; review PASS bound to those bytes (two reviews: first on e9fe1b6f, then one-phrase fix "overwrote or deleted"); preflight exit 0 (`preflight_reply_r5_v1_postreview.txt`). Reviewer's non-blocking notes: control `moe*:*moe*` fails `smoke/.../10` on both builds (not in the text); no build-without-fix one-at-a-time rows exist. Not posted.
+
+## 2026-10-23 (afternoon): openvino#38545 reply to peterchen-intel posted by Blair, comment 6367871218 (14:59:42Z)
+
+- Read back via `gh api`, equal to DRAFT_reply_r5_v1.md after CRLF->LF (`ov38545_reply/posted_6367871218_readback.md`). PR head at read-back d723d3ee7e, MERGEABLE, reviewDecision APPROVED. No reply from Intel yet; Jenkins DG2 job not re-run by us. Check-back: Vikunja task for #38545.
+
+## 2026-10-25 — openvino#38545: clang compile error in our test, fixed and force-pushed
+- CI on d723d3ee7e: clang builds (Build_And_Run_Collect_Mode run 39947571943, Build / Build run 39947572159) failed at `moe_3gemm_gpu_test.cpp:459,463`: lambda `restrict_routing` captured structured binding `param` (C++20 extension, `-Werror`). Introduced by 8f4c546ad9; MSVC accepts it. Node.js 26 Electron timeout is unrelated.
+- Fix: copy `param.routed_experts` to a local before the lambda (3 lines), folded into 8f4c546ad9 (now 092830f146); series rebased on e1ff0cdbce, force-pushed with lease, head 6ac7d9f773. Tree diff vs d723d3ee7e is those 3 lines only.
+- Not verified: no clang available locally; MSVC rebuild and local run not done. CI on the new head is the first clang check. No comment posted yet.
+- 2026-10-25 local MSVC check of 6ac7d9f773 (build <build dir>/openvino-37736, Release, rc=0, Arc 140V, nothing else heavy running): filter `*moe_3gemm_compressed_gpu_random*:*offload*` = 82 cases, 81 pass, 1 fail: `smoke/moe_3gemm_compressed_gpu_random.moe_accuracy_test_random/10` (seq_len 48, u4, no offload; diff 0.178 vs tolerance 0.15). Fails 6/6 on this build and 3/3 each on earlier binaries r2-master, r4-master4 (master, without our series), r6-notmpfix, r6-tmpfix (ov38545-bins). Not caused by our series; not investigated further; CI iGPU runs passed on d723d3ee7e. Logs: scratch_fleet_20261025/run_ov_gpu_unit_tests_6ac7d9f773_moe_20261025.log, build_ov38545_6ac7d9f773_ov_gpu_unit_tests.log.
+- 2026-10-25 evening, openvino#38545: comment 6406748920 posted by Blair (2026-10-26T02:17Z UTC) asking peterchen-intel to approve workflow runs on 6ac7d9f773; review PASS (REVIEW_ci_approval_v2.md, after v1 FAIL for merged error text), preflight exit 0. Read-back differed from approved bytes: the 9 backtick code spans were lost in copy/paste; PATCHed to the approved bytes 02:23:20Z, second read-back equal apart from the trailing newline. Evidence: scratch_fleet_20261025/ov38545_ci/. State at 02:30Z: 24 workflow runs action_required, no CI yet. Task 1820 (smoke/.../10) opened, not started.
+
+## 2026-10-25 late — task 1820: smoke/moe_3gemm_compressed_gpu_random/10 is a test-reference tie-break bug, not kernel numerics or tolerance
+- Master base established: built `ov_gpu_unit_tests` at e1ff0cdbce (the #38545 series base) in <build dir>/openvino-37736, staged as ov38545-bins/r7-base-e1ff0cdbce with IDENTITY.txt. Stock /10 fails 3/3 there, diff 0.177734375. Tree then restored to 6ac7d9f773 and rebuilt; /10 fails 3/3 at the same value.
+- Cause: in case /10 under MSVC, token 13 has equal 2nd/3rd routing logits (experts 1 and 2, 0.905762). Router kernel keeps the lower index (moe_router_fused.cl:30-43); the reference's `std::partial_sort` (moe_3gemm_gpu_test.cpp:234-240) keeps expert 2. GPU output vs a lower-index reference: max 0.0078125. Inputs depend on the standard library's `std::default_random_engine`; a host census with g++ 13.3.0 finds no tied token for /10.
+- Dataset (base build, N=3 per row, 30 configurations): four kernel paths (grouped GEMM default, micro GEMM, oneDNN loop, batched GEMV) agree with the lower-index reference within 0.0156 on the original data and with a tie forced on all 48 tokens; gaps of 1 f16 ulp and up give no disagreement; token counts 33-256 show a tie only at 48. Known-zero control: one GPU output hash per configuration within each build and identical hashes across the two builds for all 30 configurations.
+- Fix: index tie-break in the softmax reference comparator (2 lines). At e1ff0cdbce: /10 6/6 pass; `*moe*` 192+1 fail before, 193 pass after. Local commit 17bd92c105 on branch gpu-moe-test-reference-topk-tiebreak (worktree <build dir>/openvino-t1820-tiebreak, base master fde316cf48), not built there, not pushed.
+- Track B (ExternalPR merges took 1-8 days, track_test_*.txt). Draft PR body DRAFT_PR_BODY_v1.md: facts pack and draft not yet independently reviewed, no preflight, dataset not on HF. Nothing posted.
+- Not verified: Linux build/run; any GPU but Arc 140V; SIGMOID_BIAS reference and moe_router_fused_gpu_test.cpp share the untied pattern, not swept. WSL Ubuntu-24.04 got g++ 13.3.0 installed (apt) for the census.
+- Evidence: scratch_t1820_20261025/FINDINGS.md (facts F1-F20), sweep_*.csv, summary_*.txt, logs_*, diag_t1820.inc, tie_census.cpp, tiebreak_probe.cpp.
+- 2026-10-25 23:50, task 1820, review cycle 1 hand-back (FAIL, review_20261025/HANDBACK_FINDINGS_v1.md) worked:
+  (1) F21 added: the "known accuracy noise of the SOFTMAX path" comment (moe_3gemm_gpu_test.cpp:631-633) comes from #35684 branch commit b8fabec4ab (DG2 CI flakiness of a then-new group_size=64 case); seq-48 rows from #37637. The /10 failure is deterministic; DG2 flakiness not measured and not claimed explained.
+  (2) F22: PR head 17bd92c105 built in openvino-37736 (incremental from 6ac7d9f773, about 29 min), /10 3/3 pass, `*moe*` 193 pass x3. Same-master control fde316cf48: /10 3/3 fail at 0.177734375, `*moe*` 192+1 fail.
+  (3) Preflight on DRAFT_PR_BODY_v2.md: rc=1, only failure is the missing review file (preflight_pr_tiebreak_v2.txt).
+  (5) Draft v2 carries full repo paths and treats the sigmoid note as out of scope.
+  An orphaned grep (pid 388, parent gone, started 22:12, read-only search for r4-master4|r2-master across scratch dirs including a venv) had taken about 3800 CPU-seconds; stopped after reading its command line.
+  openvino-37736 being restored to 6ac7d9f773 (rebuild status_build_restore2-6ac7d9f773.txt). Open decision for Blair: PR now or after #38545. Nothing posted.
+  Restore done 2026-10-26 00:13 local (rc=0); /10 at 6ac7d9f773 fails 3/3 at 0.177734375 (run_restored2-6ac7d9f773_case10_n*.log). Build CPU load ended with it.
+- 2026-10-26, task 1820: Blair's decision: open the tie-break PR now, not after #38545, if it is very solid (gates: review cycle 2 PASS, preflight 0, dataset on HF, read-back).
+- 2026-10-26 ~05:10Z, task 1820: review cycle 2 (own reviewer, fresh subagent) FAIL: draft's "What I checked" falsely said no thread covers /10; #39061 (Cyberpunk1210, Arc B390, Windows Release), #39062, #39063 and our #38545 all record /10 failing on master (cause not stated). Verified via gh (related_threads_20261026.txt); `gh pr list --search moe_accuracy_test_random` does not return #39061. Retraction kept in FINDINGS.md; F21 merge date corrected visibly (2026-05-07T19:49:36Z); F23 added.
+  Dataset published: HF blairducrayoppat/openvino-arc140v-lunarlake, folder moe3gemm_topk_tie_2026-10-25, revision 662c1e4b6e8365c99aef1bfea4676bcd7b16c691 (260 files, fetch-back 0 problems; planted-bad screen 1, real screen 0).
+  Draft v3 (sha a6351a39...) cites the threads and the dataset; preflight rc=1 only for the missing review. Gate for Blair's own reviewer (cycle 3): review_20261025/GATE_FOR_EXTERNAL_REVIEWER_v3.md. Not pushed, not posted.
+- 2026-10-26, task 1820: cycle 3 review (Blair's reviewer, a separate session) PASS on draft v3 a6351a39; preflight exit 0 (preflight_pr_tiebreak_v3_final.txt); 17bd92c105 pushed to fork branch gpu-moe-test-reference-topk-tiebreak (ls-remote confirms). PR not opened; command in OPEN_PR_COMMAND.txt for Blair.
+- 2026-10-26, task 1820: openvino#39205 opened by Blair (head 17bd92c105, base master). Body read back via gh api: byte-equal to DRAFT_PR_BODY_v3.md (2877 bytes; pr39205_body_readback.md). Check back 2026-10-29 for CI-approval need and review.
+- 2026-10-26, task 1820: Blair ran /10 himself on the staged binaries: r7-prhead-17bd92c105 OK (119 ms), r7-master-fde316cf48 FAIL 0.177734375 (-1.25390625 vs -1.431640625). Logs run_*_case10_blair_n1.log. No heavy.lock holder at the time.
+- 2026-10-26, task 1820: #39205 description v5 (TopK-11 argument, accurate human-validation line; sha 53c9c362) reviewed PASS twice (fresh subagent; Blair's reviewer a separate session); preflight exit 0 (preflight_pr_tiebreak_v5_final.txt). Payload and command ready for Blair; not applied.
+- 2026-10-26 05:35Z, task 1820: Blair applied the #39205 description edit (v5). Read-back byte-equal to DRAFT_PR_BODY_v5.md (2562 bytes; pr39205_body_readback_v5.md). Head 17bd92c105; 0 comments, 0 reviews.
+
+## 2026-10-26 (overnight, coordinator oss-cc): triage of 19 open Intel-related threads; #38663 package; #39024 overlap; #38526 pushed (non-force); #4139 maintainer review; nothing posted
+
+- **Triage (gh api, 05:08Z, `scratch_triage_20261026/`):** no comment, review or label addressed to us on openvino #38545, #38526, #36891, #38663, #38864, #38584, #37737, #37736; optimum-intel #1969, #1964, #2052; npu_compiler #302, #344; openvino.genai #4425, #4091, #4267, #4139; model_server #4428, #4580 (one internal ref on #38864: "Ref. 197735", 2026-10-20). Task 1820 became openvino#39205 (Blair, 05:15Z). #38545: head 6ac7d9f773, APPROVED at dffff39083, MERGEABLE, 24 workflow runs `action_required` (our comment 6406748920, no reply). npu_compiler#302 `behind` develop, file unchanged upstream.
+- **#38663 (Intel, OFFLOAD_RATIO=100), package `scratch_fleet_20261026/ov38663/`, Arc 140V, driver 32.0.101.8831, PR head b0245e1879, N=3 fresh processes per cell:** ratio 100 compiles, reads back 100, then 0xc0000005 at the first 1-token inference of the 4-expert top-2 test model and at the first decode step of Qwen3-30B-A3B INT4 and INT8, 3/3 each; the merge-base dies the same way at every ratio leaving fewer slots than top-k (Q30 INT4 94, 99; INT8 94; test model 51, 75, 99); merge-base ratio 100 completes on the test model (resident); ratios with >= top-k slots and 2+ token inputs complete; #38545's code changes no outcome. Code keeps `max(1, ...)` = 1 slot (`moe.cpp:62`), PR text says `min(num_expert, top_k)`; mechanism by source reading and an INT4 diag arm (`lru_expert_num=1`, `unique=8 capacity=1 lease=nullopt`; fallback `exec_prefill_onednn` with empty `expert_masks`, `moe_3gemm_swiglu_opt.cpp:1592-1596, :1425, :2276`). Not run: resident Q30 rows (gate 24 GiB, 19.3 available); faulting instruction not located. HF `pr38663_ratio100_2026-10-26` revision de1c3952ef76 (917 files). Reviews: facts pack v1 FAIL, v2 FAIL (cap; v3 accepted by the coordinator's mechanical check), results pack v1 FAIL, v2 FAIL (cap; `RESULTS_ERRATA_v2.md`: ratio-0 known-zero control failed for compile_s and first-inference time, plan_int8.csv model_dir differs), comment draft v1 FAIL, v3 PASS bound to `PASTE_comment_38663_v3.md` sha256 22c1a0f1... (1199 characters, to @yuanxion; preflight exit 0). **Not posted; Blair's to read and post.** The 84a1584990 lead of the 10-15 card was wrong (a pre-force-push PR commit, not a master commit; correction added to the card).
+- **#39024 (Intel, weightless cache reload) overlaps #38545:** 6 of 7 change groups in `moe_3gemm_swiglu_opt.cpp` byte-identical, no slot-id-buffer test in #39024; its head's `onednn_gpu` gitlink (d81683969d) is not served by oneapi-src/oneDNN and its CI fails at checkout. Hardware (new tree, #39024 impl + our 5 test commits, gitlink reset locally): our 7 offload cases pass 63/63 (known-zero control 21/21; our staged 6ac7d9f773 21/21); with the impl file at master or without only the slot-id groups the 5 slot-id-reading cases fail 15/15, 2 pass; race itself not observed. HF `pr39024_overlap_2026-10-26` revision 6e3488e17fbf. Facts pack v1 FAIL, v2 FAIL (cap; errata). Decision: no comment on #39024 (same author owns both PRs). Local fallback branch `gpu-moe-offload-tests-after-39024-fallback-20261026` tip 90d07ca7bc (author Blair, no trailers).
+- **#38526 (IR FE weights path):** my 2026-10-20 line above ("action_required") was wrong from 2026-10-21 (correction added there): CI ran, 23/24 passed, the two LLM-accuracy jobs failed on a stale merge base. Fresh merge onto master fails CMake configure (master #38655, 2026-10-20, explicit test source list; our PR adds `behavior/moe_offload.cpp`). Verified tree a98857603c (build 2115 steps, 4908 s; G1 G2 G3 G4 G5 G7 G8 3/3, G6 skip, master arm G1/G5/G7 fail 3/3, controls pass, WeightsProviderTest 3/3, IR FE tests 82 listed 0 failures; gcc 13/clang 14/18/19 56 compiles clean after the known-bad control reproduced the CI clang failure on d723d3ee7e). **Pushed 13:36:02Z on Blair's explicit go, non-force fast-forward 72468e99ae -> adec36f621** (merge of master f80f6d8f88 + one registration commit); independent review PASS; read-back: head adec36f621, MERGEABLE, REVIEW_REQUIRED, 7 commits, workflow runs `action_required` (18). No comment, no body edit. Record `scratch_fleet_20261026/GO_push_38526.md`.
+- **genai#4139 (PlanteAmigor; Blair has two commits in it and `write` permission on the author's fork):** sgonorov CHANGES_REQUESTED 2026-10-26T11:21Z (six inline comments, all on the author's lines). Agent genai4139-r1: local branches `blair/4139-small-fixes` (7 mechanical commits) and `blair/4139-cpp-autodetect` (our 08-21 offered helper, tests first); builds queued; nothing pushed or posted. Findings: the two commits under Blair's identity carry Claude trailers in their public messages; the D1 sentence persists in a commit message and two code comments.
+- Compiler pre-check agent (`portcheck/`): instrument proven on d723d3ee7e before any pass claim; no gcc/clang defect in #38545, task-1820 tip or #38526. Harness note: subagents' REPORT files are refused; reports are saved as `COORD_*` text. Vikunja 1776, 1821-1824, 923, 1658, 1659, 1775 updated. Morning report: `scratch_fleet_20261026/MORNING_REPORT.md`.
+- **2026-10-26 (afternoon, coordinator) addendum:** floor arm for #38663 (HF `pr38663_floor_arm_2026-10-26` revision d55b658be937; 192 units; PR head + 3-site `min(num_expert, top_k)` slot floor completes every cell where the PR head dies: smoke model ratios 51/75/94/99/100 with 1 token, Q30 INT4 94/99/100, INT8 94/100, 3/3 each; where the floor changes no slot count outputs are bit-identical to the PR head; not shown: correctness against a resident Q30 reference, that a floor is the right design); #39024 hardware rows (63/63 on #39024's impl + our tests; 15/15 fail without the slot-id groups) and HF `pr39024_overlap_2026-10-26`. genai#4139: facts packs 1-3 + errata accepted by the coordinator after the cycle cap; offer comment `genai4139/drafts/PASTE_comment_4139_v9.md` (sha256 0b09456d..., 1193 characters, one @ to PlanteAmigor, eight items, one question) reviewed PASS and preflight exit 0, **not posted**; union of items 1-5, 7, 8 built and tested together (tree e103b5ed0c29: ThinkingBudget 18/18, test_generation_config 121, test_reasoning_config 20 on CPU and GPU, full gtest 699 of 702 with the known prefix-caching flake and two real-model guards, stubs equal); local branches blair/4139-small-fixes, blair/4139-cpp-autodetect, blair/4139-union-probe, nothing pushed. Process notes: three harness-level failures tonight were mine to catch faster (a reviewer silent for three hours, a finished job holding heavy.lock for 21 minutes, a finished test unit the agent kept waiting on); watchers now time each owed deliverable (memory `owed-deliverable-ledger`). Plain-language summary for Blair: `scratch_fleet_20261026/MORNING_REPORT.md`.
+- **2026-10-26 (afternoon, second review of #38663 comment draft v3):** independent review `scratch_fleet_20261026/ov38663/reviews/REVIEW2_DRAFT_comment_38663_v3.md` FAIL on one defect: the closing offer to re-run with a top-k floor is stale, the floor arm ran and is published (d55b658be937). All measurements, source lines, SHAs and thread facts re-derived and hold. Blair ruled: v4 replaces the closing with the measured floor result and names the description-versus-code difference (PR body `min(num_expert, top_k)` at ratio 100 in three statements; code `max(1, ...)` at `moe.cpp:62`, `moe_offload_constant.cpp:110`, `:162`; no thread comment states it). Hand-back `reviews/HANDBACK_DRAFT_comment_38663_v3.md`. Nothing posted.
+- **2026-10-26 (afternoon, #38663 comment v4 to v6):** v4 (closing replaced by the floor result, 1199 chars) independent review FAIL, D1: the Checked line lost its search bound in the shortening (`git grep` without pattern or ref; release notes without file or lines); D2: four wrong notes in the reading copy (kept vs changed to; ratio-93 death on the 4-expert model inferred, not run; ambiguous wall-time range; spec `thread_read_through` carried an EDT time labelled UTC). Hand-back `ov38663/drafts/HANDBACK_PASTE_comment_38663_v4.md`. This was the third FAIL in the lineage; the coordinator took the cap decision (one fix batch, then a delta review of changed clauses only). v5 (`PASTE_comment_38663_v5.md`, 1200 chars, sha256 bd10c9d4...) restored the search bound; delta review `REVIEW_PASTE_comment_38663_v5.md` VERDICT PASS (13:53 EDT). Blair then instructed: include all important information, extend the draft as needed, no bloat. v6 (`PASTE_comment_38663_v6.md`, 2601 chars, sha256 b0daa5791f12f1061161156246f8735cdf40bd2059d506e75c9e18265b9d7213) adds the test conditions, the merge-base cell list, the cause in code (fallback `exec_prefill_onednn` at `moe_3gemm_swiglu_opt.cpp:1592-1596` indexes `scratch.expert_masks` (`:2276`), sized by `prepare_internal_buffers` (`:1414`) only when `token_num > 1` (`:1425-1430`); diag rows show `diag_fallback_expert_masks_size=0` at the 1-token fallback and 4 on 2-token units that complete; the faulting instruction was not captured), the floor result with its three sites, memory figures (peak commit about 2.9 GiB INT4, 4.4 GiB INT8 at ratios 93-100; 11.8 GiB INT4 at 30), the folder pointers, and an offer (add the failing case as a unit test, or re-run on a named commit; the unit test is not written). Spec `spec_comment_38663_v6.json` carries a `length_waiver` quoting Blair's instruction; preflight refuses only for the missing review. Independent review of v6 dispatched to rev-draft-38663-v6 (fresh agent); owed file `ov38663/drafts/REVIEW_PASTE_comment_38663_v6.md`, ledger deadline 60 minutes. Coordinator checks done: 56-token prompt from `prompt_token_count` in the rows; diag rows re-derived with `ov38663/coord_diag_masks.py`; memory figures with `ov38663/floor_arm/coord_memory_by_cell.py`. v5 remains the compact fallback. Nothing posted.
+- **2026-10-26 (afternoon, #38663 comment v6 to v8):** v6 FAIL (REVIEW_PASTE_comment_38663_v6.md): five scope or wording defects (equality sentence unscoped for Qwen3-30B; ranges wider than the levels run; INT8 memory rounded up and quantity unnamed; merge base without a commit; 'completes' undefined), one optional (cause named one of three buffers), spec and notes errors; no measurement wrong. v7 fixed them; delta review FAIL on two clauses I introduced (N1: 'every cell run that has fewer slots than top-k' false for the test model at 2, 16, 33 tokens; N2: link before the floor is defined). v8 (`PASTE_comment_38663_v8.md`, 3598 chars, sha256 9e2c455be4ce097678562068a125dd9f3cdf2c7cd7ed5ed051877303d50be05c) fixes N1 and N2. Blair asked for the strongest model on the reviewer; a fresh Fable-model agent did a FULL review of v8: `REVIEW_PASTE_comment_38663_v8.md` VERDICT PASS, no defects, six minor notes (R1-R6) none of which makes a sentence false. Preflight for the final bytes: see `preflight_comment_38663_v8_20261026.txt` (refused only for the missing review before the PASS). Not posted; awaiting Blair's read. v5 (PASS, 1200 chars) remains the compact fallback. Reviewers are dispatched with model fable from now on.
+- **2026-10-26 (afternoon, genai#4139 comment v9 hand-back addressed):** second independent review of v9 PASS (HANDBACK_PASTE_comment_4139_v9.md); four decisions listed. Coordinator decisions recorded in the hand-back file: (1) the 'before' build is now named in the comment: v10 adds one sentence (a5fc4d5f, the 08-27 head; `git diff a5fc4d5f 863606d73a -U0 -- src ':!*.pyi'` lines mentioning reasoning, think, start_token_id or end_token_id = 0, control a5fc4d5f..f6aea2ff = 62, re-run by the coordinator); (2) the apply arm is reworded to 'put them on my fork for you to apply' (nothing is published; publishing needs Blair's go if she picks it); (3) Blair's own read stands; (4) push walk-through process fixed. v10 (1422 chars, sha256 5a2b00bd...) is new bytes: Fable-model review requested, cycle 2 of 2; length_waiver in spec_comment_4139_v10.json quotes Blair's 'include all important information' instruction. v9 stays postable. Nothing posted or pushed.
+- **2026-10-26 (evening, #38663 v8 hand-back):** second independent review of v8 PASS (`REVIEW2_PASTE_comment_38663_v8.md`, top-level a separate session; hand-back `HANDBACK_PASTE_comment_38663_v8.md`): no defects; R7 note (the merge-base lead 'every 1-token cell run that has fewer slots than top-k' literally includes the offload-off cells at ratios 0 and 100, which complete; covered by the paragraph's last sentence; left as is: an edit would void both reviews). Coordinator re-read the live thread at 18:56Z (head b0245e1879, 2 issue/12 inline/13 reviews, updated_at 2026-10-25T14:39:52Z), both dataset folder URLs 200, review anchor resolves; spec `thread_read_through` 18:56:30Z; preflight exit 0 (`preflight_comment_38663_v8_ready_20261026T1856Z.txt`). Not posted: awaiting Blair's explicit go or his own post.
+- **2026-10-26 (evening, genai#4139 v10 review):** independent Fable-model review of v10 PASS (`genai4139/drafts/REVIEW_PASTE_comment_4139_v10.md`, gate exit 0; it verified the build named in the new sentence from the module's own version string, the status file, the reflog and the PR force-push events: a5fc4d5f was the head 2026-08-27T10:47:46Z to 2026-09-22T14:58:27Z and still resolves; the src diff count is 0 with control 62 and 10 matching lines in the two `.pyi` files). Reading-copy notes corrected in place: the PR author's GitHub profile states pronouns he/him; the length limit is the 1,200 floor (3x median 274 = 822); cycle 2 of 2; fork-arm plan = one linear branch in the comment's order plus `blair/4139-small-fixes`, not the two separate branches (a cherry-pick of the two in the comment's order conflicts at item 8's last docs commit, reverse order drops its doc text; E23, reproduced by the reviewer with merge-tree). Not posted, nothing pushed or published.
+- **2026-10-26 (19:05Z and 19:06Z, POSTED by Blair from the browser):** (1) openvino#38663 issuecomment-6424887025, 2026-10-26T19:05:23Z, the v8 comment: fetched back with `gh api` and diffed against `ov38663/drafts/PASTE_comment_38663_v8.md` (sha256 9e2c455be4ce097678562068a125dd9f3cdf2c7cd7ed5ed051877303d50be05c) by `scratch_fleet_20261026/coord/diff_posted.py` (CRLF to LF, one trailing newline stripped each side): IDENTICAL, 3597 characters. The Preview Blair showed at ~19:03Z had two edits in the disclosure line ('AI' for 'Claude Code'; 'reviewed, edited, and approved'); the posted text restores the reviewed wording. Detector tested the other way: the same fetch diffed against the v7 paste reports not identical (3597 vs 3471). Saved: `scratch_fleet_20261026/posted/posted_openvino_38663_issuecomment_6424887025_fetched_20261026.md`. (2) openvino.genai#4139 issuecomment-6424902356, 2026-10-26T19:06:09Z, the v10 comment: IDENTICAL to `genai4139/drafts/PASTE_comment_4139_v10.md` (sha256 5a2b00bddfb06011317213f1096021a2ae0dcf7efe7ed8ae8698774eb10f19b8), 1421 characters; saved beside the other. Both authored by blairducrayoppat. Thread state right after posting: #38663 head b0245e1879, 3 issue comments (ours is the newest), 12 inline; #4139 head 863606d73a, 20 issue comments, 52 inline; no replies yet. Nothing pushed or published to Blair's fork. Check-backs: #38663 reply from yuanxion ~2026-10-28; #4139 2026-10-27 (task 923 due date), or on any reply. If the #4139 author answers 'push': walk Blair through each commit, ask again, fast-forward only; if 'apply': one linear branch in the comment's order plus `blair/4139-small-fixes` to Blair's fork on his go.
+
+## 2026-10-27: openvino PR #36891 check-back (Blair: "are we forgetting something"); nothing owed, nothing posted
+
+- Head moved today to e82466de9a (zaixing-wang, merge of master). `moe_offload_constant.cpp` is byte-identical to 3e2cb9c32b (sha256 fde6163192d8...). The Windows iGPU budget path is unchanged in substance since our measured head 6c09f7b228: DXGI LOCAL segment, Budget - CurrentUsage, min with max_global_mem_size.
+- yuanxion added a check forcing ENABLE_WEIGHTLESS when OFFLOAD_RATIO > 0 (05b3bcf4bc, 10-19) and reverted it (3e2cb9c32b, 10-20). It is the same WEIGHTS_PATH block in `execution_config.cpp` that our #38526 touches. Net zero at head.
+- Thread: REVIEW_REQUIRED, MERGEABLE, no human approval, 41 checks pass and 16 pending. Our 5555547203 is still the only issue comment. No reply addressed to us.
+- Not measured: the budget the current head reads on this machine. No build after 6c09f7b228 exists here, and the decision line is now GPU_DEBUG_INFO (needs a debug-caps build).
+- Vikunja 1530: description brought current (it still read head 340b7ad), due 2026-11-05. Related task 1666 (OTD prefill fix) is still blocked by private-project ticket 1664, which has not started since 2026-10-04.
+- Evidence: `scratch_triage_20261027_ov36891/`.
+
+## 2026-10-27: rule 2 (no second PR in a subsystem while a first stalls) removed by Blair
+
+Blair: "let's get rid of this rule where we can't open a second pr. this is causing issues now, in multiple efforts." It was holding Vikunja 1666 (OTD prefill fix) to an issue-first shape while #38545 sits open in the same GPU MoE subsystem, and 1826 likewise. Replaced in CLAUDE.md, the upstream-contributor agent, the upstream-review skill and memory `pr-is-the-engagement` by: a further PR in the same subsystem is allowed; it links the related open PRs. Track choice (0a) is unchanged. Memory `second-pr-allowed`.
+
+## 2026-10-27: openvino#39242 (Intel duplicate of our #38526 + #38545): comment drafted, reviewed PASS, awaiting Blair's post
+
+- **The PR.** liqianhao111 (Intel) opened #39242 at 08:27Z, head 51e065d0ff. It fixes both bugs with the same root causes and links neither of our PRs. rkazants requested changes at 12:13Z: "Needs tests and Jira ticket with proper problem description. What model is this needed for?"
+- **Comparison** (`scratch_ov39242/FACTS.md`):
+  - Slot-id buffer: functionally identical to #38545; theirs factors the shared code into one helper.
+  - `__weights_path`: uses the `InputModelIRImpl` member praasz rejected on #38526 (discussion_r4247651948, 2026-10-12).
+  - #39242 has CI run and PTL/Arc B390 coverage, and no tests.
+- **Review.** Cycle 1 FAILED on one defect: the offer named `WeightsProviderTest`, which needs #38526's two-argument `BufferWeightsProvider` constructor (`weights_provider.hpp:63` at 51e065d0ff has only the one-argument form). Cycle 2 PASS (Fable). Body `scratch_ov39242/COMMENT_FINAL.md`, sha256 1017fbfb96bf164d8e4a3fd75386389721cc7a0f4bf0825777d6e19081f04881, 1198 chars.
+- **Preflight.** Exit 0, re-run by the coordinator (`preflight_coordinator_rerun.txt`). Not checked by the gate: SHA assertions, quoted blocks, duplicate searches (none declared).
+- **Process gap.** The facts pack was reviewed together with the draft, not before drafting (rule 4d).
+- Vikunja task created for the post and check-back. Blair's rule this session: assume yes to a contribution unless there is a stated reason against (memory `contribute-by-default`).
+
+*[An entry is omitted from the public mirror at this point: a process rule for the private workspace, not an upstream contribution. The full entry is in the private log.]*
+
+---
+
+## 2026-10-27: POSTED openvino#39242 comment (Blair, 14:47:52Z)
+
+Comment 6445088588: https://github.com/openvinotoolkit/openvino/pull/39242#issuecomment-6445088588. Fetched back with gh (`scratch_ov39242/live_comment_6445088588.md`). It differs from the approved COMMENT_FINAL.md (sha256 1017fbfb...) only in line endings: the browser paste stored CRLF (9 CRs), and gh's output adds one trailing newline. After normalising both, the text is byte-identical. Rendering is unaffected, so no edit was made. Check-back: Vikunja 1827, due 2026-10-29.
+
+## 2026-10-27: Vikunja 1666 (OTD prefill, openvino master f34a3f0684): post-restart state, relink done, machine free until 22:00 EDT
+
+Blair restarted the machine at 16:50 EDT. Fresh-boot available memory, 14 samples 16:51-16:54 EDT with nothing of ours running: 20.9-23.2 GiB (`Win32_OperatingSystem.FreePhysicalMemory` and `\Memory\Available Bytes` agree within 0.01 GiB). The r0 gate is 19.9 GiB (commit 8b91719b); pre-restart the same reading was 19.6-20.2 GiB. Recommended a second restart at about 21:45 EDT before block K1.
+
+The stale `heavy.lock` (ov1666, taken 14:16Z, agent died at the restart) was released after confirming no build or model process was running. A fresh `ov1666` agent did the (a)+(b) unit-test relink: `STATUS_build_relink_tests_ab_3ef3d5f246_nodx_20261027T205710Z.txt` rc=0, 65 s, min available 17.12 GiB; master restore `STATUS_build_restore_tests_master_f34a3f0684_nodx_20261027T205923Z.txt` rc=0, 55 s. Test executables saved write-once under `scratch_ov1666/test_bins/{master,ab}` by the new `harness/save_test_bins_ov1666.py` (refuses on a dirty tree or a status file with no COMPLETE; negative-tested on the aborted 15:55Z build status). Installed plugin DLL = arm `master` = `master2` (351140a7...); every saved arm re-hashes equal to its `arm_identity.json`. Lock released 21:01Z.
+
+Side effect, recorded in `scratch_ov1666/RELINK_RESULT_20261027.md`: the `tests` target set reran configure, so `openvino.dll` and `openvino_ir_frontend.dll` were relinked; after the master restore the version stamp is `2026.5.0-23642-f34a3f06845` as before, but the bytes differ from the pre-relink files (both hashes in the result file) and the originals were never saved. All K1+ rows share the new bytes; the afternoon trial rows (not dataset rows) carry the old. The cause of the byte difference (PE timestamp or otherwise) was not checked. No gtest was run yet; that is Wednesday 10:20 EDT.
+
+Commit 9d3e1d14. Vikunja 1666 comment 4598. Next: K1 preflight and launch at 22:00 EDT, K2 after K1's COMPLETE marker and control check; reply watcher on #39242, #38526, #38545, #36891 running since 15:25Z.
+
+## 2026-10-28 01:22Z: openvino#38545 second approval (e-ddykim, Intel) with one nit; fix scheduled, nothing posted
+
+Review 5676641471 APPROVED ("LGTM") and review comment 4395985564 on `moe_3gemm_swiglu_opt.cpp:693`, asking to drop `scratch_buffers::_expert_index_buffer` now that the impl holds `_expert_index_buffer`, and to return `batch_mem_ptr` from `on_before_batched_gemv()` the way `on_before_prefill()` does. Read against master f34a3f0684: the scratch field survives in the PR only to feed the batched-GEMV read at `:1598-1600`; the nit is correct and is a 10-15 line change in one file. PR state at 01:40Z: OPEN, MERGEABLE, reviewDecision APPROVED (yuanxion 2026-10-16, e-ddykim 2026-10-28), mergeState BLOCKED on pending CI (two Build jobs, Conditional Compilation, iGPU unit tests). Reviewer identity: Intel AI Frameworks Engineer, no pronouns on profile; merge rights not checkable (collaborator API 403).
+
+Not done tonight: the fix needs a build and the Arc 140V MoE test filters, and block K1 is running on the GPU with CPU-contention as a timing confound, so the change is scheduled for the Wednesday 09:00-10:50 EDT window together with 1666's gtest runs. Blair approves the push and writes the reply; owed within ~2 days of 01:22Z. Vikunja 1659 updated (due 10/29).
+
+## 2026-10-28: Vikunja 1666 night 1 measured: K1, K1R, K2, K2R complete (285 units, 276 OK); no arm comparison yet
+
+Blair restarted at 20:44 EDT (available 21.7-22.3 GiB, above the 19.9 GiB ratio-0 gate). K1 preflight run4 failed on a leftover iteration directory from the afternoon's run3 (moved aside); run5 clean (53/0/3), one foreground unit OK 45.5 s. Blocks, all master f34a3f0684, driver 32.0.101.8831, agent `ov1666-k1` on Sonnet, coordinator watching the status files independently:
+- K1 20:50-23:52 EDT: 150 units, 148 OK, 2 `THERMAL_GATE_NOT_MET` with `thermal_c=None` at seq 26-27 (master2 r1 and (a) r2 at r30 T512) within one second; cause: `sampler_rows()` returned [] on a transient read failure while the PowerShell sampler held its CSV, and the gate treated None as too hot. The sampler CSV itself had no empty cell in 540 samples. Patched after K1 exited (`thermal_c()` retries 15 s; commit 53e6b89a). All six ratio-0 units ran (min available 6.07 GiB). Control check PASS: per-turn prefill misses identical in all six controls (5942/3233/3064); control turn-1 TTFT drifted +30% open to close (13.6 s to 17.7 s), not investigated.
+- K1R 23:55-00:05: the two skipped units plus 3+3 controls, 8/8 OK. The first K1R launch crashed at plan validation (the generator wrote a label the runner rejects); fixed to blank labels with an origin map, validated by the runner's `--dry-run` (abf2229a). Blair's rule, 21:50 EDT: re-run missed critical rows the same night; non-critical may wait.
+- K2 00:23-03:37: preflight run1 failed three checks (missing status dir; diag rows N=1 vs min_reps; no known-zero pair in K2). Plan gained 6 master2 units at r93 T512 and INT8 r75 T512 (120 units); spec generator now checks min_reps on a diag-less copy; run2 clean (55/0/1). 113 OK; 6 `DIED_NO_ROW` 0xc0000005 at the R94 crash sentinel, master 3/3 and (a)+(b) 3/3 (the #1774 crash is unchanged by the patches); 1 real thermal skip (seq 51, (b) r93 T2048 r3, 85.9 C after the 300 s wait): Windows SearchIndexer at about 1.2 cores had the package at 90.9 C with the GPU idle; WSearch stopped and disabled 01:18 EDT, the next unit cleared the gate at 71.9 C. Control check PASS, misses equal to K1's.
+- K2R 03:38-03:48: 7/7 OK.
+Also tonight: "the nightly system backup" scheduled task disabled at Blair's direction (22:25 EDT). Coordinator retraction: a Vikunja line claiming the agent launched K2 before the GO was wrong (GO about 04:23:15Z, start 04:23:37Z); retracted in comment 4609. Not verified: the cause of the control turn-1 drift; the summariser does not yet use K2's known-zero cells (refuses K2 arm comparisons until taught). Handoff for the Wednesday window: scratch_ov1666/HANDOFF_20261028_morning.md.
+
+## 2026-10-28 (05:55-10:30 EDT): Wednesday work pulled forward; UT, gtest, analysis, #38545 nit, #38663 ratio-100 data and reply v4
+
+Blair (05:50 EDT): do not idle until the scheduled window; the machine is free. Dispatched at 05:55 instead of 09:00.
+- **UT window (ov1666-ut, Sonnet):** 24 Intel UT captures OK on Qwen3-30B-A3B (master and (a)+(b), r30/r75, T512/T2048, N=3): 3,388,716 expert reads in the marker windows, 0 inside a GPU compute-kernel interval, both arms, all cells; compute busy 3-12% of prefill windows, 9-19% of decode; observer effect UT/clean 1.38-2.79x TTFT. Capture 1 confounded by the coordinator's own `du` survey (560,440 ETW events; killed 06:08); a replacement capture later hit the 16 GiB memory gate (14.84 GiB with Blair's session active) and waits for the next quiet window; the cell stands at N=2 clean. `UT_GTEST_RESULT_20261028.md`.
+- **gtest:** func `*MoE*:*moe*` 98/98 both arms; unit `moe*:*moe*` 193/1 (master) and 196/1 ((a)+(b)), the same known `smoke/.../10` failure (#39205).
+- **Increment-1 analysis (ov1666-analysis):** summariser rewritten (per-block known-zero limit from every same-block master2 group; refuses without one; two pooling defects fixed; 10-case regression on real rows). Limits: K1 5.2/0.2/19.8%, K2 4.5/6.6/16.7% at turns 1/2/3. (a)+(b): steady-state TTFT -26..-68% INT4, -18..-29% INT8, misses -38..-70%, beyond the limit at 11/17 cells; turn 1 -4.5..-19.8% at K1, +3..+12% at three K2 cells, not resolved at N=3 (a code-path zero differed by 20.5%). Replay of real routing predicts misses: (a) exact, (b) within 1%, (a)+(b) within 3%. (a) alone raises steady-state misses at r30 (dead end). Accuracy: (a) ids identical 48/48; (b) and (a)+(b) swap one near-tie token (master margin 0.05-0.77 logits) in 1 of 3 prompts at 5/17 cells; master r30 vs r0 already differs more. Blair's decision pending on the strict vs rounding reading. `ANALYSIS_RESULT_20261028.md` (8e0ba757).
+- **openvino#38545 nit (ov38545-nit, Sonnet):** e-ddykim's request implemented, local commit 452ab91bb6 (+3/-7); Arc 140V 216 processes: offload cases 0 fail one-at-a-time/4x/7x concurrent, unit 199/200 (known /10), func 98/98, same as pre-nit; positive controls fail as designed. Not pushed; Blair's approval and reply pending. The agent took heavy.lock ahead of a queued UT capture against instruction (memory `lock-queue-not-messages`).
+- **openvino#38663 (e-ddykim's `:566 < 100 -> <= 100` question):** Blair: answer with data, not inference. Six arms from b0245e1879, 159+36+51+15 units, N=3 (`line100_20261028/LINE100_RESULT.md`, HF rev 71c07ab77cfd): with weights from a file the line changes nothing (stamp written, never read: the offset comes from the mmap source buffer); with weights passed as a Tensor, compile at ratio 100 throws `OTD: Cannot determine bin offset` without the line and proceeds with it; the line never removes the 1-slot crash, the top-k floor does. Separate bug: mmap-off file loads return all-NaN on every arm (Vikunja 1829). Draft v3 (review PASS) was withdrawn when yuanxion answered e-ddykim and pushed 32afaa5787 (exactly the one-line change) at 13:54Z. Addendum at the real new head (63 units): head32af dies 0xc0000005 3/3 at every ratio-100 1-token/first-decode cell, Tensor-load now compiles then dies, floor32af completes 3/3 with the 10-26 token ids (`addendum_head32af/LINE100_ADDENDUM_RESULT.md`, HF rev 58a3916295ce). Draft v4 to yuanxion (sha256 e9010242, review PASS, preflight 0) handed to Blair at 10:30 EDT; not posted.
+- Coordinator retractions today: "line changes nothing" (file-load half only), and a Vikunja line about K2's launch order; both corrected where made.
+
+## 2026-10-28 (afternoon): POSTED openvino#38584 comment (Blair, 21:45:30Z); #38545 nit reply and #38663 v4 state
+
+- **openvino#38584 (Blair's own issue, the mmap-off NaN):** Vikunja 1829's reproduction found it is a master bug (f34a3f0684: all-NaN at ratio 30/50, 1 and 16 tokens, 3/3; finite at ratio 0 and with mmap on), cause with file:line (descriptor offset 0 for every constant when mmap is off; `moe.cpp` `get_const_offset` path 2 uses it as the `.bin` offset), and an A/B causal test (stamp preference: output bit-identical to mmap-on, N=3). Package on HF `issue38584_mmapoff_nan_2026-10-28` rev cde042f32ab7 (512 files fetched back equal) with a 20-line reproducer. Comment v1 (sha256 84baae6e) passed review first time and preflight; posted by Blair as issuecomment-6481455505, read back identical after line-ending normalisation. Intent to open the fix PR stated; the fix build on master is in progress (agent ov38584-fix).
+- **openvino#38545 nit reply:** v1 FAIL (run description, disclosure), v2 FAIL (one untrue clause), v3 PASS (sha256 1b2e9fda), preflight 0; handed to Blair for the review thread. Rule 4d revised at Blair's direction: cycles run to PASS; after two FAILs report the defects and continue, never stop to ask.
+- **openvino#38663:** Blair posted v4 (issuecomment-6472381757, 14:56:11Z, his own rewording of the offer sentence) answering the author's new head with the addendum data; offer of a PR with the floor into their branch stands.
+- Fork-side housekeeping: the nit commit 452ab91bb6 pushed to the fork as a side branch only (auto-merge on the PR is e-ddykim's; a push from a non-write user would disable it); the fork's `sdl.yml` workflow fails with zero jobs on every push, as on 10-23 and 10-26: irrelevant.
+
+## 2026-10-28 (evening): openvino#38584 fix PR body v1 FAILED independent review; v2 in progress
+
+- Review of `PR_BODY_DRAFT.md` v1 (sha256 5e25ed2b): VERDICT FAIL, first review. Review `fix_pr/REVIEW_PR_BODY_DRAFT_v1_20261028.md` (sha256 c20aed2c2204), hand-back `HANDBACK_PR_BODY_DRAFT_v1_20261028.md` (1ef5b2bfac30). Code, diff, file:line citations at fc310be5d6, numbers and HF links held; 8 body defects (D1 to D8, listed in Vikunja 1829 comment of 20:25 EDT). Coordinator re-verified D2, D4, D6, D7, D8 and the assignee fact (olpipi, since 2026-10-05) against the API and the rows.
+- Retraction: "print-only build" (fix agent's comment 4638 in Vikunja 1829, my comment 4639, and `PR_PACKAGE.md`) was wrong. The diagnostic plugin is the fix plus a print block that recomputes the decision; the wrong wording stays in those places, corrected in the comment of 20:25 EDT.
+- Decision (coordinator): the skip entry for `InferWithOffloadRatioMatchesResident/mmap=false` in #38526 (skip_tests_config.cpp at adec36f621) is removed in #38526 after the fix lands; keep `Fixes #38584`; no rebase of the branch (3ce2a4e3 on fc310be5d6).
+- For Blair: AI_USAGE_POLICY.md item 2 ("verify correctness yourself"); recommended he runs the 20-line reproducer on both private installs before the v2 review so the disclosure can name what he did.
+
+## 2026-10-28 (night): OPENED openvino#39301 (fix for #38584)
+
+- PR openvinotoolkit/openvino#39301, `[GPU] Fix MoE offload reading expert weights from .bin offset 0 with ENABLE_MMAP=false`, from blairducrayoppat:gpu-moe-offload-mmap-off-bin-offset @ 3ce2a4e378 (measured on master fc310be5d6), Fixes #38584, opened on Blair's approval after reading BLAIR_READ_38584_PR.md and the body. Body v3 sha256 52fa9432: v1 FAIL (D1-D8), v2 FAIL (N1-N6), v3 PASS (fable reviewer, REVIEW_PR_BODY_DRAFT_v3_20261029.md 61d29a4a3511); preflight 0 at post; read back identical (8218 bytes, `pr39301_body_live_20261029.md`).
+- Human validation: Blair ran `harness/run_repro_for_blair.py` himself at 2026-10-29T01:51:59Z: master mmap off 2048/2048 non-finite, fixed 0, both mmap-on 0 (`blair_repro_20261029T015159Z.txt`). The two 00:20Z files are agent harness runs (labelled).
+- Still to come: real-model run (Qwen3-30B INT4, master vs fixed) as a PR comment; skip-entry removal in #38526 after merge.
+- 2026-10-28 ~23:10 EDT: #39301 description trimmed at Blair's direction (related-PRs bullet ~1.3 KB to three sentences; body 8218 to 7485 bytes, v4 sha256 442429d3). Review PASS (fable, REVIEW_PR_BODY_DRAFT_v4_20261029.md aab9f748aeed), preflight 0, read back identical. Lesson for drafts: related-PR text says what the maintainer cannot already see, not their own diffs.
+
+## 2026-10-28 (night): 1828 routing trace failed; machine record not consulted (coordinator failure)
+
+- The 1828 CPU-plugin routing trace of Qwen3-30B INT4 was killed twice ~20 s into compile: available physical 1.24 GiB (floor 1.5), then 0.024 GiB after the night agent lowered the floor to 0.5 GiB (a gate change against the brief; ruled out for the rest of the night). Process commit was only 12.4-13.3 GiB. The 35B start gate (26 GiB, a projection) blocked at 23.97 GiB; Blair withdrew it ("35B does not require 26GiB").
+- Coordinator failure, identified in review: the measured record on this machine was not read before the prep's projection was accepted. A private project's `docs/performance/benchmark_vlm_text_qwen36-35b-a3b-int4-ov-OFFICIAL_2026-09-22_00-34-57.json`: 35B on GPU from 23.91 GB available, min 5.61 GB; `PERFORMANCE_LOG.md`: 30B load peak ~21 GB, lowest successful load from 20.1 GB available. New rule 16 in CLAUDE.md and memory `read-machine-record-before-projecting`. CLAUDE.md cap raised 21000 -> 21300 for that rule (the three largest blocks are doctrine; cutting them is a separate edit for review).
+- Research agent ov1828-mem (zero machine load while B1 runs) is root-causing the CPU-path collapse and redesigning the trace for the 30B and 35B with these figures.
+- Correction (coordinator, same night): the entry above says the 30B's "lowest successful load from 20.1 GB available". Wrong: 20.1 GB was a swap landing with no load attempted from it (PERFORMANCE_LOG.md 3084-3107); the lowest recorded successful 30B load is from 19.85 GiB (2026-07-09, lines 4154-4166), Coder-30B checkpoint, same IR size, not shown identical. Found by ov1828-mem (MEMORY_ROOTCAUSE_20261029.md section 3a, commit 43042b3c). For the 35B the fallback order is now C35 (CPU with trimmer), then a GPU-plugin tracer (conditional on the TopK output keeping MoE fusion), then the chunked tracer.
+
+### 2026-10-29 ~04:30 EDT — night 2 rulings undelivered (Vikunja 1666/1828)
+- Coordinator messages to `ov1666-night2` (01:57Z B1 deadline 5 h; 03:20Z no gate/floor/timeout/deadline change, no 1828 retry) reached the agent only after its 04:05 EDT report (agent's account, `scratch_ov1666/NIGHT2_RESULT_20261029.md` sha 7f16e209d3dc, section "Coordinator instructions that reached me after this work was done").
+- Consequences: B1 ran at deadline 4.5 h (preflight run3 "inside the 4.5 h deadline"), finished 3 h 30.7 min, 0 SKIPPED_DEADLINE, so the deadline never bound. 1828 30B trace (floor disabled) and 35B runs (gate and floor disabled) ran; data kept as measured, labelled as run outside an undelivered ruling; no overlap with B1/B2 windows.
+- Correction: I first told Blair the agent "went past my instructions"; retracted in chat. Rule for future runs recorded in memory `delegating-to-agents`.
+
+### 2026-10-29 06:40 EDT — #39301 increment 2 deferred to Saturday
+- Blair: the real-model run for #39301 (Qwen3-30B INT4, master vs fixed, mmap on) moves from Thursday to Saturday 2026-10-31. Its Thursday machine slot (~10:00-11:30) goes to 1828. Watch on #39301 continues.
+
+### 2026-10-29 07:30 EDT — openvino#38663 at the author's new head cbd509bc47: the fix works on Arc 140V; draft reply ready, not posted
+- Trigger: yuanxion (issue comment 6490529690, 07:19:01Z) "Fixed 1 slot issue when fallback to exec_prefill_onednn during offload_ratio = 100, it should work now"; commit 57172bdec7 (moe_3gemm_swiglu_opt.cpp: scratch sized for token_num == 1 when offloaded, lease attempt moved into `exec`), then PR head cbd509bc47 (merge of master 8f0a334dfb: 90 master commits, oneDNN GPU submodule bumped). Copilot review 5693919371 (inline 4409492342, `moe.cpp:64`): a routed constant with a non-MoE consumer disables offload for the op while other routed buffers stay undersized.
+- Package `scratch_fleet_20261026/ov38663/head_cbd509_20261029/` (plan registered 08:39Z, sha256 0f1a8967...; report `RESULT.md`): arms head32af, floor32af, fix57 (57172bdec7) on the earlier core; head_cbd (cbd509bc47 built from source, core 2565 s), nofix_cbd (57172bdec7 hunks reversed), diag_cbd (print-only) on the rebuilt core; Arc 140V, driver 32.0.101.8831, N=3, 264 counted units. Predictions P1-P4, P6-P12, P14, P15 held; **P5 refuted** (fix57's 1-token test-model hash `e62a55f181f9` differs from the resident/floor `f77ccb9ab46b` by one fp16 step, 2.44e-4) and **P13 refuted** (detector positive control: an extra consumer on a routed constant in the IR does not reach the MoE op's inputs, two constructions).
+- Results: head32af dies 0xc0000005 3/3 in ten 1-token cells with fewer slots than top-k; fix57 and head_cbd complete all 20 main cells 3/3 with equal outcomes and outputs (the master merge changes nothing there; resident Qwen3-30B INT4 prefill logits differ by at most 0.044, ids equal); nofix_cbd dies 3/3 in the four cells it was run on. Qwen3-30B INT4 ids at ratio 100 equal the first resident (ratio 0) reference (16.6 GiB peak commit, min available 8.2 GiB). Census: all nine routed inputs of every MoE op (1, 48, 48 ops) are offloadable on the test model and Qwen3-30B INT4/INT8 at ratio 100; the Copilot case is not present on them and the detector was not shown to fire.
+- HF `pr38663_head_cbd509_2026-10-29` revision ca83fb71be26 (1099 files, fetch-back 0 problems), README entry 20fe1c8bc522. Draft `drafts/COMMENT_DRAFT_v2.md` (1330 characters, 1125 before the disclosure; sha256 6224e657...) from `drafts/FACTS_PACK.md` (sha256 34aededc...; `harness/check_facts_pack.py` ALL_FACTS_PASS, negative run fails); preflight refuses only for the missing independent review. **Not posted.** Option not started: run the author's `moe_3gemm_offload_fallback` unit test on Arc 140V (needs an `ov_gpu_unit_tests` build). Deviations (first build refusal, one stall setting corrected at the gate, a CRLF defect in the patch writer, synthetic-path screen hit) are in RESULT.md.
+
+### 2026-10-29 10:12 EDT — POSTED openvino#38663 reply to yuanxion (Blair's go)
+- issuecomment-6499012862 (2026-10-29T14:12:23Z), from `scratch_fleet_20261026/ov38663/head_cbd509_20261029/drafts/COMMENT_DRAFT_v2.md` (sha256 6224e657); fetched back identical after line-ending normalisation (1330 chars). Review PASS (fable, 4bc980eb), preflight at post time rc 0.
+- Content: at PR head cbd509bc47 every ratio-100 and fewer-slots-than-top-k 1-token cell completes 3/3 (Qwen3-30B INT4/INT8, test model, Tensor load); 32afaa5787 still dies 3/3 in the same session; the fix is 57172bdec7 (reversal re-crashes); Qwen3-30B INT4 ids at 100 equal resident; Copilot's mixed-consumer case does not occur on our three models, its check not shown to fire. Dataset HF rev ca83fb71be26 `pr38663_head_cbd509_2026-10-29`. Not verified: PR unit tests, cache import, Qwen3-30B from a Tensor.
+- Slot-floor PR no longer needed for the crash.
+
+### 2026-10-29 ~12:25 EDT — OPENED openvino#39338 (Vikunja 1666), by Blair in the browser
+- `[GPU] MoE offload: fewer expert reloads in the per-expert prefill fallback`; head blairducrayoppat:ov1666-otd-prefill 4509146d60 (3 commits on f34a3f0684: (a) lease capacity pre-check, (b) resident-first fallback walk, unit tests), base master, not draft, maintainer edits allowed. Branch pushed by Blair (`git push fork ov1666-otd-prefill`).
+- Body = `scratch_ov1666/pr_1666/PR_BODY_DRAFT_1666_v5.md` (sha256 01b33feb), fetched back identical after line-ending normalisation; title identical. Live copy `pr39338_live_20261029.json`.
+- Evidence chain: facts pack v1 FAIL, v3a FAIL, v3b PASS, v3c FAIL, v3e PASS (3620fb24); body v2 FAIL, v5 PASS (42ccf81d); preflight clear. AI-policy validation: Blair ran the MoE unit and functional tests on both builds himself (`unit_test_run_BLAIR_20261029T155558Z.txt`, same as the 10-28 record). Dataset HF rev 1e9a762661d8 `ov1666_otd_prefill_2026-10-29`. Patch comment/commit message corrected before PR ("only fp16 rounding" was contradicted by measured logit changes).
+- Not done: patch (c); re-run on current master 87a0dd74f4 (merges clean, 45 commits ahead, two touch moe_3gemm_swiglu_opt.cpp).
+
+## 2026-10-30 - openvino rerunner: HTTP 404 on runs without jobs (issue #39367, PR #39368)
+
+**Found.** Failure emails from "Rerun Workflow with Known Errors" (run 41127209398). 52 failed rerunner runs on 2026-10-30 (as of 21:47Z); 45 end in the logs-download 404 on a target run with 0 jobs: 30 runs of fix/python-string-constant-23611 (rerunner failures 13:08Z), 15 runs of our PR #38526 branch (20:56Z). Cause of the 0-job runs unknown. The other 7 failures were not analyzed.
+
+**Retraction.** The first drafts (v1) said the target logs had expired after 30 days. Wrong: the target has 0 jobs and never had logs. Caught by the independent review (REVIEW_issue_and_pr_rerunner_404.md, FAIL); v2 then misdescribed the 45 as 6 actors / 3 event types (REVIEW_..._v2.md, FAIL on the issue). Both kept in the folder.
+
+**Fix.** analyze_and_rerun catches requests.HTTPError 404 from collect_logs_for_run, logs, returns; other HTTP errors raise. Two mock tests (rerunner_test.py). Evidence: scratch_ov_rerunner404_20261030/verify_status_20261030d.txt (unfixed dry run exit 1 3/3; fixed exit 0 3/3; control with logs exit 0; unit tests exit 0 fixed, exit 1 unfixed), survey_rerunner_failures_20261030.tsv. Run on Windows with a harness making NamedTemporaryFile reopenable. Not verified: real GHA run, Linux runner, log_collector_test / integration_test.
+
+**Posted.** Issue #39367 (21:56Z), PR #39368 from blairducrayoppat:rerunner-skip-missing-run-logs at 72c80b3 (base e1ac3ece12). Bodies fetched back: trailing newline only. Reviews: issue v3 PASS, PR v3 PASS, both Opus 5.5. Track B. Vikunja 1836.
+
+## 2026-10-31 - patch (c) closed (no PR); #38526 rebased and pushed; #39301 comment shelved; private tooling groundwork
+
+- **Patch (c): investigated, NOT proposed.** Both unexplained results of 2026-10-30 traced to restructuring the weight loader (`fill_weights_memory` split into read-all-then-copy-all; decode loads its misses through it, so the design note's "decode untouched" was wrong). Supported by variant v1 (original loader body restored): decode +5.0% and TTFT +3.1% against `ab` with a same-binary twin band of 6.9% / 4.0%, versus +24.0% / +24.6% for the split loader with the worker off; a rebuild of the base is clean (+1.4% / +0.6%). Under the preregistered rule decode is NOT RESOLVED, and the mechanism inside the loader was not isolated. Fix candidate c2 (a89e320be0): accuracy passes (456 of 456 logits files bit-identical), decode +3.95% pooled and TTFT turns 2-3 +1.3% / +4.1% fail the net-positive criteria. The worker-on slowdown at T512 turns 2-3 is unexplained. Standing decision: no PR for (c). Arc 140V, driver 32.0.101.8831, N=6 per cell, 161 units. Data on HF `ov1666_patch_c_rootcause_2026-10-31` (revision 62aa0f7d0cc8). Evidence: `scratch_ov1666/patch_c_rootcause/RESULT.md`, `CORRECTIONS.md`.
+- **Overlap.** Chrome and the documentation agent overlapped RC1 (at least 44 units: browser_running=True in 17, plus vendor fetches); labelled, not dropped; the cells were re-run quiet (RC1b/RC1c) and both versions are reported.
+- **Review process cost, recorded.** Six independent reviews each recomputed the figures from the raw rows and found them correct; they failed on wording, bookkeeping and a weak pattern checker (v1 D1-D6, v2 F1-F7, v3 G1-G5, v4 H1-H10, v5 I1-I15, v6 J1-J9). Corrections were made in place with the wrong text kept (`.before_*` copies, `CORRECTIONS.md`); one agent paraphrase altered a recorded decision's wording and was caught. Result: RESULT.md, the HF README and section 13 are now GENERATED from reviewed templates plus computed figures, and the checker regenerates and requires byte equality. The final fix round was accepted on mechanical verification (the reviewers' own scripts), without a seventh full review; residual risk: an imprecise sentence in an internal record. Lesson: for generated-evidence documents, enforce wording by construction, not by pattern lists.
+- **Standard practice added (Blair, 2026-10-31):** no reading of effect numbers while a run is in progress; analysis after the last unit, then independent review. Code guard `harness/complete_guard.py` (refuses an unfinished run; accepts the runner's completion marker; tested against all 46 finished runs, after the first version wrongly refused K1, K2, RC1b and the R39301 runs). Not yet wired into the analysis scripts.
+- **#38526:** rebased onto master 5c93944ea9, pushed to the fork with force-with-lease at `d3cc624ab4`; gates G1-G7 passed (independent review PASS; tests: `*MoE*` 125 = 117 on plain master with identical outcomes + our 8; two master-side `MoECompressedOffloadTest` failures fail 10/10 on plain master too). ATL installed (Visual Studio Build Tools component) so the DirectX interop tests build; the full GPU suite was stopped by Blair's call at 8,615 of 54,041 cases (66 failures, not attributed).
+- **#39301:** the real-model run is complete (base: 72 rows; master tip 4964038cf75b: 24 of 24); the evidence comment is shelved permanently (Blair): mmap off is rare, the PR carries a reproduction. Facts pack v4 and the unused read-back script stay on disk.
+- **#38663:** head moved by rebase to `e77c715f05` (net PR content as before except the fix ported onto master's refactor). Re-run prepared and registered (value-to-Intel bar: comment only if the result is valuable to Intel). First launch refused by its own gate (units died at once; a scheduling-test defect), harness fixed, gate rerun units finishing OK at 12:43Z; the main rows are not yet run.
+- **Next:** #38663 rows after the gate passes; vendor cuts, model cards, commits and queued additions; Blair runs the Cowork trial and answers A-E; MXC loopback re-test; wire `complete_guard` into the analysis scripts.
